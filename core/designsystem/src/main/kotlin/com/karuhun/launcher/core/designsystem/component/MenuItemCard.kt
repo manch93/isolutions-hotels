@@ -55,58 +55,39 @@ fun MenuItemCard(
     title: String? = null,
     icon: ImageVector,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier // Terima modifier dari pemanggil
+    modifier: Modifier = Modifier
 ) {
-    Card(
+    LauncherCard (
         onClick = onClick,
         modifier = modifier
             .width(90.dp)
             .height(100.dp),
-        border = CardDefaults.border(
-            focusedBorder = Border(
-                border = BorderStroke(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            )
-        ),
-        scale = CardDefaults.scale(
-            focusedScale = 1.05f
-        ),
-        colors = CardDefaults.colors( // Menggunakan CardDefaults.colors yang lebih umum
-            containerColor = Color.Black.copy(alpha = 0.60f),
-            focusedContentColor = Color.White,
-            contentColor = Color.White // Warna konten default untuk teks dan ikon di dalam card
-        ),
-        shape = CardDefaults.shape(RoundedCornerShape(12.dp)) // Sedikit mengurangi radius sudut
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = 8.dp, horizontal = 8.dp), // Padding internal untuk konten
+                .padding(vertical = 8.dp, horizontal = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center // Pusatkan konten secara vertikal
+            verticalArrangement = Arrangement.Center
         ) {
             Icon(
                 imageVector = icon,
-                contentDescription = title, // Content description yang baik untuk aksesibilitas
+                contentDescription = title,
                 modifier = Modifier
-                    .size(46.dp), // Ukuran ikon yang cukup besar, bisa disesuaikan
-                // tint = Color.White // Tidak perlu jika contentColor pada Card sudah diset
+                    .size(46.dp),
             )
 
-            Spacer(modifier = Modifier.height(6.dp)) // Jarak antara ikon dan teks
+            Spacer(modifier = Modifier.height(6.dp))
 
             if (title != null) {
                 Text(
                     text = title,
-                    // color = Color.White, // Tidak perlu jika contentColor pada Card sudah diset
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.Center, // Pusatkan teks jika lebih dari 1 baris
-                    maxLines = 2, // Izinkan hingga 2 baris untuk judul yang panjang
-                    overflow = TextOverflow.Ellipsis, // Tambahkan elipsis jika teks terlalu panjang
-                    modifier = Modifier.fillMaxWidth() // Agar textAlign.Center berfungsi baik
+                    textAlign = TextAlign.Center,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
@@ -114,22 +95,22 @@ fun MenuItemCard(
 }
 
 @OptIn(ExperimentalTvMaterial3Api::class)
-@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF) // Latar belakang preview lebih gelap
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 fun MenuItemCardPreview() {
     MenuItemCard(
         title = "Live TV",
-        icon = TvRounded, // Menggunakan ikon yang relevan dari project Anda
+        icon = TvRounded,
         onClick = {}
     )
 }
 
 @OptIn(ExperimentalTvMaterial3Api::class)
-@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF) // Latar belakang preview lebih gelap
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 fun MenuItemCardNoTitlePreview() {
     MenuItemCard(
-        icon = TvRounded, // Menggunakan ikon yang relevan dari project Anda
+        icon = TvRounded,
         onClick = {}
     )
 }
@@ -139,9 +120,9 @@ fun MenuItemCardNoTitlePreview() {
 @Composable
 fun MenuItemCardLongTitlePreview() {
     MenuItemCard(
-        title = "Movies & Entertainment", // Judul yang lebih panjang
-        icon = Icons.Filled.Tv, // Contoh ikon lain
+        title = "Movies & Entertainment",
+        icon = Icons.Filled.Tv,
         onClick = {},
-        modifier = Modifier.width(200.dp).height(160.dp) // Contoh override ukuran
+        modifier = Modifier.width(200.dp).height(160.dp)
     )
 }

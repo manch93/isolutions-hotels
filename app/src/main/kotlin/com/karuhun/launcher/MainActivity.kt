@@ -78,6 +78,7 @@ import androidx.tv.material3.CardDefaults
 import androidx.tv.material3.MaterialTheme
 import kotlinx.coroutines.CoroutineScope
 import com.karuhun.launcher.core.designsystem.component.BottomBar
+import com.karuhun.launcher.core.designsystem.component.LauncherCard
 import com.karuhun.launcher.core.designsystem.component.MenuItemCard
 import com.karuhun.launcher.core.designsystem.component.TopBar
 import com.karuhun.launcher.core.designsystem.icon.MoreSvgrepoCom
@@ -117,7 +118,7 @@ fun LauncherApplication(
     ) {
         // Background Image
         Image(
-            painter = painterResource(id = R.drawable.hotel_room_background), // Ganti dengan gambar latar Anda
+            painter = painterResource(id = R.drawable.hotel_room_background),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize(),
@@ -145,7 +146,6 @@ fun LauncherApplication(
                 temperature = "30°C",
                 time = "11:49 AM",
             )
-            // Konten utama diletakkan di sini, dengan bobot agar mengisi ruang
             Row (
                 modifier = Modifier
                     .weight(1f),
@@ -223,33 +223,16 @@ fun HomeContent(
             modifier = Modifier
                 .width(320.dp)
         ) {
-            Card(
+            LauncherCard (
                 onClick = {},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(130.dp)
                     .padding(start = 8.dp, end = 8.dp),
-                border = CardDefaults.border(
-                    focusedBorder = Border(
-                        border = BorderStroke(
-                            width = 1.dp,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    )
-                ),
-                scale = CardDefaults.scale(
-                    focusedScale = 1.05f
-                ),
-                colors = CardDefaults.colors(
-                    containerColor = Color.Black.copy(alpha = 0.60f),
-                    focusedContentColor = Color.White,
-                    contentColor = Color.White
-                ),
-                shape = CardDefaults.shape(RoundedCornerShape(12.dp))
             ) {
                 Image(
                     modifier = Modifier.fillMaxSize(),
-                    painter = painterResource(com.karuhun.launcher.core.designsystem.R.drawable.promo_1),
+                    painter = painterResource(R.drawable.promo_2),
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
