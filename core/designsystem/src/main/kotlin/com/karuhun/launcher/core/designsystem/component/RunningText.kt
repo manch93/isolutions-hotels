@@ -18,11 +18,11 @@ package com.karuhun.launcher.core.designsystem.component
 
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,17 +31,20 @@ import androidx.tv.material3.Text
 
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
-fun BottomBar(text: String) {
+fun RunningText(
+    modifier: Modifier = Modifier,
+    text: String
+) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 48.dp, vertical = 16.dp)
+        modifier = modifier
     ) {
         Text(
             text = text,
             color = Color.White,
             fontSize = 16.sp,
             textAlign = TextAlign.Start,
+            fontStyle = FontStyle.Italic,
+            fontWeight = FontWeight.ExtraLight,
             modifier = Modifier.basicMarquee(
                 iterations = Int.MAX_VALUE, // Loop tak terbatas
                 velocity = 50.dp // Kecepatan scroll

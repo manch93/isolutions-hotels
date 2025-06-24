@@ -21,19 +21,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,13 +38,9 @@ import androidx.compose.ui.tooling.preview.Devices.TV_1080p
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
-import com.karuhun.launcher.core.designsystem.component.BottomBar
-import com.karuhun.launcher.core.designsystem.component.LauncherCard
-import com.karuhun.launcher.core.designsystem.component.MenuItemCard
+import com.karuhun.launcher.core.designsystem.component.RunningText
 import com.karuhun.launcher.core.designsystem.component.TopBar
-import com.karuhun.launcher.core.designsystem.icon.MoreSvgrepoCom
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
-import com.karuhun.launcher.model.MenuItem
 import com.karuhun.navigation.LauncherAppNavGraph
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -81,8 +71,7 @@ fun LauncherApplication(
     onMenuItemClick: (String) -> Unit,
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = modifier,
     ) {
         // Background Image
         Image(
@@ -103,7 +92,12 @@ fun LauncherApplication(
             modifier =
                 Modifier
                     .fillMaxSize()
-                    .padding(24.dp),
+                    .padding(
+                        top = 24.dp,
+                        bottom = 48.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    ),
         ) {
             TopBar(
                 modifier = Modifier
@@ -116,7 +110,10 @@ fun LauncherApplication(
             )
             Row (
                 modifier = Modifier
-                    .weight(1f),
+                    .weight(1f)
+                    .padding(
+                        bottom = 12.dp
+                    ),
             ) {
                 LauncherAppNavGraph(
                     modifier = Modifier
@@ -124,8 +121,13 @@ fun LauncherApplication(
                     navController = appState.navController
                 )
             }
-            BottomBar(text = "Buy two biriyani and get one free / Eat for free in clontarf")
+
         }
+        RunningText(
+            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 4.dp)
+                .fillMaxWidth(),
+            text = "Latest breaking news and top stories from Dubai, the latest political news, sport news, weather updates, examp result, business news, entertainment, travel, and more."
+        )
     }
 }
 
