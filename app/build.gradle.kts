@@ -70,6 +70,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.navigation)
 //    implementation(projects.feature.interests)
 //    implementation(projects.feature.foryou)
 //    implementation(projects.feature.bookmarks)

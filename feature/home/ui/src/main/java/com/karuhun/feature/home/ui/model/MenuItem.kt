@@ -14,29 +14,21 @@
  * limitations under the License.
  */
 
-package com.karuhun.navigation
+package com.karuhun.feature.home.ui.model
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import com.karuhun.feature.home.ui.navigation.Home
-import com.karuhun.feature.home.ui.navigation.homeScreen
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.karuhun.launcher.core.designsystem.icon.TvRounded
+import com.karuhun.launcher.core.designsystem.icon.WifiSvgrepoCom
 
-@Composable
-fun LauncherAppNavGraph(
-    modifier: Modifier = Modifier,
-    navController: NavHostController,
-) {
-    NavHost(
-        modifier = modifier,
-        navController = navController,
-        startDestination = Home,
-    ) {
-        homeScreen(
-            onMenuItemClick = { menuItem ->
-
-            }
+data class MenuItem(
+    val title: String,
+    val icon: ImageVector,
+){
+    companion object {
+        val items = listOf(
+            MenuItem("TV", TvRounded),
+            MenuItem("WIFI", WifiSvgrepoCom),
+            MenuItem("YOUTUBE", TvRounded),
         )
     }
 }

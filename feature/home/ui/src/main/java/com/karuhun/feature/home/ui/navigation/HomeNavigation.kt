@@ -14,21 +14,24 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.home.ui
+package com.karuhun.feature.home.ui.navigation
 
 import androidx.annotation.Keep
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.karuhun.core.ui.navigation.Screen
+import com.karuhun.feature.home.ui.HomeScreen
 import kotlinx.serialization.Serializable
 
 @Keep
 @Serializable data object Home : Screen
 
 fun NavGraphBuilder.homeScreen(
-
+    onMenuItemClick: (String) -> Unit
 ){
     composable<Home> {
-
+        HomeScreen(
+            onMenuItemClick = onMenuItemClick
+        )
     }
 }
