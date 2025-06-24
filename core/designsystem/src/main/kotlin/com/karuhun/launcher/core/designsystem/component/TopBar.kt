@@ -95,7 +95,7 @@ fun TopBar(
                     text = "Welcome",
                     style = MaterialTheme.typography.headlineSmall.copy(
                         fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        fontSize = 20.sp
                     ),
                     color = Color.White,
                 )
@@ -106,7 +106,7 @@ fun TopBar(
                         fontSize = 24.sp,
                         shadow = Shadow(offset = Offset(x = 1f, y = 1f), blurRadius = 1f)
                     ),
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = Color.White,
                 )
             }
         }
@@ -152,7 +152,7 @@ fun TopBarPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp),
-            guestName = "John Doe",
+            guestName = "Mr. John Doe",
             roomNumber = "101",
             date = "July 26, 2024",
             temperature = "25°C",

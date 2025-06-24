@@ -85,6 +85,7 @@ import com.karuhun.launcher.core.designsystem.icon.MoreSvgrepoCom
 import com.karuhun.launcher.core.designsystem.icon.TvRounded
 import com.karuhun.launcher.core.designsystem.icon.WifiSvgrepoCom
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
+import com.karuhun.launcher.model.MenuItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 
@@ -180,44 +181,16 @@ fun LauncherApplicationPreview() {
         onMenuItemClick = {},
     )
 }
-
-data class MenuItem(
-    val title: String,
-    val icon: ImageVector,
-)
-
 @Composable
 fun HomeContent(
     modifier: Modifier = Modifier,
     onMenuItemClick: (String) -> Unit
 ) {
-
-    val menuItems = listOf(
-        MenuItem("Hotel Services", Icons.Default.RoomService),
-        MenuItem("Concierge", Icons.Default.Person),
-        MenuItem("Restaurants & Bars", Icons.Default.Restaurant),
-        MenuItem("Wellness & Spa", Icons.Default.Spa),
-        MenuItem("Cast to Screen", Icons.Default.Tv),
-        MenuItem("Music", Icons.Default.MusicNote),
-        MenuItem("TV", Icons.Default.Tv),
-        MenuItem("Room Control", Icons.Default.SettingsRemote),
-        MenuItem("In-Room Dining", Icons.Default.RoomService),
-        MenuItem("Attractions", Icons.Default.Star),
-        MenuItem("Feedback", Icons.Default.Feedback),
-        MenuItem("View Bill", Icons.Default.Receipt),
-        MenuItem("Cart", Icons.Default.ShoppingCart),
-        MenuItem("Messages", Icons.Default.Email),
-    )
-
-    val homeMenuItems = listOf(
-        MenuItem("TV", TvRounded),
-        MenuItem("WIFI", WifiSvgrepoCom),
-        MenuItem("YOUTUBE", TvRounded),
-    )
+    val homeMenuItems = MenuItem.items
 
     Box(
         modifier = modifier,
-        contentAlignment = Alignment.TopEnd
+        contentAlignment = Alignment.BottomEnd
     ) {
         Column(
             modifier = Modifier
@@ -268,36 +241,4 @@ fun HomeContent(
         }
 
     }
-}
-
-@Preview(device = TV_1080p)
-@Composable
-fun HomeContentPreview() {
-    HomeContent(onMenuItemClick = {})
-}
-
-// Card untuk promo
-@OptIn(ExperimentalTvMaterial3Api::class)
-@Composable
-fun PromoItemCard(imageRes: Int, onClick: () -> Unit) {
-    Card(
-        onClick = onClick,
-        modifier = Modifier
-            .height(140.dp),
-    ) {
-        // Menggunakan AsyncImage dari Coil lebih disarankan untuk memuat dari URL
-//        AsyncImage(
-//            model = imageRes,
-//            contentDescription = "Promotion",
-//            modifier = Modifier.fillMaxSize(),
-//            contentScale = ContentScale.Crop,
-//            placeholder = painterResource(id = R.drawable.placeholder_image) // Gambar placeholder
-//        )
-    }
-}
-
-@Preview
-@Composable
-fun PromoItemCardPreview() {
-    PromoItemCard(imageRes = R.drawable.promo_food, onClick = {})
 }
