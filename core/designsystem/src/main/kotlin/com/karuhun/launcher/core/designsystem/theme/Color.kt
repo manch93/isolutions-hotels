@@ -1,7 +1,7 @@
 package com.karuhun.launcher.core.designsystem.theme
 import androidx.compose.ui.graphics.Color
 
-val primaryLight = Color(0xffffaa3f)
+val primaryLight = Color(0xFFFF5C00)
 val onPrimaryLight = Color(0xFFFFFFFF)
 val primaryContainerLight = Color(0xFFFFDBCA)
 val onPrimaryContainerLight = Color(0xFF703714)
@@ -109,7 +109,7 @@ val surfaceContainerLightHighContrast = Color(0xFFF0DFD7)
 val surfaceContainerHighLightHighContrast = Color(0xFFE2D1CA)
 val surfaceContainerHighestLightHighContrast = Color(0xFFD4C3BC)
 
-val primaryDark = Color(0xFFFFB68E)
+val primaryDark = Color(0xFFFF5C00)
 val onPrimaryDark = Color(0xFF532201)
 val primaryContainerDark = Color(0xFF703714)
 val onPrimaryContainerDark = Color(0xFFFFDBCA)
