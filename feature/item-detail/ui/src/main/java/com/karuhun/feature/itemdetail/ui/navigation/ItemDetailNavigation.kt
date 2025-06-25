@@ -23,9 +23,9 @@ import androidx.navigation.compose.composable
 import com.karuhun.feature.itemdetail.ui.ItemDetailScreen
 import kotlinx.serialization.Serializable
 
-@Serializable data object DetailContent
+@Serializable data object ItemDetail
 fun NavGraphBuilder.detailContentScreen() {
-    composable<DetailContent> {
+    composable<ItemDetail> {
         ItemDetailScreen(
             modifier = Modifier.fillMaxSize(),
         )
