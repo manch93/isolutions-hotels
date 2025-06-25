@@ -86,4 +86,4 @@ check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
 include(":feature:home:ui")
 include(":navigation")
 include(":core:ui")
-include(":feature:main-menu")
+include(":feature:main-menu:ui")

@@ -22,6 +22,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.karuhun.feature.home.ui.navigation.Home
 import com.karuhun.feature.home.ui.navigation.homeScreen
+import com.karuhun.feature.mainmenu.ui.navigation.MainMenu
+import com.karuhun.feature.mainmenu.ui.navigation.mainMenuScreen
 
 @Composable
 fun LauncherAppNavGraph(
@@ -31,12 +33,13 @@ fun LauncherAppNavGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = Home,
+        startDestination = MainMenu,
     ) {
         homeScreen(
             onMenuItemClick = { menuItem ->
 
             }
         )
+        mainMenuScreen()
     }
 }
