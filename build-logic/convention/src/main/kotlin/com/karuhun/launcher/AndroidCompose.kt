@@ -40,6 +40,9 @@ internal fun Project.configureAndroidCompose(
             "androidTestImplementation"(platform(bom))
             "implementation"(libs.findLibrary("androidx-tv-material").get())
             "implementation"(libs.findLibrary("androidx-compose-material3").get())
+            "implementation"(libs.findLibrary("coil-kt-compose").get())
+            "implementation"(libs.findLibrary("coil-kt").get())
+            "implementation"(libs.findLibrary("coil-kt-svg").get())
             "implementation"(libs.findLibrary("androidx-compose-ui-tooling-preview").get())
             "debugImplementation"(libs.findLibrary("androidx-compose-ui-tooling").get())
         }
