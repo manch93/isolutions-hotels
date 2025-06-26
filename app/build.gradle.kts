@@ -72,6 +72,9 @@ android {
 dependencies {
     implementation(projects.navigation)
     implementation(projects.core.designsystem)
+
+    implementation(projects.feature.screensaver.ui)
+
     implementation(libs.androidx.tv.foundation)
     implementation(libs.androidx.tv.material)
     implementation(libs.androidx.activity.compose)
