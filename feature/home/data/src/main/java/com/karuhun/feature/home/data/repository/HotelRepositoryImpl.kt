@@ -14,11 +14,23 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.feature.home.data.repository
 
 import com.karuhun.core.common.Resource
+import com.karuhun.core.common.map
 import com.karuhun.core.domain.model.Hotel
+import com.karuhun.core.domain.repository.HotelRepository
+import com.karuhun.core.network.safeApiCall
+import com.karuhun.feature.home.data.source.HotelApiService
+import com.karuhun.feature.home.data.source.remote.response.toDomain
+import javax.inject.Inject
 
-interface HotelRepository {
-    suspend fun getHotelProfile(): Resource<Hotel>
+class HotelRepositoryImpl @Inject constructor(
+    private val api : HotelApiService
+) : HotelRepository{
+    override suspend fun getHotelProfile(): Resource<Hotel> {
+        return safeApiCall { api.getHotelProfile() }.map { response ->
+            response.data.toDomain()
+        }
+    }
 }

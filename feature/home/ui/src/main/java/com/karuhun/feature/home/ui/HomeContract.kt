@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.feature.home.ui
 
-import com.karuhun.core.common.Resource
-import com.karuhun.core.domain.model.Hotel
-
-interface HotelRepository {
-    suspend fun getHotelProfile(): Resource<Hotel>
+object HomeContract {
+    data class UiState(
+        val isLoading: Boolean = false,
+    )
+    sealed interface UiE
 }

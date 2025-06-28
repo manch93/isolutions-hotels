@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.core.common
 
-import com.karuhun.core.common.Resource
-import com.karuhun.core.domain.model.Hotel
+fun Int?.orZero() = this ?: 0
 
-interface HotelRepository {
-    suspend fun getHotelProfile(): Resource<Hotel>
-}
+fun Double?.orZero() = this ?: 0.0
+
+fun Boolean?.orFalse() = this ?: false

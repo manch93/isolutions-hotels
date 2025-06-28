@@ -14,11 +14,22 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.core.domain.model
 
-import com.karuhun.core.common.Resource
-import com.karuhun.core.domain.model.Hotel
-
-interface HotelRepository {
-    suspend fun getHotelProfile(): Resource<Hotel>
-}
+data class Hotel(
+    val id: Int?,
+    val name: String?,
+    val phone: String?,
+    val email: String?,
+    val website: String?,
+    val defaultGreeting: String?,
+    val passwordSetting: String?,
+    val logoWhite: String?,
+    val logoBlack: String?,
+    val primaryColor: String?,
+    val mainPhoto: String?,
+    val backgroundPhoto: String?,
+    val introVideo: String?,
+    val welcomeText: String?,
+    val runningText: String?,
+)

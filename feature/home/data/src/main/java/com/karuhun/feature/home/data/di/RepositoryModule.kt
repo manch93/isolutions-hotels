@@ -14,11 +14,22 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.feature.home.data.di
 
-import com.karuhun.core.common.Resource
-import com.karuhun.core.domain.model.Hotel
+import com.karuhun.core.domain.repository.HotelRepository
+import com.karuhun.feature.home.data.repository.HotelRepositoryImpl
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-interface HotelRepository {
-    suspend fun getHotelProfile(): Resource<Hotel>
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class RepositoryModule {
+    @Binds
+    @Singleton
+    abstract fun bindHotelRepository(
+        hotelRepositoryImpl: HotelRepositoryImpl
+    ) : HotelRepository
 }

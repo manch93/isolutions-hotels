@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.feature.home.data.source
 
-import com.karuhun.core.common.Resource
-import com.karuhun.core.domain.model.Hotel
+import com.karuhun.core.network.model.BaseResponse
+import com.karuhun.feature.home.data.source.remote.response.GetHotelProfileResponse
+import retrofit2.http.GET
 
-interface HotelRepository {
-    suspend fun getHotelProfile(): Resource<Hotel>
+interface HotelApiService {
+    @GET("hotel")
+    suspend fun getHotelProfile(): BaseResponse<GetHotelProfileResponse>
 }

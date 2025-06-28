@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.core.domain.usecase
 
 import com.karuhun.core.common.Resource
 import com.karuhun.core.domain.model.Hotel
+import com.karuhun.core.domain.repository.HotelRepository
+import javax.inject.Inject
 
-interface HotelRepository {
-    suspend fun getHotelProfile(): Resource<Hotel>
+class GetHotelProfileUseCase @Inject constructor(
+    private val hotelRepository: HotelRepository
+) {
+    suspend operator fun invoke() : Resource<Hotel> = hotelRepository.getHotelProfile()
 }

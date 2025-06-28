@@ -14,11 +14,19 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.feature.home.data.di
 
-import com.karuhun.core.common.Resource
-import com.karuhun.core.domain.model.Hotel
+import com.karuhun.feature.home.data.source.HotelApiService
+import dagger.Module
+import dagger.Provides
+import retrofit2.Retrofit
+import javax.inject.Singleton
 
-interface HotelRepository {
-    suspend fun getHotelProfile(): Resource<Hotel>
+@Module
+@Singleton
+object NetworkModule {
+    @Provides
+    @Singleton
+    fun provideHotelApiService(retrofit: Retrofit) =
+        retrofit.create(HotelApiService::class.java)
 }

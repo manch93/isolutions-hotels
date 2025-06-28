@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.core.network.model
 
-import com.karuhun.core.common.Resource
-import com.karuhun.core.domain.model.Hotel
+import com.google.gson.annotations.SerializedName
 
-interface HotelRepository {
-    suspend fun getHotelProfile(): Resource<Hotel>
-}
+open class BaseResponse<T>(
+    @SerializedName("data")
+    val data: T? = null,
+    @SerializedName("code")
+    val code: Int? = null,
+    @SerializedName("message")
+    val message: String? = null,
+)

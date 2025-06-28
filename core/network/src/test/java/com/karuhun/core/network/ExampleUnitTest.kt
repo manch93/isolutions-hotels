@@ -1,4 +1,4 @@
-package com.karuhun.core.common
+package com.karuhun.core.network
 
 import org.junit.Test
 
