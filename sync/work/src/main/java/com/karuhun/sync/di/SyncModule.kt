@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 The Android Open Source Project
+ * Copyright 2025 The Karuhun Developer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package com.karuhun.launcher
+package com.karuhun.sync.di
 
-import android.app.Application
-import com.karuhun.sync.initializer.Sync
-import dagger.hilt.android.HiltAndroidApp
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-@HiltAndroidApp
-class LauncherApp : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        Sync.initialize(this)
-    }
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class SyncModule {
+
 }

@@ -73,6 +73,7 @@ dependencies {
     implementation(projects.navigation)
     implementation(projects.core.designsystem)
     implementation(projects.core.network)
+    implementation(projects.sync.work)
 
     implementation(projects.feature.screensaver.ui)
 

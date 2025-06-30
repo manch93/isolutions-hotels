@@ -42,7 +42,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "nowinandroid"
+rootProject.name = "LauncherCompose"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
@@ -67,3 +67,4 @@ include(":core:network")
 include(":core:common")
 include(":feature:home:data")
 include(":core:domain")
+include(":sync:work")
