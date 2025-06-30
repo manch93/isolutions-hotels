@@ -26,17 +26,18 @@ import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkerParameters
 import com.karuhun.sync.initializer.SyncConstraints
 import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltWorker
-internal class SyncWorker @Inject constructor(
+internal class SyncWorker @AssistedInject constructor(
     @Assisted private val appContext: Context,
     @Assisted private val workerParams: WorkerParameters,
-    private val ioDispatcher: CoroutineDispatcher,
 ) : CoroutineWorker(appContext, workerParams){
-    override suspend fun doWork(): Result = withContext(ioDispatcher){
+    override suspend fun doWork(): Result = withContext(Dispatchers.IO){
         traceAsync("Sync", 0) {
             Log.d("SyncWorker", "doWork: Success")
             Result.success()
@@ -48,5 +49,6 @@ internal class SyncWorker @Inject constructor(
             .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
             .setConstraints(SyncConstraints)
             .setInputData(SyncWorker::class.delegatedData())
+            .build()
     }
 }
