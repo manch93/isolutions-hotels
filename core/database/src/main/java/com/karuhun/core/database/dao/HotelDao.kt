@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.core.database.dao
 
-import com.karuhun.core.common.Resource
-import com.karuhun.core.common.Syncable
-import com.karuhun.core.model.Hotel
+import androidx.room.Dao
+import androidx.room.Query
+import com.karuhun.core.database.model.HotelEntity
+import kotlinx.coroutines.flow.Flow
 
-interface HotelRepository : Syncable{
-    suspend fun getHotelProfile(): Resource<Hotel>
+@Dao
+interface HotelDao {
+    @Query(
+        value = """
+            SELECT * FROM hotel limit 1
+        """
+    )
+    fun getHotelProfile(): Flow<HotelEntity>
 }

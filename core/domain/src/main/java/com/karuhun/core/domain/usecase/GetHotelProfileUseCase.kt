@@ -17,8 +17,8 @@
 package com.karuhun.core.domain.usecase
 
 import com.karuhun.core.common.Resource
-import com.karuhun.core.domain.model.Hotel
 import com.karuhun.core.domain.repository.HotelRepository
+import com.karuhun.core.model.Hotel
 import javax.inject.Inject
 
 class GetHotelProfileUseCase @Inject constructor(

@@ -14,9 +14,17 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.model
+package com.karuhun.core.database.model
 
-data class Hotel(
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.karuhun.core.model.Hotel
+
+@Entity(
+    tableName = "hotel"
+)
+data class HotelEntity(
+    @PrimaryKey
     val id: Int?,
     val name: String?,
     val phone: String?,
@@ -32,4 +40,22 @@ data class Hotel(
     val introVideo: String?,
     val welcomeText: String?,
     val runningText: String?,
+)
+
+fun HotelEntity.toDomain() = Hotel(
+    id = id,
+    name = name,
+    phone = phone,
+    email = email,
+    website = website,
+    defaultGreeting = defaultGreeting,
+    passwordSetting = passwordSetting,
+    logoWhite = logoWhite,
+    logoBlack = logoBlack,
+    primaryColor = primaryColor,
+    mainPhoto = mainPhoto,
+    backgroundPhoto = backgroundPhoto,
+    introVideo = introVideo,
+    welcomeText = welcomeText,
+    runningText = runningText,
 )

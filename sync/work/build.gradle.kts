@@ -12,7 +12,7 @@ dependencies {
     ksp(libs.hilt.ext.compiler)
 
     implementation(projects.core.domain)
-    implementation(projects.feature.home.data) // Tambahkan dependency ini
+    implementation(projects.feature.hotelProfile.data)
 
     implementation(libs.androidx.tracing.ktx)
     implementation(libs.androidx.work.ktx)

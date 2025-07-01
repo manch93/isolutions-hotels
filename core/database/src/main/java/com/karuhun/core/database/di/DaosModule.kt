@@ -14,12 +14,20 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.core.database.di
 
-import com.karuhun.core.common.Resource
-import com.karuhun.core.common.Syncable
-import com.karuhun.core.model.Hotel
+import com.karuhun.core.database.LauncherDatabase
+import com.karuhun.core.database.dao.HotelDao
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-interface HotelRepository : Syncable{
-    suspend fun getHotelProfile(): Resource<Hotel>
+@Module
+@InstallIn(SingletonComponent::class)
+object DaosModule {
+    @Provides
+    fun provideHotelDao(
+        database: LauncherDatabase
+    ): HotelDao = database.hotelDao()
 }

@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.core.database
 
-import com.karuhun.core.common.Resource
-import com.karuhun.core.common.Syncable
-import com.karuhun.core.model.Hotel
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import com.karuhun.core.database.dao.HotelDao
+import com.karuhun.core.database.model.HotelEntity
 
-interface HotelRepository : Syncable{
-    suspend fun getHotelProfile(): Resource<Hotel>
+@Database(
+    entities = [
+        HotelEntity::class,
+    ],
+    version = 1
+)
+abstract class LauncherDatabase : RoomDatabase() {
+    abstract fun hotelDao() : HotelDao
 }

@@ -17,7 +17,7 @@
 package com.karuhun.feature.hotelprofile.data.source.remote.response
 
 import com.google.gson.annotations.SerializedName
-import com.karuhun.core.domain.model.Hotel
+import com.karuhun.core.model.Hotel
 
 data class GetHotelProfileResponse(
 
