@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.home.data.di
+package com.karuhun.feature.hotelprofile.data.di
 
-import com.karuhun.feature.home.data.source.HotelApiService
+import com.karuhun.feature.hotelprofile.data.source.HotelApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

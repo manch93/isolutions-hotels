@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.home.data.source.remote.response
+package com.karuhun.feature.hotelprofile.data.source.remote.response
 
 import com.google.gson.annotations.SerializedName
-import com.karuhun.core.common.orZero
 import com.karuhun.core.domain.model.Hotel
 
 data class GetHotelProfileResponse(

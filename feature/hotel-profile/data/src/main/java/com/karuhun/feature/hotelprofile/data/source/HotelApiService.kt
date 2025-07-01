@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.home.data.di
+package com.karuhun.feature.hotelprofile.data.source
 
-import com.karuhun.core.domain.repository.HotelRepository
-import com.karuhun.feature.home.data.repository.HotelRepositoryImpl
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import com.karuhun.core.network.model.BaseResponse
+import com.karuhun.feature.hotelprofile.data.source.remote.response.GetHotelProfileResponse
+import retrofit2.http.GET
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class RepositoryModule {
-    @Binds
-    @Singleton
-    abstract fun bindHotelRepository(
-        hotelRepositoryImpl: HotelRepositoryImpl
-    ) : HotelRepository
+interface HotelApiService {
+    @GET("hotel")
+    suspend fun getHotelProfile(): BaseResponse<GetHotelProfileResponse>
 }

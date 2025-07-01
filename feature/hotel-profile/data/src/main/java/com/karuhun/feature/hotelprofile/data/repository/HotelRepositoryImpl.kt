@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.home.data.repository
+package com.karuhun.feature.hotelprofile.data.repository
 
 import com.karuhun.core.common.Resource
 import com.karuhun.core.common.Synchronizer
@@ -22,8 +22,8 @@ import com.karuhun.core.common.map
 import com.karuhun.core.domain.model.Hotel
 import com.karuhun.core.domain.repository.HotelRepository
 import com.karuhun.core.network.safeApiCall
-import com.karuhun.feature.home.data.source.HotelApiService
-import com.karuhun.feature.home.data.source.remote.response.toDomain
+import com.karuhun.feature.hotelprofile.data.source.HotelApiService
+import com.karuhun.feature.hotelprofile.data.source.remote.response.toDomain
 import javax.inject.Inject
 
 class HotelRepositoryImpl @Inject constructor(
