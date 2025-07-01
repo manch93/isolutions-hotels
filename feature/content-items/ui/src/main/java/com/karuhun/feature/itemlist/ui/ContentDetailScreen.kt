@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.itemdetail.ui
+package com.karuhun.feature.itemlist.ui
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -41,7 +40,7 @@ import com.karuhun.launcher.core.designsystem.component.LauncherCard
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
 
 @Composable
-fun ItemDetailScreen(
+fun ContentDetailScreen(
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -95,7 +94,7 @@ fun ItemDetailScreen(
 @Composable
 private fun ItemDetailScreenPreview() {
     AppTheme {
-        ItemDetailScreen(
+        ContentDetailScreen(
             modifier = Modifier.fillMaxSize()
         )
     }

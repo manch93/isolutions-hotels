@@ -46,7 +46,7 @@ import com.karuhun.launcher.core.designsystem.component.LauncherCard
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
 
 @Composable
-fun ItemListScreen(
+fun ContentItemsScreen(
     modifier: Modifier = Modifier,
 ) {
     val detailMenuList = DetailMenuItem.detailMenuList
@@ -125,7 +125,7 @@ fun ItemListScreen(
 @Composable
 private fun DetailMenuScreenPreview() {
     AppTheme {
-        ItemListScreen(
+        ContentItemsScreen(
             modifier = Modifier.fillMaxSize(),
         )
     }

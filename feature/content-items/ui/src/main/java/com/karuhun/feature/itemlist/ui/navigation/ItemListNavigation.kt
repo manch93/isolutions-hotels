@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.itemdetail.ui.navigation
+package com.karuhun.feature.itemlist.ui.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.karuhun.feature.itemdetail.ui.ItemDetailScreen
+import com.karuhun.feature.itemlist.ui.ContentItemsScreen
 import kotlinx.serialization.Serializable
 
-@Serializable data object ItemDetail
-fun NavGraphBuilder.detailContentScreen() {
-    composable<ItemDetail> {
-        ItemDetailScreen(
-            modifier = Modifier.fillMaxSize(),
+@Serializable data object DetailMenu
+fun NavGraphBuilder.itemListScreen() {
+    composable<DetailMenu> {
+        ContentItemsScreen(
+            modifier = Modifier.fillMaxSize()
         )
     }
 }
