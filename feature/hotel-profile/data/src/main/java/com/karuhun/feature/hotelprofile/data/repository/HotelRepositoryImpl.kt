@@ -18,7 +18,10 @@ package com.karuhun.feature.hotelprofile.data.repository
 
 import com.karuhun.core.common.Resource
 import com.karuhun.core.common.Synchronizer
+import com.karuhun.core.common.forceSync
 import com.karuhun.core.common.map
+import com.karuhun.core.database.dao.HotelDao
+import com.karuhun.core.database.model.toEntity
 import com.karuhun.core.domain.repository.HotelRepository
 import com.karuhun.core.model.Hotel
 import com.karuhun.core.network.safeApiCall
@@ -27,7 +30,8 @@ import com.karuhun.feature.hotelprofile.data.source.remote.response.toDomain
 import javax.inject.Inject
 
 class HotelRepositoryImpl @Inject constructor(
-    private val api : HotelApiService
+    private val api : HotelApiService,
+    private val hotelDao: HotelDao
 ) : HotelRepository{
     override suspend fun getHotelProfile(): Resource<Hotel> {
         return safeApiCall { api.getHotelProfile() }.map { response ->
@@ -35,7 +39,14 @@ class HotelRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun syncWith(synchronizer: Synchronizer): Boolean {
-        return false
-    }
+    override suspend fun syncWith(synchronizer: Synchronizer): Boolean = synchronizer.forceSync(
+        fetch = {
+            val response = api.getHotelProfile()
+            response.data.toDomain()
+        },
+        save = { hotel ->
+            hotelDao.deleteAll()
+            hotelDao.upsert(hotel.toEntity())
+        },
+    )
 }

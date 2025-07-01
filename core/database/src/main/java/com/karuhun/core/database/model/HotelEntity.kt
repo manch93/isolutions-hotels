@@ -59,3 +59,21 @@ fun HotelEntity.toDomain() = Hotel(
     welcomeText = welcomeText,
     runningText = runningText,
 )
+
+fun Hotel.toEntity() = HotelEntity(
+    id = id,
+    name = name,
+    phone = phone,
+    email = email,
+    website = website,
+    defaultGreeting = defaultGreeting,
+    passwordSetting = passwordSetting,
+    logoWhite = logoWhite,
+    logoBlack = logoBlack,
+    primaryColor = primaryColor,
+    mainPhoto = mainPhoto,
+    backgroundPhoto = backgroundPhoto,
+    introVideo = introVideo,
+    welcomeText = welcomeText,
+    runningText = runningText,
+)

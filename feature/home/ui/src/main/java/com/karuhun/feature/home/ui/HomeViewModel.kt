@@ -34,7 +34,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel(), MVI<HomeContract.UiState, HomeContract.UiAction, HomeContract.UiEffect> by mvi(initialState = HomeContract.UiState()) {
 
     init {
-        onAction(HomeContract.UiAction.LoadMenuItems)
+//        onAction(HomeContract.UiAction.LoadMenuItems)
     }
     override fun onAction(action: HomeContract.UiAction) {
         when(action) {
