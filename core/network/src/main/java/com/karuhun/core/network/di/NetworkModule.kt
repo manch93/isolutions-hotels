@@ -26,10 +26,17 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 import com.karuhun.core.network.BuildConfig
+import com.karuhun.core.network.interceptor.AuthInterceptor
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal object NetworkModule {
+    @Provides
+    @Singleton
+    fun provideAuthInterceptor(): AuthInterceptor {
+        return AuthInterceptor()
+    }
+
     @Provides
     @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
@@ -41,9 +48,11 @@ internal object NetworkModule {
     @Singleton
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
+        authInterceptor: AuthInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(authInterceptor)
             .build()
     }
 

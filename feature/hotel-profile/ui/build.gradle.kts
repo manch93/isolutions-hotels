@@ -4,9 +4,9 @@ plugins {
 }
 
 android {
-    namespace = "com.karuhun.feature.home.ui"
+    namespace = "com.karuhun.feature.hotelprofile.ui"
 }
 
 dependencies {
-    implementation(projects.core.domain)
+
 }

@@ -17,6 +17,7 @@
 package com.karuhun.feature.home.data.repository
 
 import com.karuhun.core.common.Resource
+import com.karuhun.core.common.Synchronizer
 import com.karuhun.core.common.map
 import com.karuhun.core.domain.model.Hotel
 import com.karuhun.core.domain.repository.HotelRepository
@@ -32,5 +33,9 @@ class HotelRepositoryImpl @Inject constructor(
         return safeApiCall { api.getHotelProfile() }.map { response ->
             response.data.toDomain()
         }
+    }
+
+    override suspend fun syncWith(synchronizer: Synchronizer): Boolean {
+        return false
     }
 }

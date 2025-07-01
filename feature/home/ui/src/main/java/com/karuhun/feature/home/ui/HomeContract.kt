@@ -20,5 +20,13 @@ object HomeContract {
     data class UiState(
         val isLoading: Boolean = false,
     )
-    sealed interface UiE
+    sealed interface UiAction {
+        data object OnMenuItemClick : UiAction
+        data object OnMoreClick : UiAction
+        data object LoadMenuItems : UiAction
+    }
+
+    sealed interface UiEffect {
+        data class ShowError(val message: String) : UiEffect
+    }
 }

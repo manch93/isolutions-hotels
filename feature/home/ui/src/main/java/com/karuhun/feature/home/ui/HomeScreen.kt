@@ -47,19 +47,33 @@ import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
+import com.karuhun.core.ui.navigation.extension.collectWithLifecycle
 import com.karuhun.feature.home.ui.model.MenuItem
+import com.karuhun.launcher.core.designsystem.R
 import com.karuhun.launcher.core.designsystem.component.FacebookSvgrepoCom
 import com.karuhun.launcher.core.designsystem.component.InstagramFSvgrepoCom
 import com.karuhun.launcher.core.designsystem.component.LauncherCard
 import com.karuhun.launcher.core.designsystem.component.MenuItemCard
 import com.karuhun.launcher.core.designsystem.icon.MoreSvgrepoCom
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    uiState: HomeContract.UiState,
+    uiAction: (HomeContract.UiAction) -> Unit,
+    uiEffect: Flow<HomeContract.UiEffect>,
     onMenuItemClick: (String) -> Unit = { _ -> }
 ) {
+    uiEffect.collectWithLifecycle { effect ->
+        when(effect){
+            is HomeContract.UiEffect.ShowError -> {
+
+            }
+        }
+    }
     Row {
         LeftContent(
             modifier = Modifier
@@ -164,7 +178,7 @@ fun RightContent(
             ) {
                 Image(
                     modifier = Modifier.fillMaxSize(),
-                    painter = painterResource(com.karuhun.launcher.core.designsystem.R.drawable.promo_2),
+                    painter = painterResource(R.drawable.promo_2),
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
@@ -207,7 +221,10 @@ fun RightContent(
 private fun HomeScreenPreview() {
     AppTheme {
         HomeScreen(
-            onMenuItemClick = {}
+            onMenuItemClick = {},
+            uiState = HomeContract.UiState(isLoading = false),
+            uiAction = {},
+            uiEffect = emptyFlow()
         )
     }
 }

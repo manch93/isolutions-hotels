@@ -10,6 +10,10 @@ android {
 
 dependencies {
     ksp(libs.hilt.ext.compiler)
+
+    implementation(projects.core.domain)
+    implementation(projects.feature.home.data) // Tambahkan dependency ini
+
     implementation(libs.androidx.tracing.ktx)
     implementation(libs.androidx.work.ktx)
     implementation(libs.hilt.ext.work)

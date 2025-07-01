@@ -75,6 +75,8 @@ dependencies {
     implementation(projects.core.network)
     implementation(projects.sync.work)
 
+    implementation(projects.feature.home.data)
+
     implementation(projects.feature.screensaver.ui)
 
     implementation(libs.androidx.tv.foundation)

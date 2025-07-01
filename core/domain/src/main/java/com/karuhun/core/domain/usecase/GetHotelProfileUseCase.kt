@@ -24,5 +24,7 @@ import javax.inject.Inject
 class GetHotelProfileUseCase @Inject constructor(
     private val hotelRepository: HotelRepository
 ) {
-    suspend operator fun invoke() : Resource<Hotel> = hotelRepository.getHotelProfile()
+    suspend operator fun invoke() : Resource<Hotel> {
+        return hotelRepository.getHotelProfile()
+    }
 }

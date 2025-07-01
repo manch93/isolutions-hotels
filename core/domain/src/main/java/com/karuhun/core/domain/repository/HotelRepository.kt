@@ -17,8 +17,9 @@
 package com.karuhun.core.domain.repository
 
 import com.karuhun.core.common.Resource
+import com.karuhun.core.common.Syncable
 import com.karuhun.core.domain.model.Hotel
 
-interface HotelRepository {
+interface HotelRepository : Syncable{
     suspend fun getHotelProfile(): Resource<Hotel>
 }

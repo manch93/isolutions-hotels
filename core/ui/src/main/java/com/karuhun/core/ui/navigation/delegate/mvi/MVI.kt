@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.home.data.di
+package com.karuhun.core.ui.navigation.delegate.mvi
 
-import com.karuhun.feature.home.data.source.HotelApiService
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
-import javax.inject.Singleton
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
-@Module
-@InstallIn(SingletonComponent::class)
-object NetworkModule {
-    @Provides
-    @Singleton
-    fun provideHotelApiService(retrofit: Retrofit) =
-        retrofit.create(HotelApiService::class.java)
+interface MVI<UiState, UIAction, UiEffect> {
+    val uiState: StateFlow<UiState>
+    val currentUiState: UiState
+    val uiEffect: Flow<UiEffect>
+    fun onAction(action: UIAction)
+    fun updateUiState(block: UiState.() -> UiState)
+    suspend fun emitUiEffect(uiEffect: UiEffect)
 }
+
+fun <UiState, UIAction, UiEffect> mvi(
+    initialState: UiState,
+) : MVI<UiState, UIAction, UiEffect> = MVIDelegate(initialState)
