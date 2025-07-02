@@ -14,20 +14,15 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.itemlist.ui.navigation
+package com.karuhun.core.domain.usecase
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Modifier
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import com.karuhun.feature.itemlist.ui.ContentItemsScreen
-import kotlinx.serialization.Serializable
+import com.karuhun.core.domain.repository.ContentRepository
+import com.karuhun.core.model.Content
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-@Serializable data object DetailMenu
-fun NavGraphBuilder.itemListScreen() {
-    composable<DetailMenu> {
-        ContentItemsScreen(
-            modifier = Modifier.fillMaxSize()
-        )
-    }
+class GetContentsUseCase @Inject constructor(
+    private val repository: ContentRepository
+) {
+    suspend operator fun invoke(): Flow<List<Content>> = repository.getContents()
 }

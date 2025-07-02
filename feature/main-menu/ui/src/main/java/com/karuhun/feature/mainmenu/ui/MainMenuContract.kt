@@ -14,13 +14,24 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.feature.mainmenu.ui
 
-import com.karuhun.core.common.Syncable
 import com.karuhun.core.model.Content
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
-interface ContentRepository : Syncable {
-    suspend fun getContents(): Flow<List<Content>>
-    suspend fun getContentItemById(id: String): Content?
+object MainMenuContract {
+    data class UiState(
+        val isLoading: Boolean = false,
+        val contents: List<Content> = emptyList()
+    )
+
+    sealed interface UiAction {
+        data object OnMenuItemClick : UiAction
+        data object LoadContents : UiAction
+    }
+
+    sealed interface UiEffect {
+        data class ShowError(val message: String) : UiEffect
+    }
 }

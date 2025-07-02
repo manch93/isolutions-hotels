@@ -27,14 +27,16 @@ import com.karuhun.core.model.Content
 import com.karuhun.core.network.safeApiCall
 import com.karuhun.feature.content.data.source.ContentApiService
 import com.karuhun.feature.content.data.source.remote.response.toDomain
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ContentRepositoryImpl @Inject constructor(
     private val apiService: ContentApiService,
     private val contentDao: ContentDao
 ) : ContentRepository {
-    override suspend fun getContentItems(): List<Content> {
-        return contentDao.getAll().toModel()
+    override suspend fun getContents(): Flow<List<Content>> {
+        return contentDao.getAll().map { it.toModel() }
     }
 
     override suspend fun getContentItemById(id: String): Content? {

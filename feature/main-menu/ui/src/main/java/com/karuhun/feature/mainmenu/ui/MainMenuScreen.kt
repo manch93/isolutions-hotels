@@ -30,6 +30,7 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.RestaurantMenu
@@ -60,51 +61,19 @@ import com.karuhun.launcher.core.designsystem.icon.RoomType
 import com.karuhun.launcher.core.designsystem.icon.SettingSvgrepoCom
 import com.karuhun.launcher.core.designsystem.icon.YoutubeTvSvgrepoCom
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
-
-data class AppItem(
-    val name: String,
-    val icon: ImageVector,
-    val packageName: String,
-) {
-    companion object {
-        val appList = listOf(
-            AppItem(
-                name = "Netflix",
-                icon = NetflixSvgrepoCom,
-                packageName = "com.netflix.mediaclient",
-            ),
-            AppItem(
-                name = "Disney+Hotstar",
-                icon = DisneySvgrepoCom,
-                packageName = "com.netflix.mediaclient",
-            ),
-            AppItem(
-                name = "Prime Video",
-                icon = AmazonPrimeVideoSvgrepoCom,
-                packageName = "com.netflix.mediaclient",
-            ),
-            AppItem(
-                name = "Youtube",
-                icon = YoutubeTvSvgrepoCom,
-                packageName = "com.netflix.mediaclient",
-            ),
-
-            AppItem(
-                name = "Settings",
-                icon = SettingSvgrepoCom,
-                packageName = "com.netflix.mediaclient",
-            ),
-
-            )
-    }
-}
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun MainMenuScreen(
     modifier: Modifier = Modifier,
+    uiState: MainMenuContract.UiState,
+    uiEffect: Flow<MainMenuContract.UiEffect>,
+    uiAction: (MainMenuContract.UiAction) -> Unit,
 ) {
-    val appList = AppItem.appList
-    val menuList = MenuList.menuList
+
+    val gridState = rememberLazyGridState()
+
     Column(
         modifier = modifier
             .padding(8.dp),
@@ -144,7 +113,7 @@ fun MainMenuScreen(
                     title = "Restaurant",
                 )
             }
-            items(appList.size) {
+            items(uiState.contents, key = { it.id!! }) {
                 LauncherCard(
                     modifier = Modifier
                         .width(250.dp)
@@ -160,12 +129,12 @@ fun MainMenuScreen(
                     ) {
                         Icon(
                             modifier = Modifier.size(56.dp),
-                            imageVector = appList[it].icon,
+                            imageVector = RoomType,
                             contentDescription = null,
                             tint = Color.White,
                         )
                         Text(
-                            text = appList[it].name,
+                            text = it.title.orEmpty(),
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium,
                             maxLines = 2,
@@ -177,6 +146,7 @@ fun MainMenuScreen(
             }
         }
         LazyVerticalGrid(
+            state = gridState,
             modifier = Modifier
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(0.dp),
@@ -184,8 +154,8 @@ fun MainMenuScreen(
             columns = GridCells.Fixed(4),
         ) {
             items(
-                count = menuList.size,
-                key = { menuList[it].id },
+                items = uiState.contents,
+                key = { it.id!! },
             ) {
                 LauncherCard(
                     modifier = Modifier
@@ -203,12 +173,12 @@ fun MainMenuScreen(
                     ) {
                         Icon(
                             modifier = Modifier.size(56.dp),
-                            imageVector = menuList[it].icon,
+                            imageVector = AmazonPrimeVideoSvgrepoCom,
                             contentDescription = null,
                             tint = Color.White,
                         )
                         Text(
-                            text = menuList[it].name,
+                            text = it.title.orEmpty(),
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium,
                             maxLines = 2,
@@ -223,74 +193,15 @@ fun MainMenuScreen(
     }
 }
 
-data class MenuList(
-    val id: Int,
-    val name: String,
-    val icon: ImageVector,
-) {
-    companion object {
-        val menuList = listOf(
-            MenuList(
-                id = 1,
-                name = "Room Type",
-                icon = RoomType,
-            ),
-            MenuList(
-                id = 2,
-                name = "Facility",
-                icon = Facility,
-            ),
-            MenuList(
-                id = 3,
-                name = "Offer's",
-                icon = Offer,
-            ),
-            MenuList(
-                id = 4,
-                name = "Around Us",
-                icon = ArroundUs,
-            ),
-            MenuList(
-                id = 5,
-                name = "Facility",
-                icon = Facility,
-            ),
-
-            MenuList(
-                id = 6,
-                name = "Room Type",
-                icon = RoomType,
-            ),
-            MenuList(
-                id = 7,
-                name = "Facility",
-                icon = Facility,
-            ),
-            MenuList(
-                id = 8,
-                name = "Offer's",
-                icon = Offer,
-            ),
-            MenuList(
-                id = 9,
-                name = "Around Us",
-                icon = ArroundUs,
-            ),
-            MenuList(
-                id = 10,
-                name = "Facility",
-                icon = Facility,
-            ),
-        )
-    }
-}
-
 @Preview(device = TV_720p)
 @Composable
 private fun MainMenuScreenPreview() {
     AppTheme {
         MainMenuScreen(
             modifier = Modifier.fillMaxSize(),
+            uiState = MainMenuContract.UiState(),
+            uiEffect = emptyFlow(),
+            uiAction = {},
         )
     }
 }

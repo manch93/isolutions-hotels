@@ -21,8 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.karuhun.feature.home.ui.navigation.Home
-import com.karuhun.feature.itemlist.ui.navigation.itemListScreen
+import com.karuhun.feature.itemlist.ui.navigation.contentScreen
 import com.karuhun.feature.home.ui.navigation.homeScreen
+import com.karuhun.feature.itemlist.ui.navigation.Content
+import com.karuhun.feature.mainmenu.ui.navigation.MainMenu
 import com.karuhun.feature.mainmenu.ui.navigation.mainMenuScreen
 
 @Composable
@@ -33,7 +35,7 @@ fun LauncherAppNavGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = Home,
+        startDestination = MainMenu,
     ) {
         homeScreen(
             onMenuItemClick = { menuItem ->
@@ -41,6 +43,6 @@ fun LauncherAppNavGraph(
             }
         )
         mainMenuScreen()
-        itemListScreen()
+        contentScreen()
     }
 }

@@ -14,13 +14,20 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.feature.itemlist.ui.navigation
 
-import com.karuhun.core.common.Syncable
-import com.karuhun.core.model.Content
-import kotlinx.coroutines.flow.Flow
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import com.karuhun.feature.itemlist.ui.ContentItemsScreen
+import kotlinx.serialization.Serializable
 
-interface ContentRepository : Syncable {
-    suspend fun getContents(): Flow<List<Content>>
-    suspend fun getContentItemById(id: String): Content?
+@Serializable data object Content
+fun NavGraphBuilder.contentScreen() {
+    composable<Content> {
+        ContentItemsScreen(
+            modifier = Modifier.fillMaxSize()
+        )
+    }
 }

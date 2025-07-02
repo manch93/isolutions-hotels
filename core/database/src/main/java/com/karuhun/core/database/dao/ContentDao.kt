@@ -22,6 +22,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import com.karuhun.core.database.model.ContentEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ContentDao {
@@ -32,7 +33,7 @@ interface ContentDao {
     suspend fun getContentById(id: Int): ContentEntity?
 
     @Query("SELECT * FROM content")
-    suspend fun getAll(): List<ContentEntity>
+    fun getAll(): Flow<List<ContentEntity>>
 
     @Query("DELETE FROM content")
     suspend fun deleteAll()
