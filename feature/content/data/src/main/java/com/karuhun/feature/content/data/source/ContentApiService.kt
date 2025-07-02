@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.mainmenu.data.di
+package com.karuhun.feature.content.data.source
 
-import com.karuhun.core.domain.repository.ContentRepository
-import com.karuhun.feature.mainmenu.data.repository.ContentRepositoryImpl
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import com.karuhun.core.network.model.BaseResponse
+import com.karuhun.feature.content.data.source.remote.response.GetContentItemsResponse
+import com.karuhun.feature.content.data.source.remote.response.GetContentsResponse
+import retrofit2.http.GET
+import retrofit2.http.Path
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class RepositoryModule {
-    @Binds
-    @Singleton
-    abstract fun bindContentRepository(
-        impl: ContentRepositoryImpl,
-    ): ContentRepository
+interface ContentApiService {
+
+    @GET("features")
+    suspend fun getContentItems(): BaseResponse<List<GetContentsResponse>>
+
+    @GET("feature-item/{id}")
+    suspend fun getContentItemById(@Path("id") id: String): BaseResponse<GetContentItemsResponse>
 }

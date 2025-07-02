@@ -12,5 +12,5 @@ android {
 dependencies {
     implementation(projects.feature.home.ui)
     implementation(projects.feature.mainMenu.ui)
-    implementation(projects.feature.contentItems.ui)
+    implementation(projects.feature.content.ui)
 }

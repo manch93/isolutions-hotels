@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.karuhun.feature.contentitems.ui"
+    namespace = "com.karuhun.feature.content.ui"
 }
 
 dependencies {

@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.mainmenu.data.source
+package com.karuhun.feature.content.data.di
 
-import com.karuhun.core.network.model.BaseResponse
-import com.karuhun.feature.mainmenu.data.source.remote.response.GetContentItemsResponse
-import com.karuhun.feature.mainmenu.data.source.remote.response.GetContentsResponse
-import retrofit2.http.GET
-import retrofit2.http.Path
+import com.karuhun.feature.content.data.source.ContentApiService
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import javax.inject.Singleton
 
-interface ContentApiService {
-
-    @GET("features")
-    suspend fun getContentItems(): BaseResponse<List<GetContentsResponse>>
-
-    @GET("feature-item/{id}")
-    suspend fun getContentItemById(@Path("id") id: String): BaseResponse<GetContentItemsResponse>
+@Module
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
+    @Provides
+    @Singleton
+    fun provideContentApiService(retrofit: Retrofit): ContentApiService =
+        retrofit.create(ContentApiService::class.java)
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.mainmenu.data.repository
+package com.karuhun.feature.content.data.repository
 
 import com.karuhun.core.common.Synchronizer
 import com.karuhun.core.common.forceSync
@@ -25,8 +25,8 @@ import com.karuhun.core.database.model.toModel
 import com.karuhun.core.domain.repository.ContentRepository
 import com.karuhun.core.model.Content
 import com.karuhun.core.network.safeApiCall
-import com.karuhun.feature.mainmenu.data.source.ContentApiService
-import com.karuhun.feature.mainmenu.data.source.remote.response.toDomain
+import com.karuhun.feature.content.data.source.ContentApiService
+import com.karuhun.feature.content.data.source.remote.response.toDomain
 import javax.inject.Inject
 
 class ContentRepositoryImpl @Inject constructor(

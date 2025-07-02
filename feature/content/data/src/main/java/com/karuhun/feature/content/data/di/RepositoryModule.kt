@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.mainmenu.data.di
+package com.karuhun.feature.content.data.di
 
-import com.karuhun.feature.mainmenu.data.source.ContentApiService
+import com.karuhun.core.domain.repository.ContentRepository
+import com.karuhun.feature.content.data.repository.ContentRepositoryImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
-    @Provides
+abstract class RepositoryModule {
+    @Binds
     @Singleton
-    fun provideContentApiService(retrofit: Retrofit): ContentApiService =
-        retrofit.create(ContentApiService::class.java)
+    abstract fun bindContentRepository(
+        impl: ContentRepositoryImpl,
+    ): ContentRepository
 }

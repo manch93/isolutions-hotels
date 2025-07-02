@@ -13,7 +13,7 @@ dependencies {
 
     implementation(projects.core.domain)
     implementation(projects.feature.hotelProfile.data)
-    implementation(projects.feature.mainMenu.data)
+    implementation(projects.feature.content.data)
 
     implementation(libs.androidx.tracing.ktx)
     implementation(libs.androidx.work.ktx)
