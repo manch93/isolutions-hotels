@@ -93,6 +93,7 @@ dependencies {
     implementation(libs.androidx.window.core)
     implementation(libs.kotlinx.coroutines.guava)
     implementation(libs.coil.kt)
+    implementation(libs.coil.kt.svg)
     implementation(libs.kotlinx.serialization.json)
 
     ksp(libs.hilt.compiler)

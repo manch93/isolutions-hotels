@@ -48,6 +48,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Text
+import coil.compose.AsyncImage
 import com.karuhun.launcher.core.designsystem.component.LauncherCard
 import com.karuhun.launcher.core.designsystem.component.MenuItemCard
 import com.karuhun.launcher.core.designsystem.icon.AmazonPrimeVideoSvgrepoCom
@@ -127,11 +128,15 @@ fun MainMenuScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        Icon(
-                            modifier = Modifier.size(56.dp),
-                            imageVector = RoomType,
-                            contentDescription = null,
-                            tint = Color.White,
+//                        Icon(
+//                            modifier = Modifier.size(56.dp),
+//                            imageVector = RoomType,
+//                            contentDescription = null,
+//                            tint = Color.White,
+//                        )
+                        AsyncImage(
+                            model = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Disney%2B_Hotstar_logo.svg",
+                            contentDescription = it.name.orEmpty()
                         )
                         Text(
                             text = it.name.orEmpty(),
