@@ -16,6 +16,7 @@
 
 package com.karuhun.feature.content.data.di
 
+import com.karuhun.feature.content.data.source.ApplicationApiService
 import com.karuhun.feature.content.data.source.ContentApiService
 import dagger.Module
 import dagger.Provides
@@ -31,4 +32,9 @@ object NetworkModule {
     @Singleton
     fun provideContentApiService(retrofit: Retrofit): ContentApiService =
         retrofit.create(ContentApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideApplicationApiService(retrofit: Retrofit): ApplicationApiService =
+        retrofit.create(ApplicationApiService::class.java)
 }

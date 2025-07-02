@@ -18,19 +18,23 @@ package com.karuhun.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.karuhun.core.database.dao.ApplicationDao
 import com.karuhun.core.database.dao.ContentDao
 import com.karuhun.core.database.dao.HotelDao
+import com.karuhun.core.database.model.ApplicationEntity
 import com.karuhun.core.database.model.ContentEntity
 import com.karuhun.core.database.model.HotelEntity
 
 @Database(
     entities = [
         HotelEntity::class,
-        ContentEntity::class
+        ContentEntity::class,
+        ApplicationEntity::class
     ],
     version = 1
 )
 abstract class LauncherDatabase : RoomDatabase() {
     abstract fun hotelDao() : HotelDao
     abstract fun contentDao(): ContentDao
+    abstract fun applicationDao(): ApplicationDao
 }

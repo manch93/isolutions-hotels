@@ -31,8 +31,14 @@ object DaosModule {
     fun provideHotelDao(
         database: LauncherDatabase
     ): HotelDao = database.hotelDao()
+
     @Provides
     fun provideContentDao(
         database: LauncherDatabase
     ): ContentDao = database.contentDao()
+
+    @Provides
+    fun provideApplicationDao(
+        database: LauncherDatabase
+    ) = database.applicationDao()
 }

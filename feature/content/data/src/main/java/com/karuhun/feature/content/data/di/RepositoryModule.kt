@@ -16,7 +16,9 @@
 
 package com.karuhun.feature.content.data.di
 
+import com.karuhun.core.domain.repository.ApplicationRepository
 import com.karuhun.core.domain.repository.ContentRepository
+import com.karuhun.feature.content.data.repository.ApplicationRepositoryImpl
 import com.karuhun.feature.content.data.repository.ContentRepositoryImpl
 import dagger.Binds
 import dagger.Module
@@ -32,4 +34,10 @@ abstract class RepositoryModule {
     abstract fun bindContentRepository(
         impl: ContentRepositoryImpl,
     ): ContentRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindApplicationRepository(
+        impl: ApplicationRepositoryImpl
+    ): ApplicationRepository
 }
