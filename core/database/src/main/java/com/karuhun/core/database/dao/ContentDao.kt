@@ -14,25 +14,26 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.database.di
+package com.karuhun.core.database.dao
 
-import com.karuhun.core.database.LauncherDatabase
-import com.karuhun.core.database.dao.ContentDao
-import com.karuhun.core.database.dao.HotelDao
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Upsert
+import com.karuhun.core.database.model.ContentEntity
 
-@Module
-@InstallIn(SingletonComponent::class)
-object DaosModule {
-    @Provides
-    fun provideHotelDao(
-        database: LauncherDatabase
-    ): HotelDao = database.hotelDao()
-    @Provides
-    fun provideContentDao(
-        database: LauncherDatabase
-    ): ContentDao = database.contentDao()
+@Dao
+interface ContentDao {
+    @Upsert
+    suspend fun upsert(data: List<ContentEntity>)
+
+    @Query("SELECT * FROM content WHERE id = :id")
+    suspend fun getContentById(id: Int): ContentEntity?
+
+    @Query("SELECT * FROM content")
+    suspend fun getAll(): List<ContentEntity>
+
+    @Query("DELETE FROM content")
+    suspend fun deleteAll()
 }

@@ -14,25 +14,22 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.database.di
+package com.karuhun.feature.mainmenu.data.di
 
-import com.karuhun.core.database.LauncherDatabase
-import com.karuhun.core.database.dao.ContentDao
-import com.karuhun.core.database.dao.HotelDao
+import com.karuhun.core.domain.repository.ContentRepository
+import com.karuhun.feature.mainmenu.data.repository.ContentRepositoryImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DaosModule {
-    @Provides
-    fun provideHotelDao(
-        database: LauncherDatabase
-    ): HotelDao = database.hotelDao()
-    @Provides
-    fun provideContentDao(
-        database: LauncherDatabase
-    ): ContentDao = database.contentDao()
+abstract class RepositoryModule {
+    @Binds
+    @Singleton
+    abstract fun bindContentRepository(
+        impl: ContentRepositoryImpl,
+    ): ContentRepository
 }

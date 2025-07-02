@@ -25,6 +25,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkerParameters
 import com.karuhun.core.common.Synchronizer
+import com.karuhun.core.domain.repository.ContentRepository
 import com.karuhun.core.domain.repository.HotelRepository
 import com.karuhun.core.domain.usecase.GetHotelProfileUseCase
 import com.karuhun.sync.initializer.SyncConstraints
@@ -40,12 +41,14 @@ class SyncWorker @AssistedInject constructor(
     @Assisted private val appContext: Context,
     @Assisted private val workerParams: WorkerParameters,
     private val hotelRepository: HotelRepository,
+    private val contentRepository: ContentRepository
 ) : CoroutineWorker(appContext, workerParams), Synchronizer {
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         Log.d("SyncWorker", "doWork: Starting sync operation")
         traceAsync("Sync", 0) {
             val syncedSuccessfully = awaitAll(
-                async { hotelRepository.sync() }
+                async { hotelRepository.sync() },
+                async { contentRepository.sync() }
             ).all { it }
 
             if (syncedSuccessfully) {

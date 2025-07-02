@@ -14,25 +14,21 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.database.di
+package com.karuhun.feature.mainmenu.data.di
 
-import com.karuhun.core.database.LauncherDatabase
-import com.karuhun.core.database.dao.ContentDao
-import com.karuhun.core.database.dao.HotelDao
+import com.karuhun.feature.mainmenu.data.source.ContentApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DaosModule {
+object NetworkModule {
     @Provides
-    fun provideHotelDao(
-        database: LauncherDatabase
-    ): HotelDao = database.hotelDao()
-    @Provides
-    fun provideContentDao(
-        database: LauncherDatabase
-    ): ContentDao = database.contentDao()
+    @Singleton
+    fun provideContentApiService(retrofit: Retrofit): ContentApiService =
+        retrofit.create(ContentApiService::class.java)
 }
