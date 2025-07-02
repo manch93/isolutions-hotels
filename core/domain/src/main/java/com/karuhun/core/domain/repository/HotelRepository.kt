@@ -18,10 +18,10 @@ package com.karuhun.core.domain.repository
 
 import com.karuhun.core.common.Resource
 import com.karuhun.core.common.Syncable
-import com.karuhun.core.model.ContentItem
+import com.karuhun.core.model.Content
 import com.karuhun.core.model.Hotel
 
 interface HotelRepository : Syncable{
     suspend fun getHotelProfile(): Resource<Hotel>
-    suspend fun getContentItems(): Resource<ContentItem>
+    suspend fun getContentItems(): Resource<Content>
 }

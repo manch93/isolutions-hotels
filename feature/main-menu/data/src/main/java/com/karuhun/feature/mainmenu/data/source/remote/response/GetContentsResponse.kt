@@ -18,7 +18,7 @@ package com.karuhun.feature.mainmenu.data.source.remote.response
 
 import com.google.gson.annotations.SerializedName
 import com.karuhun.core.common.orZero
-import com.karuhun.core.model.ContentItem
+import com.karuhun.core.model.Content
 
 data class GetContentsResponse(
 
@@ -41,9 +41,9 @@ data class GetContentsResponse(
 	val id: Int? = null
 )
 
-fun List<GetContentsResponse>?.toDomain(): List<ContentItem> {
+fun List<GetContentsResponse>?.toDomain(): List<Content> {
     return this.orEmpty().map { response ->
-        ContentItem(
+        Content(
             id = response.id.orZero(),
             title = response.name.orEmpty(),
             isActive = response.isActive.orZero() == 1,

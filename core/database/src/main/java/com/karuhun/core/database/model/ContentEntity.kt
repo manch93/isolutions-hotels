@@ -18,7 +18,7 @@ package com.karuhun.core.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.karuhun.core.model.ContentItem
+import com.karuhun.core.model.Content
 
 @Entity(
     tableName = "content",
@@ -30,25 +30,25 @@ data class ContentEntity(
     val isActive: Int?,
 )
 
-fun ContentEntity.toModel() = ContentItem(
+fun ContentEntity.toModel() = Content(
     id = id,
     title = name,
     isActive = isActive?.let { it == 1 },
 )
 
-fun ContentItem.toEntity() = ContentEntity(
+fun Content.toEntity() = ContentEntity(
     id = id ?: 0,
     name = title,
     isActive = if (isActive == true) 1 else 0,
 )
 
-fun List<ContentItem>.toEntity() : List<ContentEntity> {
+fun List<Content>.toEntity() : List<ContentEntity> {
     return this.map {
         it.toEntity()
     }
 }
 
-fun List<ContentEntity>.toModel() : List<ContentItem> {
+fun List<ContentEntity>.toModel() : List<Content> {
     return this.map {
         it.toModel()
     }

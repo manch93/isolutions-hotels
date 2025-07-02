@@ -23,7 +23,7 @@ import com.karuhun.core.database.dao.ContentDao
 import com.karuhun.core.database.model.toEntity
 import com.karuhun.core.database.model.toModel
 import com.karuhun.core.domain.repository.ContentRepository
-import com.karuhun.core.model.ContentItem
+import com.karuhun.core.model.Content
 import com.karuhun.core.network.safeApiCall
 import com.karuhun.feature.mainmenu.data.source.ContentApiService
 import com.karuhun.feature.mainmenu.data.source.remote.response.toDomain
@@ -33,11 +33,11 @@ class ContentRepositoryImpl @Inject constructor(
     private val apiService: ContentApiService,
     private val contentDao: ContentDao
 ) : ContentRepository {
-    override suspend fun getContentItems(): List<ContentItem> {
+    override suspend fun getContentItems(): List<Content> {
         return contentDao.getAll().toModel()
     }
 
-    override suspend fun getContentItemById(id: String): ContentItem? {
+    override suspend fun getContentItemById(id: String): Content? {
         return contentDao.getContentById(id.toInt())?.toModel()
     }
 

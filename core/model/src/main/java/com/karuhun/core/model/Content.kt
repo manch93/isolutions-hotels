@@ -16,7 +16,7 @@
 
 package com.karuhun.core.model
 
-data class ContentItem(
+data class Content(
     val id: Int?,
     val title: String?,
     val isActive: Boolean?

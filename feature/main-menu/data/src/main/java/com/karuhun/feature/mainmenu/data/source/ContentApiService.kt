@@ -16,7 +16,6 @@
 
 package com.karuhun.feature.mainmenu.data.source
 
-import com.karuhun.core.model.ContentItem
 import com.karuhun.core.network.model.BaseResponse
 import com.karuhun.feature.mainmenu.data.source.remote.response.GetContentItemsResponse
 import com.karuhun.feature.mainmenu.data.source.remote.response.GetContentsResponse

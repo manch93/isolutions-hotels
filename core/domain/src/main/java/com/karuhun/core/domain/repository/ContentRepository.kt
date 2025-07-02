@@ -17,9 +17,9 @@
 package com.karuhun.core.domain.repository
 
 import com.karuhun.core.common.Syncable
-import com.karuhun.core.model.ContentItem
+import com.karuhun.core.model.Content
 
 interface ContentRepository : Syncable {
-    suspend fun getContentItems(): List<ContentItem>
-    suspend fun getContentItemById(id: String): ContentItem?
+    suspend fun getContentItems(): List<Content>
+    suspend fun getContentItemById(id: String): Content?
 }
