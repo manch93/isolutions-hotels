@@ -42,9 +42,8 @@ class SyncWorker @AssistedInject constructor(
     private val hotelRepository: HotelRepository,
 ) : CoroutineWorker(appContext, workerParams), Synchronizer {
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
-
+        Log.d("SyncWorker", "doWork: Starting sync operation")
         traceAsync("Sync", 0) {
-            Log.d("SyncWorker", "doWork: Starting sync operation")
             val syncedSuccessfully = awaitAll(
                 async { hotelRepository.sync() }
             ).all { it }

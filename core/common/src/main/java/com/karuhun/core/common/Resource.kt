@@ -54,3 +54,10 @@ fun <T> Resource<T>.toUnit(): Resource<Unit> {
         is Resource.Error -> Resource.Error(exception)
     }
 }
+
+fun <T> Resource<T>.toModel(): T? {
+    return when (this) {
+        is Resource.Success -> data
+        is Resource.Error -> null
+    }
+}

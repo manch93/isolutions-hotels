@@ -14,14 +14,10 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.core.model
 
-import com.karuhun.core.common.Resource
-import com.karuhun.core.common.Syncable
-import com.karuhun.core.model.ContentItem
-import com.karuhun.core.model.Hotel
-
-interface HotelRepository : Syncable{
-    suspend fun getHotelProfile(): Resource<Hotel>
-    suspend fun getContentItems(): Resource<ContentItem>
-}
+data class ContentItem(
+    val id: Int?,
+    val title: String?,
+    val isActive: Boolean?
+)
