@@ -113,7 +113,7 @@ fun MainMenuScreen(
                     title = "Restaurant",
                 )
             }
-            items(uiState.contents, key = { it.id!! }) {
+            items(uiState.applications, key = { it.id!! }) {
                 LauncherCard(
                     modifier = Modifier
                         .width(250.dp)
@@ -134,7 +134,7 @@ fun MainMenuScreen(
                             tint = Color.White,
                         )
                         Text(
-                            text = it.title.orEmpty(),
+                            text = it.name.orEmpty(),
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium,
                             maxLines = 2,

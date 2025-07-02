@@ -1,0 +1,1 @@
+-keep class com.karuhun.core.network.model.BaseResponse { *; }

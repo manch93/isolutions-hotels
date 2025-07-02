@@ -38,7 +38,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices.TV_1080p
 import androidx.compose.ui.tooling.preview.Preview
@@ -178,7 +177,7 @@ fun RightContent(
             ) {
                 Image(
                     modifier = Modifier.fillMaxSize(),
-                    painter = painterResource(R.drawable.promo_2),
+                    painter = painterResource(R.drawable.core_designsystem_promo_2),
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )

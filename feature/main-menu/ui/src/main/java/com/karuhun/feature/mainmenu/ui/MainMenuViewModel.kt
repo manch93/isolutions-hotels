@@ -18,6 +18,7 @@ package com.karuhun.feature.mainmenu.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.karuhun.core.domain.usecase.GetApplicationsUseCase
 import com.karuhun.core.domain.usecase.GetContentsUseCase
 import com.karuhun.core.ui.navigation.delegate.mvi.MVI
 import com.karuhun.core.ui.navigation.delegate.mvi.mvi
@@ -27,7 +28,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainMenuViewModel @Inject constructor(
-    private val getContentsUseCase: GetContentsUseCase
+    private val getContentsUseCase: GetContentsUseCase,
+    private val getApplicationsUseCase: GetApplicationsUseCase,
 ) : ViewModel(),
     MVI<MainMenuContract.UiState, MainMenuContract.UiAction, MainMenuContract.UiEffect> by mvi(
         initialState = MainMenuContract.UiState(),
@@ -35,12 +37,14 @@ class MainMenuViewModel @Inject constructor(
 
     init {
         onAction(MainMenuContract.UiAction.LoadContents)
+        onAction(MainMenuContract.UiAction.LoadApplications)
     }
 
     override fun onAction(action: MainMenuContract.UiAction) {
-        when(action){
+        when (action) {
             MainMenuContract.UiAction.LoadContents -> { loadContents() }
             MainMenuContract.UiAction.OnMenuItemClick -> {}
+            MainMenuContract.UiAction.LoadApplications -> { loadApplications() }
         }
     }
 
@@ -48,6 +52,17 @@ class MainMenuViewModel @Inject constructor(
         updateUiState { copy(isLoading = true) }
         getContentsUseCase().collect { contents ->
             updateUiState { copy(isLoading = false, contents = contents) }
+        }
+    }
+
+    private fun loadApplications() = viewModelScope.launch {
+        getApplicationsUseCase().collect { applications ->
+            updateUiState {
+                copy(
+                    isLoading = false,
+                    applications = applications
+                )
+            }
         }
     }
 }

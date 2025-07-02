@@ -14,27 +14,15 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.mainmenu.ui
+package com.karuhun.core.domain.usecase
 
+import com.karuhun.core.domain.repository.ApplicationRepository
 import com.karuhun.core.model.Application
-import com.karuhun.core.model.Content
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import javax.inject.Inject
 
-object MainMenuContract {
-    data class UiState(
-        val isLoading: Boolean = false,
-        val contents: List<Content> = emptyList(),
-        val applications: List<Application> = emptyList()
-    )
-
-    sealed interface UiAction {
-        data object OnMenuItemClick : UiAction
-        data object LoadContents : UiAction
-        data object LoadApplications : UiAction
-    }
-
-    sealed interface UiEffect {
-        data class ShowError(val message: String) : UiEffect
-    }
+class GetApplicationsUseCase @Inject constructor(
+    private val repository: ApplicationRepository
+) {
+    operator fun invoke(): Flow<List<Application>> = repository.getAllApplications()
 }
