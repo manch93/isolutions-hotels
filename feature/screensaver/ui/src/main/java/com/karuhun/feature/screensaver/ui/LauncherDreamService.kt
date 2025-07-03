@@ -20,22 +20,32 @@ import android.service.dreams.DreamService
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.setViewTreeViewModelStoreOwner
 import androidx.tv.material3.Text
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class LauncherDreamService : DreamService(), LifecycleOwner, SavedStateRegistryOwner {
+    @Inject
+    lateinit var viewModel: ScreenSaverViewModel
     private val lifecycleRegistry = LifecycleRegistry(this)
     private val savedStateRegistryController = SavedStateRegistryController.create(this)
 
@@ -51,9 +61,17 @@ class LauncherDreamService : DreamService(), LifecycleOwner, SavedStateRegistryO
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setViewTreeLifecycleOwner(this@LauncherDreamService)
             setViewTreeSavedStateRegistryOwner(this@LauncherDreamService)
+//            setViewTreeViewModelStoreOwner(this@LauncherDreamService)
             setContent {
-                ScreenSaverScreen(
-                    modifier = Modifier.fillMaxSize()
+                val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                val uiEffect = viewModel.uiEffect
+                val uiAction = viewModel::onAction
+
+                ScreenSaver(
+                    modifier = Modifier.fillMaxSize(),
+                    uiState = uiState,
+                    uiEffect = uiEffect,
+                    onAction = uiAction
                 )
             }
         }
@@ -71,17 +89,5 @@ class LauncherDreamService : DreamService(), LifecycleOwner, SavedStateRegistryO
     override fun onDetachedFromWindow() {
         lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
         super.onDetachedFromWindow()
-    }
-}
-
-@Composable
-fun ScreenSaverScreen(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier.background(Color.White)
-    ) {
-        Text(
-            text = "Screensaver",
-            modifier = modifier
-        )
     }
 }
