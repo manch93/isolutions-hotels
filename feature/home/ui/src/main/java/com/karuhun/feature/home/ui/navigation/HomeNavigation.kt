@@ -31,7 +31,8 @@ import kotlinx.serialization.Serializable
 @Serializable data object Home : Screen
 
 fun NavGraphBuilder.homeScreen(
-    onMenuItemClick: (String) -> Unit
+    onMenuItemClick: (String) -> Unit,
+    onGoToMainMenu: () -> Unit,
 ){
     composable<Home> {
         val viewModel = hiltViewModel<HomeViewModel>()
@@ -42,7 +43,8 @@ fun NavGraphBuilder.homeScreen(
             onMenuItemClick = onMenuItemClick,
             uiState = uiState,
             uiAction = uiAction,
-            uiEffect = uiEffect
+            uiEffect = uiEffect,
+            onGoToMainMenu = onGoToMainMenu
         )
     }
 }

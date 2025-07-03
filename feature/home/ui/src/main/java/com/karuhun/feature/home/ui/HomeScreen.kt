@@ -59,12 +59,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
-fun HomeScreen(
+internal fun HomeScreen(
     modifier: Modifier = Modifier,
     uiState: HomeContract.UiState,
     uiAction: (HomeContract.UiAction) -> Unit,
     uiEffect: Flow<HomeContract.UiEffect>,
-    onMenuItemClick: (String) -> Unit = { _ -> }
+    onMenuItemClick: (String) -> Unit = { _ -> },
+    onGoToMainMenu: () -> Unit,
 ) {
     uiEffect.collectWithLifecycle { effect ->
         when(effect){
@@ -84,6 +85,7 @@ fun HomeScreen(
                 .weight(1f)
                 .fillMaxHeight(),
             onMenuItemClick = onMenuItemClick,
+            onGoToMainMenu = onGoToMainMenu,
         )
     }
 }
@@ -156,7 +158,8 @@ fun LeftContent(modifier: Modifier = Modifier) {
 @Composable
 fun RightContent(
     modifier: Modifier = Modifier,
-    onMenuItemClick: (String) -> Unit
+    onMenuItemClick: (String) -> Unit,
+    onGoToMainMenu:() -> Unit
 ) {
     val homeMenuItems = MenuItem.items
 
@@ -208,7 +211,7 @@ fun RightContent(
                     .height(50.dp)
                     .padding(start = 8.dp, end = 8.dp),
                 icon = MoreSvgrepoCom,
-                onClick = { onMenuItemClick("") },
+                onClick = { onGoToMainMenu() },
             )
         }
 
@@ -223,7 +226,8 @@ private fun HomeScreenPreview() {
             onMenuItemClick = {},
             uiState = HomeContract.UiState(isLoading = false),
             uiAction = {},
-            uiEffect = emptyFlow()
+            uiEffect = emptyFlow(),
+            onGoToMainMenu = {}
         )
     }
 }

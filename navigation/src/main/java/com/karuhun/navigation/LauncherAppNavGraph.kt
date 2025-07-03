@@ -23,7 +23,8 @@ import androidx.navigation.compose.NavHost
 import com.karuhun.feature.home.ui.navigation.Home
 import com.karuhun.feature.itemlist.ui.navigation.contentScreen
 import com.karuhun.feature.home.ui.navigation.homeScreen
-import com.karuhun.feature.itemlist.ui.navigation.Content
+import com.karuhun.feature.itemlist.ui.navigation.ContentDetail
+import com.karuhun.feature.itemlist.ui.navigation.ContentItems
 import com.karuhun.feature.mainmenu.ui.navigation.MainMenu
 import com.karuhun.feature.mainmenu.ui.navigation.mainMenuScreen
 
@@ -35,14 +36,32 @@ fun LauncherAppNavGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = MainMenu,
+        startDestination = Home,
     ) {
         homeScreen(
             onMenuItemClick = { menuItem ->
 
+            },
+            onGoToMainMenu = {
+                navController.apply {
+                    navigate(MainMenu)
+                    saveState()
+                }
             }
         )
-        mainMenuScreen()
-        contentScreen()
+        mainMenuScreen(
+            onNavigateToContentItems = {
+                navController.apply {
+                    navigate(ContentItems)
+                }
+            }
+        )
+        contentScreen(
+            onNavigateToDetail = {
+                navController.apply {
+                    navigate(ContentDetail(contentId = it))
+                }
+            }
+        )
     }
 }

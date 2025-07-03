@@ -48,6 +48,7 @@ import com.karuhun.launcher.core.designsystem.theme.AppTheme
 @Composable
 fun ContentItemsScreen(
     modifier: Modifier = Modifier,
+    onNavigateToDetail: (Int) -> Unit,
 ) {
     val detailMenuList = DetailMenuItem.detailMenuList
 
@@ -78,7 +79,7 @@ fun ContentItemsScreen(
                         .fillMaxSize()
                         .padding(8.dp)
                         .width(250.dp),
-                    onClick = {},
+                    onClick = {onNavigateToDetail(0)},
                 ) {
                     Box {
                         AsyncImage(
@@ -127,6 +128,7 @@ private fun DetailMenuScreenPreview() {
     AppTheme {
         ContentItemsScreen(
             modifier = Modifier.fillMaxSize(),
+            onNavigateToDetail = {}
         )
     }
 }

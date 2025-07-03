@@ -20,14 +20,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.karuhun.feature.itemlist.ui.ContentDetailScreen
 import com.karuhun.feature.itemlist.ui.ContentItemsScreen
 import kotlinx.serialization.Serializable
 
-@Serializable data object Content
-fun NavGraphBuilder.contentScreen() {
-    composable<Content> {
+@Serializable data object ContentItems
+@Serializable data class ContentDetail(val contentId: Int)
+fun NavGraphBuilder.contentScreen(
+    onNavigateToDetail: (Int) -> Unit,
+) {
+    composable<ContentItems> {
         ContentItemsScreen(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            onNavigateToDetail = onNavigateToDetail
         )
+    }
+    composable<ContentDetail> {
+        ContentDetailScreen()
     }
 }

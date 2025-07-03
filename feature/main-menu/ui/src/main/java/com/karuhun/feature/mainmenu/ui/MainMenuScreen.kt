@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Text
 import coil.compose.AsyncImage
+import com.karuhun.core.common.orZero
 import com.karuhun.launcher.core.designsystem.component.LauncherCard
 import com.karuhun.launcher.core.designsystem.component.MenuItemCard
 import com.karuhun.launcher.core.designsystem.icon.AmazonPrimeVideoSvgrepoCom
@@ -71,6 +72,7 @@ fun MainMenuScreen(
     uiState: MainMenuContract.UiState,
     uiEffect: Flow<MainMenuContract.UiEffect>,
     uiAction: (MainMenuContract.UiAction) -> Unit,
+    onNavigateToDetailContent: (Int) -> Unit,
 ) {
 
     val gridState = rememberLazyGridState()
@@ -128,15 +130,9 @@ fun MainMenuScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-//                        Icon(
-//                            modifier = Modifier.size(56.dp),
-//                            imageVector = RoomType,
-//                            contentDescription = null,
-//                            tint = Color.White,
-//                        )
                         AsyncImage(
                             model = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Disney%2B_Hotstar_logo.svg",
-                            contentDescription = it.name.orEmpty()
+                            contentDescription = it.name.orEmpty(),
                         )
                         Text(
                             text = it.name.orEmpty(),
@@ -167,7 +163,7 @@ fun MainMenuScreen(
                         .width(250.dp)
                         .height(90.dp)
                         .padding(8.dp),
-                    onClick = {},
+                    onClick = { onNavigateToDetailContent(it.id.orZero()) },
                 ) {
                     Row(
                         modifier = Modifier
@@ -207,6 +203,7 @@ private fun MainMenuScreenPreview() {
             uiState = MainMenuContract.UiState(),
             uiEffect = emptyFlow(),
             uiAction = {},
+            onNavigateToDetailContent = {}
         )
     }
 }

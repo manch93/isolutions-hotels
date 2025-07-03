@@ -44,6 +44,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.karuhun.launcher.core.designsystem.component.RunningText
 import com.karuhun.launcher.core.designsystem.component.TopBar
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
@@ -93,8 +94,8 @@ fun LauncherApplication(
         modifier = modifier,
     ) {
         // Background Image
-        Image(
-            painter = painterResource(id = R.drawable.hotel_room_background),
+        AsyncImage(
+            model = uiState.hotelProfile?.backgroundPhoto,
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize(),
@@ -142,15 +143,13 @@ fun LauncherApplication(
             }
 
         }
-        if (uiState.hotelProfile?.runningText != null){
-            RunningText(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 4.dp)
-                    .fillMaxWidth(),
-                text = "uiState.hotelProfile.runningText!!",
-            )
-        }
+        RunningText(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 4.dp)
+                .fillMaxWidth(),
+            text = uiState.hotelProfile?.runningText.orEmpty(),
+        )
     }
 }
 
