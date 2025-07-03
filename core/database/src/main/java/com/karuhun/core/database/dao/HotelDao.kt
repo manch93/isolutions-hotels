@@ -24,12 +24,8 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface HotelDao {
-    @Query(
-        value = """
-            SELECT * FROM hotel limit 1
-        """
-    )
-    fun getHotelProfile(): Flow<HotelEntity>
+    @Query("SELECT * FROM hotel where id = 1")
+    fun getHotelProfile(): Flow<HotelEntity?>
 
     @Upsert
     suspend fun upsert(data: HotelEntity)

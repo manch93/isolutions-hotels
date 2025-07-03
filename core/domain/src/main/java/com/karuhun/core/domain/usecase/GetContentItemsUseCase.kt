@@ -22,5 +22,5 @@ import javax.inject.Inject
 class GetContentItemsUseCase @Inject constructor(
     private val hotelRepository: HotelRepository
 ) {
-    suspend operator fun invoke() = hotelRepository.getContentItems()
+
 }

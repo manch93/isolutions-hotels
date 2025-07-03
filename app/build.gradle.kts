@@ -70,10 +70,14 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.ui)
+    implementation(projects.core.domain)
     implementation(projects.navigation)
     implementation(projects.core.designsystem)
     implementation(projects.core.network)
     implementation(projects.sync.work)
+    implementation(projects.core.database)
+    implementation(projects.feature.hotelProfile.data)
 
     implementation(projects.feature.home.data)
 

@@ -22,6 +22,7 @@ import com.karuhun.core.common.forceSync
 import com.karuhun.core.common.map
 import com.karuhun.core.common.toModel
 import com.karuhun.core.database.dao.HotelDao
+import com.karuhun.core.database.model.toDomain
 import com.karuhun.core.database.model.toEntity
 import com.karuhun.core.domain.repository.HotelRepository
 import com.karuhun.core.model.Content
@@ -29,20 +30,16 @@ import com.karuhun.core.model.Hotel
 import com.karuhun.core.network.safeApiCall
 import com.karuhun.feature.hotelprofile.data.source.HotelApiService
 import com.karuhun.feature.hotelprofile.data.source.remote.response.toDomain
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class HotelRepositoryImpl @Inject constructor(
     private val api : HotelApiService,
     private val hotelDao: HotelDao
 ) : HotelRepository{
-    override suspend fun getHotelProfile(): Resource<Hotel> {
-        return safeApiCall { api.getHotelProfile() }.map { response ->
-            response.data.toDomain()
-        }
-    }
-
-    override suspend fun getContentItems(): Resource<Content> {
-        TODO("Not yet implemented")
+    override suspend fun getHotelProfile(): Flow<Hotel> {
+        return hotelDao.getHotelProfile().map { it.toDomain() }
     }
 
     override suspend fun syncWith(synchronizer: Synchronizer): Boolean = synchronizer.forceSync(

@@ -25,7 +25,7 @@ import com.karuhun.core.model.Hotel
 )
 data class HotelEntity(
     @PrimaryKey
-    val id: Int?,
+    val id: Int? = 1,
     val name: String?,
     val phone: String?,
     val email: String?,
@@ -42,26 +42,24 @@ data class HotelEntity(
     val runningText: String?,
 )
 
-fun HotelEntity.toDomain() = Hotel(
-    id = id,
-    name = name,
-    phone = phone,
-    email = email,
-    website = website,
-    defaultGreeting = defaultGreeting,
-    passwordSetting = passwordSetting,
-    logoWhite = logoWhite,
-    logoBlack = logoBlack,
-    primaryColor = primaryColor,
-    mainPhoto = mainPhoto,
-    backgroundPhoto = backgroundPhoto,
-    introVideo = introVideo,
-    welcomeText = welcomeText,
-    runningText = runningText,
+fun HotelEntity?.toDomain() = Hotel(
+    name = this?.name.orEmpty(),
+    phone = this?.phone,
+    email = this?.email,
+    website = this?.website,
+    defaultGreeting = this?.defaultGreeting,
+    passwordSetting = this?.passwordSetting,
+    logoWhite = this?.logoWhite,
+    logoBlack = this?.logoBlack,
+    primaryColor = this?.primaryColor,
+    mainPhoto = this?.mainPhoto,
+    backgroundPhoto = this?.backgroundPhoto,
+    introVideo = this?.introVideo,
+    welcomeText = this?.welcomeText,
+    runningText = this?.runningText,
 )
 
 fun Hotel.toEntity() = HotelEntity(
-    id = id,
     name = name,
     phone = phone,
     email = email,

@@ -20,8 +20,8 @@ import com.karuhun.core.common.Resource
 import com.karuhun.core.common.Syncable
 import com.karuhun.core.model.Content
 import com.karuhun.core.model.Hotel
+import kotlinx.coroutines.flow.Flow
 
 interface HotelRepository : Syncable{
-    suspend fun getHotelProfile(): Resource<Hotel>
-    suspend fun getContentItems(): Resource<Content>
+    suspend fun getHotelProfile(): Flow<Hotel>
 }

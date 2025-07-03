@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.home.ui
+package com.karuhun.launcher
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karuhun.core.common.onFailure
-import com.karuhun.core.common.onSuccess
 import com.karuhun.core.domain.usecase.GetHotelProfileUseCase
 import com.karuhun.core.ui.navigation.delegate.mvi.MVI
 import com.karuhun.core.ui.navigation.delegate.mvi.mvi
@@ -29,35 +26,31 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
     private val getHotelProfileUseCase: GetHotelProfileUseCase,
 ) : ViewModel(),
-    MVI<HomeContract.UiState, HomeContract.UiAction, HomeContract.UiEffect> by mvi(initialState = HomeContract.UiState()) {
-
+    MVI<MainContract.UiState, MainContract.UiAction, MainContract.UiEffect> by mvi(initialState = MainContract.UiState()) {
     init {
-        onAction(HomeContract.UiAction.LoadMenuItems)
+        onAction(MainContract.UiAction.LoadHotelProfile)
     }
 
-    override fun onAction(action: HomeContract.UiAction) {
+    override fun onAction(action: MainContract.UiAction) {
         when (action) {
-            HomeContract.UiAction.LoadMenuItems -> {
-                loadMenuItems()
+            is MainContract.UiAction.ChangeWallpaper -> {}
+            is MainContract.UiAction.ShowError -> {}
+            MainContract.UiAction.LoadHotelProfile -> {
+                loadHotelProfile()
             }
-
-            HomeContract.UiAction.OnMenuItemClick -> {}
-            HomeContract.UiAction.OnMoreClick -> {}
         }
     }
 
-    private fun loadMenuItems() = viewModelScope.launch {
+    private fun loadHotelProfile() = viewModelScope.launch {
         updateUiState { copy(isLoading = true) }
-        getHotelProfileUseCase().collect { hotelProfile ->
-            updateUiState {
-                copy(
-                    isLoading = false,
-                    hotelProfile = hotelProfile,
-                )
+        getHotelProfileUseCase()
+            .collect {
+                updateUiState {
+                    copy(hotelProfile = it)
+                }
             }
-        }
     }
 }
