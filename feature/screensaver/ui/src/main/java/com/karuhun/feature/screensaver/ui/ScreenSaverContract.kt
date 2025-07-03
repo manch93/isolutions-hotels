@@ -17,14 +17,21 @@
 package com.karuhun.feature.screensaver.ui
 
 import com.karuhun.core.model.Hotel
+import com.karuhun.feature.screensaver.ui.model.VideoConfig
 
 object ScreenSaverContract {
     data class UiState(
         val isLoading: Boolean = false,
-        val hotelProfile: Hotel? = Hotel.Empty
+        val hotelProfile: Hotel? = Hotel.Empty,
+        val videoConfig: VideoConfig? = null,
+        val isVideoPlaying: Boolean = true,
+        val errorMessage: String? = null
     )
     sealed interface UiAction {
         object LoadScreenSaver : UiAction
+        object PlayVideo : UiAction
+        object PauseVideo : UiAction
+        data class OnVideoError(val message: String) : UiAction
     }
     sealed interface UiEffect {
         data class ShowError(val message: String) : UiEffect

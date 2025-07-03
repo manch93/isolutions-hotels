@@ -21,6 +21,7 @@ import androidx.lifecycle.viewModelScope
 import com.karuhun.core.domain.usecase.GetHotelProfileUseCase
 import com.karuhun.core.ui.navigation.delegate.mvi.MVI
 import com.karuhun.core.ui.navigation.delegate.mvi.mvi
+import com.karuhun.feature.screensaver.ui.model.VideoConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,6 +40,16 @@ class ScreenSaverViewModel @Inject constructor(
         when (action) {
             ScreenSaverContract.UiAction.LoadScreenSaver -> {
                 getHotelProfile()
+                setupDefaultVideo()
+            }
+            ScreenSaverContract.UiAction.PlayVideo -> {
+                updateUiState { copy(isVideoPlaying = true) }
+            }
+            ScreenSaverContract.UiAction.PauseVideo -> {
+                updateUiState { copy(isVideoPlaying = false) }
+            }
+            is ScreenSaverContract.UiAction.OnVideoError -> {
+                updateUiState { copy(errorMessage = action.message) }
             }
         }
     }
@@ -52,6 +63,20 @@ class ScreenSaverViewModel @Inject constructor(
                     hotelProfile = it
                 )
             }
+        }
+    }
+
+    private fun setupDefaultVideo() {
+        // Sample MP4 video URL - replace with your actual video URL
+        val defaultVideoConfig = VideoConfig(
+            uri = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            isAutoPlay = true,
+            isMuted = true,
+            isLooping = true
+        )
+
+        updateUiState {
+            copy(videoConfig = defaultVideoConfig)
         }
     }
 }
