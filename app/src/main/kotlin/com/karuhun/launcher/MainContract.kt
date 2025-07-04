@@ -18,13 +18,15 @@ package com.karuhun.launcher
 
 import com.karuhun.core.model.Hotel
 import com.karuhun.core.model.Hotel.Companion.Empty
+import com.karuhun.core.model.RoomDetail
 
 object MainContract {
     data class UiState(
         val isLoading: Boolean = false,
         val errorMessage: String? = null,
         val isRefreshing: Boolean = false,
-        val hotelProfile: Hotel? = Empty
+        val hotelProfile: Hotel? = Empty,
+        val roomDetail: RoomDetail? = RoomDetail.Empty
     )
     sealed interface UiEffect {
         data class ShowError(val message: String) : UiEffect
@@ -34,5 +36,6 @@ object MainContract {
         data class ChangeWallpaper(val wallpaper: String) : UiAction
         data class ShowError(val message: String) : UiAction
         data object LoadHotelProfile : UiAction
+        data object LoadRoomDetail : UiAction
     }
 }

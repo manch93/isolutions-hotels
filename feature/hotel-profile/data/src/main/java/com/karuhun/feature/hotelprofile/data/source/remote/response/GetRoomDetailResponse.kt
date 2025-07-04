@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.home.ui
+package com.karuhun.feature.hotelprofile.data.source.remote.response
 
-import com.karuhun.core.model.Hotel
+import com.google.gson.annotations.SerializedName
 import com.karuhun.core.model.RoomDetail
 
-internal object HomeContract {
-    data class UiState(
-        val isLoading: Boolean = false,
-        val hotelProfile: Hotel? = Hotel.Empty,
-        val roomDetail: RoomDetail? = RoomDetail.Empty
-    )
-    sealed interface UiAction {
-        data object OnMenuItemClick : UiAction
-        data object OnMoreClick : UiAction
-        data object LoadMenuItems : UiAction
-        data object LoadRoomDetail : UiAction
-    }
+data class GetRoomDetailResponse(
 
-    sealed interface UiEffect {
-        data class ShowError(val message: String) : UiEffect
-    }
-}
+	@field:SerializedName("guest_name")
+	val guestName: String? = null,
+
+	@field:SerializedName("greeting")
+	val greeting: String? = null,
+
+	@field:SerializedName("is_birthday")
+	val isBirthday: Int? = null
+)
+
+fun GetRoomDetailResponse?.toDomain() = RoomDetail(
+    guestName = this?.guestName.orEmpty(),
+    greeting = this?.greeting,
+    isBirthday = this?.isBirthday?.let { it == 1 }
+)

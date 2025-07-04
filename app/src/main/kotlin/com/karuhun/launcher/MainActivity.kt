@@ -22,6 +22,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,6 +34,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,6 +49,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
+import androidx.tv.material3.Text
 import coil.compose.AsyncImage
 import com.karuhun.launcher.core.designsystem.component.RunningText
 import com.karuhun.launcher.core.designsystem.component.TopBar
@@ -61,21 +67,41 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
+                var showScreenSaver by remember { mutableStateOf(true) }
                 val appState = rememberAppState()
                 val viewModel = hiltViewModel<MainViewModel>()
                 val uiState by viewModel.uiState.collectAsStateWithLifecycle()
                 val uiEffect = viewModel.uiEffect
                 val onAction = viewModel::onAction
 
-                LauncherApplication(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    appState = appState,
-                    onMenuItemClick = {},
-                    uiState = uiState,
-                    uiEffect = uiEffect,
-                    onAction = onAction,
-                )
+//                if (showScreenSaver) {
+//                    Box(
+//                        modifier = Modifier
+//                            .fillMaxSize()
+//                            .focusable(true)
+//                            .clickable(true, onClick = {
+//                                showScreenSaver = false
+//                            }),
+//                    ){
+//                        Text(
+//                            text = "Screen Saver",
+//                            modifier = Modifier
+//                                .align(Alignment.Center)
+//                                .fillMaxWidth(),
+//                            color = Color.Black,
+//                        )
+//                    }
+//                } else {
+                    // Main Launcher Application
+                    LauncherApplication(
+                        modifier = Modifier.fillMaxSize(),
+                        appState = appState,
+                        uiState = uiState,
+                        uiEffect = uiEffect,
+                        onAction = onAction,
+                        onMenuItemClick = {},
+                    )
+//                }
             }
         }
     }
@@ -122,11 +148,10 @@ fun LauncherApplication(
             TopBar(
                 modifier = Modifier
                     .height(80.dp),
-                guestName = "Mr. Adolf Stalin",
+                guestName = uiState.roomDetail?.guestName.orEmpty(),
                 roomNumber = "111",
                 date = "06 April 2020",
                 temperature = "30°C",
-                time = "11:49 AM",
             )
             Row(
                 modifier = Modifier

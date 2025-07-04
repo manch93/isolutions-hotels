@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices.TV_1080p
 import androidx.compose.ui.tooling.preview.Preview
@@ -78,7 +79,8 @@ internal fun HomeScreen(
         LeftContent(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxHeight()
+                .fillMaxHeight(),
+            guestName = uiState.roomDetail?.guestName.orEmpty()
         )
         RightContent(
             modifier = Modifier
@@ -91,13 +93,16 @@ internal fun HomeScreen(
 }
 
 @Composable
-fun LeftContent(modifier: Modifier = Modifier) {
+fun LeftContent(
+    modifier: Modifier = Modifier,
+    guestName: String,
+) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Bottom
     ) {
         Text(
-            text = "Welcome",
+            text = stringResource(com.karuhun.feature.home.ui.R.string.feature_home_ui_welcome),
             style = MaterialTheme.typography.headlineLarge.copy(
                 color = Color.White,
                 fontSize = 46.sp,
@@ -105,7 +110,7 @@ fun LeftContent(modifier: Modifier = Modifier) {
             ),
         )
         Text(
-            text = "Mr.Fajar Alexandrou",
+            text = guestName,
             style = MaterialTheme.typography.headlineLarge.copy(
                 color = Color.White,
                 fontSize = 46.sp,
@@ -114,7 +119,7 @@ fun LeftContent(modifier: Modifier = Modifier) {
         )
         Text(
             modifier = Modifier.padding(bottom = 8.dp),
-            text = "Its our pleasure to welcome you to our hotel. We will do everything in our power to make your stay most convenient and enjoyable.",
+            text = stringResource(com.karuhun.feature.home.ui.R.string.feature_home_ui_welcome_text),
             style = MaterialTheme.typography.bodyLarge.copy(
                 color = Color.White,
                 fontWeight = FontWeight.Light

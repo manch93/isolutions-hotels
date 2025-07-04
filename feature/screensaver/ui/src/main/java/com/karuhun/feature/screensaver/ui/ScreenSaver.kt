@@ -17,6 +17,8 @@
 package com.karuhun.feature.screensaver.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,13 +44,13 @@ fun ScreenSaver(
     modifier: Modifier = Modifier,
     uiState: ScreenSaverContract.UiState,
     uiEffect: Flow<ScreenSaverContract.UiEffect>,
-    onAction: (ScreenSaverContract.UiAction) -> Unit
+    onAction: (ScreenSaverContract.UiAction) -> Unit,
+    onNavigateToHome: () -> Unit = {},
 ) {
     // Handle UI effects
-    uiEffect.collectWithLifecycle{ effect ->
+    uiEffect.collectWithLifecycle { effect ->
         when (effect) {
             is ScreenSaverContract.UiEffect.ShowError -> {
-
             }
         }
     }
@@ -56,18 +58,21 @@ fun ScreenSaver(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(Color.White),
     ) {
         // Video Background
         uiState.videoConfig?.let { videoConfig ->
             VideoPlayer(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .focusable(true)
+                    .clickable(true, onClick = { onNavigateToHome() }),
                 videoUri = uiState.hotelProfile?.introVideo.orEmpty(),
                 isPlaying = uiState.isVideoPlaying,
                 isMuted = videoConfig.isMuted,
                 onError = { errorMessage ->
                     onAction(ScreenSaverContract.UiAction.OnVideoError(errorMessage))
-                }
+                },
             )
         }
 
@@ -77,20 +82,20 @@ fun ScreenSaver(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .padding(32.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Text(
                     text = "Welcome to",
                     style = MaterialTheme.typography.titleMedium,
                     color = Color.White,
-                    fontSize = 24.sp
+                    fontSize = 24.sp,
                 )
                 Text(
                     text = uiState.hotelProfile.name.orEmpty(),
                     style = MaterialTheme.typography.headlineLarge,
                     color = Color.White,
                     fontSize = 36.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
             }
         }
@@ -99,7 +104,7 @@ fun ScreenSaver(
         if (uiState.isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center),
-                color = Color.White
+                color = Color.White,
             )
         }
     }

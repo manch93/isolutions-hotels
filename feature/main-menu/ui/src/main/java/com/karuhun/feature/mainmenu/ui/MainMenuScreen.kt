@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Text
 import coil.compose.AsyncImage
 import com.karuhun.core.common.orZero
+import com.karuhun.core.model.Application
 import com.karuhun.launcher.core.designsystem.component.LauncherCard
 import com.karuhun.launcher.core.designsystem.component.MenuItemCard
 import com.karuhun.launcher.core.designsystem.icon.AmazonPrimeVideoSvgrepoCom
@@ -126,11 +127,12 @@ fun MainMenuScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(16.dp),
+                            .padding(8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         AsyncImage(
+                            modifier = Modifier.size(64.dp),
                             model = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Disney%2B_Hotstar_logo.svg",
                             contentDescription = it.name.orEmpty(),
                         )
@@ -200,7 +202,16 @@ private fun MainMenuScreenPreview() {
     AppTheme {
         MainMenuScreen(
             modifier = Modifier.fillMaxSize(),
-            uiState = MainMenuContract.UiState(),
+            uiState = MainMenuContract.UiState(
+                applications = listOf(
+                    Application(
+                        id = 1,
+                        name = "Netflix",
+                        image = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Disney%2B_Hotstar_logo.svg",
+                        packageName = "com.netflix.tv"
+                    )
+                )
+            ),
             uiEffect = emptyFlow(),
             uiAction = {},
             onNavigateToDetailContent = {}

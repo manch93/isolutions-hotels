@@ -22,6 +22,7 @@ import androidx.lifecycle.viewModelScope
 import com.karuhun.core.common.onFailure
 import com.karuhun.core.common.onSuccess
 import com.karuhun.core.domain.usecase.GetHotelProfileUseCase
+import com.karuhun.core.domain.usecase.GetRoomDetailUseCase
 import com.karuhun.core.ui.navigation.delegate.mvi.MVI
 import com.karuhun.core.ui.navigation.delegate.mvi.mvi
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,11 +32,13 @@ import javax.inject.Inject
 @HiltViewModel
 internal class HomeViewModel @Inject constructor(
     private val getHotelProfileUseCase: GetHotelProfileUseCase,
+    private val getRoomDetailUseCase: GetRoomDetailUseCase,
 ) : ViewModel(),
     MVI<HomeContract.UiState, HomeContract.UiAction, HomeContract.UiEffect> by mvi(initialState = HomeContract.UiState()) {
 
     init {
         onAction(HomeContract.UiAction.LoadMenuItems)
+        onAction(HomeContract.UiAction.LoadRoomDetail)
     }
 
     override fun onAction(action: HomeContract.UiAction) {
@@ -46,6 +49,7 @@ internal class HomeViewModel @Inject constructor(
 
             HomeContract.UiAction.OnMenuItemClick -> {}
             HomeContract.UiAction.OnMoreClick -> {}
+            HomeContract.UiAction.LoadRoomDetail -> { loadRoomDetail() }
         }
     }
 
@@ -59,5 +63,21 @@ internal class HomeViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    private fun loadRoomDetail() = viewModelScope.launch {
+        getRoomDetailUseCase().onSuccess { roomDetail ->
+
+        }
+            .onSuccess {
+                updateUiState {
+                    copy(
+                        roomDetail = it
+                    )
+                }
+            }
+            .onFailure { error ->
+
+            }
     }
 }

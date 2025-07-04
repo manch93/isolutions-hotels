@@ -18,7 +18,10 @@ package com.karuhun.launcher
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.karuhun.core.common.onFailure
+import com.karuhun.core.common.onSuccess
 import com.karuhun.core.domain.usecase.GetHotelProfileUseCase
+import com.karuhun.core.domain.usecase.GetRoomDetailUseCase
 import com.karuhun.core.ui.navigation.delegate.mvi.MVI
 import com.karuhun.core.ui.navigation.delegate.mvi.mvi
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,18 +31,24 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getHotelProfileUseCase: GetHotelProfileUseCase,
+    private val getRoomDetailUseCase: GetRoomDetailUseCase
 ) : ViewModel(),
     MVI<MainContract.UiState, MainContract.UiAction, MainContract.UiEffect> by mvi(initialState = MainContract.UiState()) {
     init {
         onAction(MainContract.UiAction.LoadHotelProfile)
+        onAction(MainContract.UiAction.LoadRoomDetail)
     }
 
     override fun onAction(action: MainContract.UiAction) {
         when (action) {
             is MainContract.UiAction.ChangeWallpaper -> {}
             is MainContract.UiAction.ShowError -> {}
-            MainContract.UiAction.LoadHotelProfile -> {
+            is MainContract.UiAction.LoadHotelProfile -> {
                 loadHotelProfile()
+            }
+
+            is MainContract.UiAction.LoadRoomDetail -> {
+                loadRoomDetail()
             }
         }
     }
@@ -51,6 +60,22 @@ class MainViewModel @Inject constructor(
                 updateUiState {
                     copy(hotelProfile = it)
                 }
+            }
+    }
+
+    private fun loadRoomDetail() = viewModelScope.launch {
+        updateUiState { copy(isLoading = true) }
+        getRoomDetailUseCase()
+            .onSuccess {
+                updateUiState {
+                    copy(
+                        isLoading = false,
+                        roomDetail = it
+                    )
+                }
+            }
+            .onFailure {
+
             }
     }
 }

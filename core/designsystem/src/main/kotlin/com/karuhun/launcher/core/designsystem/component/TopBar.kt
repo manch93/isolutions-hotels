@@ -16,6 +16,7 @@
 
 package com.karuhun.launcher.core.designsystem.component
 
+import android.widget.TextClock
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -44,6 +45,7 @@ import androidx.compose.ui.tooling.preview.Devices.TV_1080p
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
@@ -59,7 +61,6 @@ fun TopBar(
     roomNumber: String,
     date: String,
     temperature: String,
-    time: String,
 ) {
     Row(
         modifier = modifier.padding(
@@ -133,11 +134,7 @@ fun TopBar(
         Spacer(modifier = Modifier.width(8.dp))
         Text(text = temperature, color = Color.White, fontSize = 18.sp, modifier = Modifier.align(Alignment.CenterVertically))
         Spacer(modifier = Modifier.width(24.dp))
-        Text(
-            text = time,
-            color = Color.White,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
+        TextClock(
             modifier = Modifier.align(Alignment.CenterVertically),
         )
     }
@@ -156,7 +153,6 @@ fun TopBarPreview() {
             roomNumber = "101",
             date = "July 26, 2024",
             temperature = "25°C",
-            time = "10:00 AM",
         )
     }
 }

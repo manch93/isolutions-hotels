@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.hotelprofile.data.source
+package com.karuhun.core.model
 
-import com.karuhun.core.network.model.BaseResponse
-import com.karuhun.feature.hotelprofile.data.source.remote.response.GetHotelProfileResponse
-import com.karuhun.feature.hotelprofile.data.source.remote.response.GetRoomDetailResponse
-import retrofit2.http.GET
-import retrofit2.http.Path
-
-interface HotelApiService {
-    @GET("hotel")
-    suspend fun getHotelProfile(): BaseResponse<GetHotelProfileResponse>
-
-    @GET("room/{id}")
-    suspend fun getRoomDetail(
-        @Path("id") id: String
-    ): BaseResponse<GetRoomDetailResponse>
+data class RoomDetail(
+    val guestName: String? = null,
+    val greeting: String? = null,
+    val isBirthday: Boolean? = null,
+) {
+    companion object {
+        val Empty = RoomDetail(
+            guestName = "",
+            greeting = "",
+            isBirthday = false
+        )
+    }
 }
