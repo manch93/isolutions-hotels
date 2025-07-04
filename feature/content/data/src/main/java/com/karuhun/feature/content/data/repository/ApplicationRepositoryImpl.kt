@@ -17,7 +17,7 @@
 package com.karuhun.feature.content.data.repository
 
 import com.karuhun.core.common.Synchronizer
-import com.karuhun.core.common.forceSync
+import com.karuhun.core.common.forceSyncWithResource
 import com.karuhun.core.common.toModel
 import com.karuhun.core.database.dao.ApplicationDao
 import com.karuhun.core.database.model.toDomainList
@@ -40,13 +40,13 @@ class ApplicationRepositoryImpl @Inject constructor(
     }
 
     override suspend fun syncWith(synchronizer: Synchronizer): Boolean {
-        return synchronizer.forceSync(
+        return synchronizer.forceSyncWithResource(
             fetch = {
-                val response = safeApiCall { apiService.getApplications() }.toModel()
-                response?.data.toDomainList()
+                safeApiCall { apiService.getApplications() }
             },
-            save = {
-                applicationDao.upsert(it.toEntityList())
+            save = { response ->
+                val applications = response.data.toDomainList()
+                applicationDao.upsert(applications.toEntityList())
             }
         )
     }

@@ -19,7 +19,7 @@ package com.karuhun.feature.hotelprofile.data.repository
 import android.content.Context
 import com.karuhun.core.common.Resource
 import com.karuhun.core.common.Synchronizer
-import com.karuhun.core.common.forceSync
+import com.karuhun.core.common.forceSyncWithResource
 import com.karuhun.core.common.map
 import com.karuhun.core.common.toModel
 import com.karuhun.core.database.dao.HotelDao
@@ -52,12 +52,12 @@ class HotelRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun syncWith(synchronizer: Synchronizer): Boolean = synchronizer.forceSync(
+    override suspend fun syncWith(synchronizer: Synchronizer): Boolean = synchronizer.forceSyncWithResource(
         fetch = {
-            val response = safeApiCall { api.getHotelProfile() }.toModel()
-            response?.data.toDomain()
+            safeApiCall { api.getHotelProfile() }
         },
-        save = { hotel ->
+        save = { response ->
+            val hotel = response.data.toDomain()
             hotelDao.deleteAll()
             hotelDao.upsert(hotel.toEntity())
         },

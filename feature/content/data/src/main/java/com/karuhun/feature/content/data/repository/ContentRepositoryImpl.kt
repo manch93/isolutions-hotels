@@ -16,8 +16,10 @@
 
 package com.karuhun.feature.content.data.repository
 
+import android.util.Log
+import com.karuhun.core.common.Resource
 import com.karuhun.core.common.Synchronizer
-import com.karuhun.core.common.forceSync
+import com.karuhun.core.common.forceSyncWithResource
 import com.karuhun.core.common.onSuccess
 import com.karuhun.core.common.orZero
 import com.karuhun.core.common.toModel
@@ -49,19 +51,24 @@ class ContentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun syncWith(synchronizer: Synchronizer): Boolean {
-        return synchronizer.forceSync(
+        return synchronizer.forceSyncWithResource(
             fetch = {
-                val response = safeApiCall { apiService.getContentItems() }.toModel()
-                response?.data.toDomain()
+                safeApiCall { apiService.getContentItems() }
             },
-            save = { contents ->
+            save = { response ->
+                val contents = response.data.toDomain()
                 contentDao.deleteAll()
                 contentDao.upsert(contents.toEntity())
                 contents.forEach { content ->
-                    safeApiCall { apiService.getContentItemById(content.id.toString()) }
-                        .onSuccess { response ->
-                            contentItemDao.upsert(response.data.toDomainModel().toEntity())
+                    when (val itemResult = safeApiCall { apiService.getContentItemById(content.id.toString()) }) {
+                        is Resource.Success -> {
+                            contentItemDao.upsert(itemResult.data.data.toDomainModel().toEntity())
                         }
+                        is Resource.Error -> {
+                            // Log error tapi tidak throw exception untuk item individual
+                            Log.w("ContentRepository", "Failed to sync content item ${content.id}: ${itemResult.exception.message}")
+                        }
+                    }
                 }
             }
         )

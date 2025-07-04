@@ -54,3 +54,14 @@ suspend fun <T> Synchronizer.forceSync(
 ) = suspendRunCatching {
     save(fetch())
 }.isSuccess
+
+// Tambahkan overload untuk menangani Resource
+suspend fun <T> Synchronizer.forceSyncWithResource(
+    fetch: suspend () -> Resource<T>,
+    save: suspend (T) -> Unit,
+) = suspendRunCatching {
+    when (val result = fetch()) {
+        is Resource.Success -> save(result.data)
+        is Resource.Error -> throw result.exception
+    }
+}.isSuccess

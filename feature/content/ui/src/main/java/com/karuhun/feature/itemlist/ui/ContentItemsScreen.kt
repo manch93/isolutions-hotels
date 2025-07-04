@@ -79,7 +79,7 @@ fun ContentItemsScreen(
                         .fillMaxSize()
                         .padding(8.dp)
                         .width(250.dp),
-                    onClick = {onNavigateToDetail(0)},
+                    onClick = {onNavigateToDetail(it)},
                 ) {
                     Box {
                         AsyncImage(
