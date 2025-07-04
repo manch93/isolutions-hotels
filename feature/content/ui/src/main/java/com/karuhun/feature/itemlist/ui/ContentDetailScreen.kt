@@ -38,10 +38,16 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.karuhun.launcher.core.designsystem.component.LauncherCard
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun ContentDetailScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    contentId: Int,
+    uiState: ContentContract.UiState,
+    uiEffect: Flow<ContentContract.UiEffect>,
+    onAction: (ContentContract.UiAction) -> Unit,
 ) {
     Row(
         modifier = modifier,
@@ -95,7 +101,11 @@ fun ContentDetailScreen(
 private fun ItemDetailScreenPreview() {
     AppTheme {
         ContentDetailScreen(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            contentId = 1,
+            uiState = ContentContract.UiState(),
+            uiEffect = emptyFlow(),
+            onAction = {}
         )
     }
 }

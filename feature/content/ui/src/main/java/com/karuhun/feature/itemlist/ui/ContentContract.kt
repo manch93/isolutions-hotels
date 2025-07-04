@@ -14,14 +14,21 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.feature.itemlist.ui
 
-import com.karuhun.core.common.Syncable
-import com.karuhun.core.model.Content
 import com.karuhun.core.model.ContentItem
-import kotlinx.coroutines.flow.Flow
 
-interface ContentRepository : Syncable {
-    suspend fun getContents(): Flow<List<Content>>
-    fun getContentItemsById(id: Int): Flow<List<ContentItem>>
+object ContentContract {
+    data class UiState(
+        val isLoading: Boolean? = false,
+        val contents: List<ContentItem> = emptyList(),
+        var contentId: Int? = null
+    )
+
+    sealed interface UiAction {
+        data class LoadContents(val contentId: Int) : UiAction
+    }
+    sealed interface UiEffect {
+        data class ShowError(val message: String)
+    }
 }

@@ -17,25 +17,52 @@
 package com.karuhun.feature.itemlist.ui.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.karuhun.feature.itemlist.ui.ContentDetailScreen
 import com.karuhun.feature.itemlist.ui.ContentItemsScreen
+import com.karuhun.feature.itemlist.ui.ContentViewModel
 import kotlinx.serialization.Serializable
 
-@Serializable data object ContentItems
+@Serializable data class ContentItems(val contentId: Int)
 @Serializable data class ContentDetail(val contentId: Int)
 fun NavGraphBuilder.contentScreen(
     onNavigateToDetail: (Int) -> Unit,
 ) {
     composable<ContentItems> {
+        val args: ContentItems = it.toRoute()
+        val viewModel = hiltViewModel<ContentViewModel>()
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+        val uiEffect = viewModel.uiEffect
+        val onAction = viewModel::onAction
+
         ContentItemsScreen(
             modifier = Modifier.fillMaxSize(),
-            onNavigateToDetail = onNavigateToDetail
+            onNavigateToDetail = onNavigateToDetail,
+            uiState = uiState,
+            uiEffect = uiEffect,
+            onAction = onAction,
+            contentId = args.contentId
         )
     }
     composable<ContentDetail> {
-        ContentDetailScreen()
+        val args: ContentDetail = it.toRoute()
+        val viewModel = hiltViewModel<ContentViewModel>()
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+        val uiEffect = viewModel.uiEffect
+        val onAction = viewModel::onAction
+
+        ContentDetailScreen(
+            modifier = Modifier.fillMaxSize(),
+            contentId = args.contentId,
+            uiState = uiState,
+            uiEffect = uiEffect,
+            onAction = onAction,
+        )
     }
 }

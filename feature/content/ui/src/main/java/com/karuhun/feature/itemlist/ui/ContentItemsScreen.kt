@@ -26,7 +26,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,15 +44,25 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.karuhun.core.common.orZero
 import com.karuhun.launcher.core.designsystem.component.LauncherCard
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun ContentItemsScreen(
     modifier: Modifier = Modifier,
+    uiState: ContentContract.UiState,
+    uiEffect: Flow<ContentContract.UiEffect>,
+    onAction: (ContentContract.UiAction) -> Unit,
+    contentId: Int,
     onNavigateToDetail: (Int) -> Unit,
 ) {
-    val detailMenuList = DetailMenuItem.detailMenuList
+
+    LaunchedEffect(true) {
+        onAction(ContentContract.UiAction.LoadContents(contentId))
+    }
 
     Column {
         Text(
@@ -70,41 +82,38 @@ fun ContentItemsScreen(
             verticalArrangement = Arrangement.spacedBy(0.dp),
             horizontalArrangement = Arrangement.spacedBy(0.dp),
         ) {
-            items(
-                count = detailMenuList.size,
-                key = { detailMenuList[it].id },
-            ) {
+            items(uiState.contents, key = { it.id }) {
                 LauncherCard(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(8.dp)
                         .width(250.dp),
-                    onClick = {onNavigateToDetail(it)},
+                    onClick = { onNavigateToDetail(it.id.orZero()) },
                 ) {
                     Box {
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
-                                .data(detailMenuList[it].image)
+                                .data(it.name)
                                 .crossfade(true)
                                 .build(),
-                            contentDescription = detailMenuList[it].name,
+                            contentDescription = it.name,
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.fillMaxWidth(),
                         )
-                        LauncherCard (
+                        LauncherCard(
                             modifier = Modifier
                                 .height(70.dp)
-                                .align(Alignment.BottomCenter)
+                                .align(Alignment.BottomCenter),
                         ) {
-                            Box (
+                            Box(
                                 modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
+                                contentAlignment = Alignment.Center,
                             ) {
                                 Text(
-                                    text = detailMenuList[it].name,
+                                    text = it.name.orEmpty(),
                                     style = MaterialTheme.typography.titleMedium.copy(
                                         fontWeight = FontWeight.ExtraLight,
-                                        fontSize = 20.sp
+                                        fontSize = 20.sp,
                                     ),
                                     textAlign = TextAlign.Center,
                                     color = Color.White.copy(alpha = 0.8f),
@@ -128,43 +137,11 @@ private fun DetailMenuScreenPreview() {
     AppTheme {
         ContentItemsScreen(
             modifier = Modifier.fillMaxSize(),
-            onNavigateToDetail = {}
-        )
-    }
-}
-
-data class DetailMenuItem(
-    val id: Int,
-    val name: String,
-    val image: String,
-) {
-    companion object {
-        val detailMenuList = listOf(
-            DetailMenuItem(
-                id = 1,
-                name = "Bromo Tengger Semeru",
-                image = "http://cms.fortytv.id:2021/storage/arounds/arounds_25-06-2025_685bcfc1f0628.jpg",
-            ),
-            DetailMenuItem(
-                id = 2,
-                name = "Cheng Ho Mosque Fajar",
-                image = "http://cms.fortytv.id:2021/storage/arounds/arounds_25-06-2025_685bcf9bd5ff9.jpg",
-            ),
-            DetailMenuItem(
-                id = 3,
-                name = "De Javasche Bank Soerabaia",
-                image = "http://cms.fortytv.id:2021/storage/arounds/arounds_25-06-2025_685bcfa7bb563.jpg",
-            ),
-            DetailMenuItem(
-                id = 4,
-                name = "Switzerland",
-                image = "http://cms.fortytv.id:2021/storage/arounds/arounds_25-06-2025_685bcfafba975.jpg",
-            ),
-            DetailMenuItem(
-                id = 5,
-                name = "Bromo Tengger Semeru ",
-                image = "http://cms.fortytv.id:2021/storage/arounds/arounds_25-06-2025_685bcfb7a75e1.jpg",
-            ),
+            onNavigateToDetail = {},
+            uiState = ContentContract.UiState(),
+            uiEffect = emptyFlow(),
+            onAction = {},
+            contentId = 0
         )
     }
 }

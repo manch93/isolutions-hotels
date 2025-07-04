@@ -50,9 +50,9 @@ fun LauncherAppNavGraph(
             }
         )
         mainMenuScreen(
-            onNavigateToContentItems = {
+            onNavigateToContentItems = { contentId ->
                 navController.apply {
-                    navigate(ContentItems)
+                    navigate(ContentItems(contentId = contentId))
                 }
             }
         )

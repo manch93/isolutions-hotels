@@ -16,11 +16,14 @@
 
 package com.karuhun.core.domain.usecase
 
-import com.karuhun.core.domain.repository.HotelRepository
+import com.karuhun.core.domain.repository.ContentRepository
+import com.karuhun.core.model.ContentItem
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetContentItemsUseCase @Inject constructor(
-    private val hotelRepository: HotelRepository
+    private val contentRepository: ContentRepository,
 ) {
-
+    operator fun invoke(contentId: Int): Flow<List<ContentItem>> =
+        contentRepository.getContentItemsById(id = contentId)
 }

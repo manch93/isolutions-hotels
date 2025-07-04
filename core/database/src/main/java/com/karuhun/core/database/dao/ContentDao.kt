@@ -22,6 +22,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import com.karuhun.core.database.model.ContentEntity
+import com.karuhun.core.database.model.ContentItemEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -31,6 +32,9 @@ interface ContentDao {
 
     @Query("SELECT * FROM content WHERE id = :id")
     suspend fun getContentById(id: Int): ContentEntity?
+
+    @Query("SELECT * FROM content_item WHERE contentId= :id")
+    fun getContentItemsById(id: Int): Flow<List<ContentItemEntity>>
 
     @Query("SELECT * FROM content")
     fun getAll(): Flow<List<ContentEntity>>

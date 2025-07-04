@@ -20,15 +20,14 @@ import android.util.Log
 import com.karuhun.core.common.Resource
 import com.karuhun.core.common.Synchronizer
 import com.karuhun.core.common.forceSyncWithResource
-import com.karuhun.core.common.onSuccess
-import com.karuhun.core.common.orZero
-import com.karuhun.core.common.toModel
 import com.karuhun.core.database.dao.ContentDao
 import com.karuhun.core.database.dao.ContentItemDao
+import com.karuhun.core.database.model.toDomainModel
 import com.karuhun.core.database.model.toEntity
 import com.karuhun.core.database.model.toModel
 import com.karuhun.core.domain.repository.ContentRepository
 import com.karuhun.core.model.Content
+import com.karuhun.core.model.ContentItem
 import com.karuhun.core.network.safeApiCall
 import com.karuhun.feature.content.data.source.ContentApiService
 import com.karuhun.feature.content.data.source.remote.response.toDomain
@@ -46,8 +45,10 @@ class ContentRepositoryImpl @Inject constructor(
         return contentDao.getAll().map { it.toModel() }
     }
 
-    override suspend fun getContentItemById(id: String): Content? {
-        return contentDao.getContentById(id.toInt())?.toModel()
+    override fun getContentItemsById(id: Int): Flow<List<ContentItem>> {
+        return contentDao.getContentItemsById(id).map {
+            it.toDomainModel()
+        }
     }
 
     override suspend fun syncWith(synchronizer: Synchronizer): Boolean {
