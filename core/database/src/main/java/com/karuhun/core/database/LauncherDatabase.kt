@@ -20,6 +20,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.karuhun.core.database.dao.ApplicationDao
 import com.karuhun.core.database.dao.ContentDao
+import com.karuhun.core.database.dao.ContentItemDao
 import com.karuhun.core.database.dao.HotelDao
 import com.karuhun.core.database.model.ApplicationEntity
 import com.karuhun.core.database.model.ContentEntity
@@ -37,4 +38,5 @@ abstract class LauncherDatabase : RoomDatabase() {
     abstract fun hotelDao() : HotelDao
     abstract fun contentDao(): ContentDao
     abstract fun applicationDao(): ApplicationDao
+    abstract fun contentItemDao(): ContentItemDao
 }

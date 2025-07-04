@@ -41,4 +41,9 @@ object DaosModule {
     fun provideApplicationDao(
         database: LauncherDatabase
     ) = database.applicationDao()
+
+    @Provides
+    fun provideContentItemDao(
+        database: LauncherDatabase
+    ) = database.contentItemDao()
 }
