@@ -17,6 +17,8 @@
 package com.karuhun.feature.content.data.source.remote.response
 
 import com.google.gson.annotations.SerializedName
+import com.karuhun.core.common.orZero
+import com.karuhun.core.model.ContentItem
 
 data class GetContentItemsResponse(
 
@@ -44,3 +46,13 @@ data class GetContentItemsResponse(
 	@field:SerializedName("feature_category_id")
 	val featureCategoryId: Int? = null
 )
+
+fun GetContentItemsResponse.toDomainModel() = ContentItem(
+    id = id ?: 0,
+    name = name.orEmpty(),
+    image = image?.toString().orEmpty(),
+    description = description.orEmpty(),
+    contentId = featureCategoryId.orZero()
+)
+
+fun List<GetContentItemsResponse>?.toDomainModel() = this.orEmpty().map { it.toDomainModel() }

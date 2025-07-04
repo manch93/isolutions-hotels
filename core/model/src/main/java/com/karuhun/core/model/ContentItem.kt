@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.content.data.source
+package com.karuhun.core.model
 
-import com.karuhun.core.network.model.BaseResponse
-import com.karuhun.feature.content.data.source.remote.response.GetContentItemsResponse
-import com.karuhun.feature.content.data.source.remote.response.GetContentsResponse
-import retrofit2.http.GET
-import retrofit2.http.Path
-
-interface ContentApiService {
-
-    @GET("features")
-    suspend fun getContentItems(): BaseResponse<List<GetContentsResponse>>
-
-    @GET("feature-item/{id}")
-    suspend fun getContentItemById(@Path("id") id: String): BaseResponse<List<GetContentItemsResponse>>
-}
+data class ContentItem(
+    val id: Int,
+    val name: String?,
+    val image: String?,
+    val description: String?,
+    val contentId: Int?
+)

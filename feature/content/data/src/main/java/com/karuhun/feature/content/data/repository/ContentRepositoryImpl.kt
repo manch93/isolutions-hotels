@@ -18,8 +18,11 @@ package com.karuhun.feature.content.data.repository
 
 import com.karuhun.core.common.Synchronizer
 import com.karuhun.core.common.forceSync
+import com.karuhun.core.common.onSuccess
+import com.karuhun.core.common.orZero
 import com.karuhun.core.common.toModel
 import com.karuhun.core.database.dao.ContentDao
+import com.karuhun.core.database.dao.ContentItemDao
 import com.karuhun.core.database.model.toEntity
 import com.karuhun.core.database.model.toModel
 import com.karuhun.core.domain.repository.ContentRepository
@@ -27,13 +30,15 @@ import com.karuhun.core.model.Content
 import com.karuhun.core.network.safeApiCall
 import com.karuhun.feature.content.data.source.ContentApiService
 import com.karuhun.feature.content.data.source.remote.response.toDomain
+import com.karuhun.feature.content.data.source.remote.response.toDomainModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ContentRepositoryImpl @Inject constructor(
     private val apiService: ContentApiService,
-    private val contentDao: ContentDao
+    private val contentDao: ContentDao,
+    private val contentItemDao: ContentItemDao
 ) : ContentRepository {
     override suspend fun getContents(): Flow<List<Content>> {
         return contentDao.getAll().map { it.toModel() }
@@ -49,9 +54,15 @@ class ContentRepositoryImpl @Inject constructor(
                 val response = safeApiCall { apiService.getContentItems() }.toModel()
                 response?.data.toDomain()
             },
-            save = {
+            save = { contents ->
                 contentDao.deleteAll()
-                contentDao.upsert(it.toEntity())
+                contentDao.upsert(contents.toEntity())
+                contents.forEach { content ->
+                    safeApiCall { apiService.getContentItemById(content.id.toString()) }
+                        .onSuccess { response ->
+                            contentItemDao.upsert(response.data.toDomainModel().toEntity())
+                        }
+                }
             }
         )
     }

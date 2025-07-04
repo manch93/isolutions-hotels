@@ -24,12 +24,14 @@ import com.karuhun.core.database.dao.ContentItemDao
 import com.karuhun.core.database.dao.HotelDao
 import com.karuhun.core.database.model.ApplicationEntity
 import com.karuhun.core.database.model.ContentEntity
+import com.karuhun.core.database.model.ContentItemEntity
 import com.karuhun.core.database.model.HotelEntity
 
 @Database(
     entities = [
         HotelEntity::class,
         ContentEntity::class,
+        ContentItemEntity::class,
         ApplicationEntity::class
     ],
     version = 1
