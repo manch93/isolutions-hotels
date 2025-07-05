@@ -51,7 +51,7 @@ class LauncherDreamService : DreamService(), LifecycleOwner, SavedStateRegistryO
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        isInteractive = false
+        isInteractive = true
         isFullscreen = true
 
         savedStateRegistryController.performRestore(null)
@@ -71,7 +71,10 @@ class LauncherDreamService : DreamService(), LifecycleOwner, SavedStateRegistryO
                     modifier = Modifier.fillMaxSize(),
                     uiState = uiState,
                     uiEffect = uiEffect,
-                    onAction = uiAction
+                    onAction = uiAction,
+                    onNavigateToHome = {
+                        finish()
+                    }
                 )
             }
         }

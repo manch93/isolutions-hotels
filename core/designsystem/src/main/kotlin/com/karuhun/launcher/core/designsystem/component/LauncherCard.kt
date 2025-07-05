@@ -21,9 +21,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Border
 import androidx.tv.material3.Card
+import androidx.tv.material3.CardBorder
+import androidx.tv.material3.CardColors
 import androidx.tv.material3.CardDefaults
 import androidx.tv.material3.MaterialTheme
 
@@ -31,7 +34,16 @@ import androidx.tv.material3.MaterialTheme
 fun LauncherCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
-    content: @Composable () -> Unit
+    radius: Dp = 12.dp,
+    color: CardColors = CardDefaults.colors(
+        containerColor = Color.Black.copy(alpha = 0.60f),
+        focusedContentColor = Color.White,
+        contentColor = Color.White,
+        pressedContentColor = Color.White
+    ),
+    borderColor: Color = MaterialTheme.colorScheme.primary,
+    borderWidth: Dp = 1.dp,
+    content: @Composable () -> Unit,
 ) {
     Card(
         onClick = onClick,
@@ -39,21 +51,16 @@ fun LauncherCard(
         border = CardDefaults.border(
             focusedBorder = Border(
                 border = BorderStroke(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.primary
+                    width = borderWidth,
+                    color = borderColor
                 )
-            )
+            ),
         ),
         scale = CardDefaults.scale(
             focusedScale = 1.05f
         ),
-        colors = CardDefaults.colors(
-            containerColor = Color.Black.copy(alpha = 0.60f),
-            focusedContentColor = Color.White,
-            contentColor = Color.White,
-            pressedContentColor = Color.White
-        ),
-        shape = CardDefaults.shape(RoundedCornerShape(12.dp))
+        colors = color,
+        shape = CardDefaults.shape(RoundedCornerShape(radius))
     ) {
         content()
     }
