@@ -41,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices.TV_1080p
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,6 +52,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
 import androidx.tv.material3.Text
 import coil.compose.AsyncImage
+import com.karuhun.core.common.util.DeviceUtil
 import com.karuhun.launcher.core.designsystem.component.RunningText
 import com.karuhun.launcher.core.designsystem.component.TopBar
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
@@ -116,6 +118,7 @@ fun LauncherApplication(
     onAction: (MainContract.UiAction) -> Unit,
     onMenuItemClick: (String) -> Unit,
 ) {
+
     Box(
         modifier = modifier,
     ) {
@@ -149,9 +152,10 @@ fun LauncherApplication(
                 modifier = Modifier
                     .height(80.dp),
                 guestName = uiState.roomDetail?.guestName.orEmpty(),
-                roomNumber = "111",
+                roomNumber = DeviceUtil.getDeviceName(LocalContext.current),
                 date = "06 April 2020",
                 temperature = "30°C",
+                imageUrl = uiState.hotelProfile?.logoWhite.orEmpty()
             )
             Row(
                 modifier = Modifier

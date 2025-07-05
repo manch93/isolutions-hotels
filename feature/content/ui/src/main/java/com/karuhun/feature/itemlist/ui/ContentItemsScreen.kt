@@ -93,7 +93,7 @@ fun ContentItemsScreen(
                     Box {
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
-                                .data(it.name)
+                                .data(it.image)
                                 .crossfade(true)
                                 .build(),
                             contentDescription = it.name,

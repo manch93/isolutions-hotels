@@ -50,6 +50,7 @@ import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
+import coil.compose.AsyncImage
 import com.karuhun.launcher.core.designsystem.icon.HiltonHotelsLogo
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
 
@@ -61,66 +62,59 @@ fun TopBar(
     roomNumber: String,
     date: String,
     temperature: String,
+    imageUrl: String,
 ) {
     Row(
         modifier = modifier.padding(
             horizontal = 16.dp,
             vertical = 8.dp
-        ), // Tambahkan padding luar jika perlu
+        ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        // Bagian Logo dan Welcome Message
         Row(
-            modifier = Modifier.height(IntrinsicSize.Min), // Kunci: Membuat tinggi Row ini sesuai dengan anak tertinggi (logo)
+            modifier = Modifier.height(IntrinsicSize.Min),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            // Logo
-            Image(
-                imageVector = HiltonHotelsLogo,
-                contentDescription = "Logo", // Selalu berikan contentDescription
+            AsyncImage(
+                model = imageUrl,
+                contentDescription = "Logo",
                 modifier = Modifier
-                    .size(64.dp), // Tentukan ukuran logo jika belum ada ukuran intrinsik yang pas
-                // atau .height(64.dp) jika hanya ingin mengontrol tinggi
+                    .size(64.dp),
             )
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            // Welcome Message
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight(), // Kunci: Kolom teks akan mengisi tinggi Row (yang ditentukan oleh logo)
-                verticalArrangement = Arrangement.SpaceAround, // Atau Arrangement.Center, SpaceEvenly, dll.
-                // atau gunakan weight pada Text di bawah
-            ) {
-                Text(
-                    text = "Welcome",
-                    style = MaterialTheme.typography.headlineSmall.copy(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
-                    ),
-                    color = Color.White,
-                )
-                Text(
-                    text = guestName,
-                    style = MaterialTheme.typography.headlineMedium.copy(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
-                        shadow = Shadow(offset = Offset(x = 1f, y = 1f), blurRadius = 1f)
-                    ),
-                    color = Color.White,
-                )
-            }
+//            Column(
+//                modifier = Modifier
+//                    .fillMaxHeight(),
+//                verticalArrangement = Arrangement.spacedBy(2.dp),
+//            ) {
+//                Text(
+//                    text = "Welcome",
+//                    style = MaterialTheme.typography.headlineSmall.copy(
+//                        fontWeight = FontWeight.Bold,
+//                        fontSize = 18.sp
+//                    ),
+//                    color = Color.White,
+//                )
+//                Text(
+//                    text = guestName,
+//                    style = MaterialTheme.typography.headlineMedium.copy(
+//                        fontWeight = FontWeight.Bold,
+//                        fontSize = 20.sp,
+//                    ),
+//                    color = Color.White,
+//                )
+//            }
         }
 
-        // Spacer untuk mendorong sisa item ke kanan
         Spacer(modifier = Modifier.weight(1f))
 
-        // Info Kanan (tetap sama)
         Text(
             text = "Room $roomNumber",
             color = Color.White,
             fontSize = 18.sp,
-            modifier = Modifier.align(Alignment.CenterVertically), // Pastikan alignment
+            modifier = Modifier.align(Alignment.CenterVertically),
         )
         Spacer(modifier = Modifier.width(24.dp))
         Text(text = date, color = Color.White, fontSize = 18.sp, modifier = Modifier.align(Alignment.CenterVertically))
@@ -153,6 +147,7 @@ fun TopBarPreview() {
             roomNumber = "101",
             date = "July 26, 2024",
             temperature = "25°C",
+            imageUrl = "",
         )
     }
 }

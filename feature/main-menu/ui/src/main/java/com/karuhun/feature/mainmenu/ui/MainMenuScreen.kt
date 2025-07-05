@@ -148,13 +148,13 @@ fun MainMenuScreen(
                 }
             }
         }
-        LazyVerticalGrid(
+        LazyHorizontalGrid(
             state = gridState,
             modifier = Modifier
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(0.dp),
             horizontalArrangement = Arrangement.spacedBy(0.dp),
-            columns = GridCells.Fixed(4),
+            rows = GridCells.Fixed(2),
         ) {
             items(
                 items = uiState.contents,
