@@ -27,6 +27,8 @@ import com.karuhun.feature.itemlist.ui.navigation.ContentDetail
 import com.karuhun.feature.itemlist.ui.navigation.ContentItems
 import com.karuhun.feature.mainmenu.ui.navigation.MainMenu
 import com.karuhun.feature.mainmenu.ui.navigation.mainMenuScreen
+import com.karuhun.feature.restaurant.ui.navigation.RestaurantCategory
+import com.karuhun.feature.restaurant.ui.navigation.restaurantGraph
 
 @Composable
 fun LauncherAppNavGraph(
@@ -36,7 +38,7 @@ fun LauncherAppNavGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = Home,
+        startDestination = RestaurantCategory,
     ) {
         homeScreen(
             onMenuItemClick = { menuItem ->
@@ -63,5 +65,6 @@ fun LauncherAppNavGraph(
                 }
             }
         )
+        restaurantGraph()
     }
 }
