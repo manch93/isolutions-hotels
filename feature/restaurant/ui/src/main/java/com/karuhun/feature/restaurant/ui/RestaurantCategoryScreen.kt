@@ -92,7 +92,10 @@ internal fun RestaurantCategoryScreen(
     onAction: (RestaurantContract.UiAction) -> Unit,
 ) {
     var selectedCategoryIndex by rememberSaveable { mutableIntStateOf(0) }
-    val focusRequester = remember { FocusRequester() }
+    val focusRequesters = remember(uiState.foodCategories) {
+        uiState.foodCategories?.map { FocusRequester() } ?: emptyList()
+    }
+    var hasSidebarGainedFocus by remember { mutableStateOf(false) }
 
     Row(
         modifier = Modifier
@@ -103,7 +106,19 @@ internal fun RestaurantCategoryScreen(
                 .fillMaxWidth(fraction = sidebarWidthFraction)
                 .fillMaxHeight()
                 .focusRestorer()
-                .focusGroup(),
+                .focusGroup()
+                .onFocusChanged {
+                    if (it.isFocused || it.hasFocus) {
+                        if (!hasSidebarGainedFocus) {
+                            focusRequesters
+                                .getOrNull(selectedCategoryIndex)
+                                ?.requestFocus()
+                            hasSidebarGainedFocus = true
+                        }
+                    } else {
+                        hasSidebarGainedFocus = false
+                    }
+                },
             verticalArrangement = Arrangement.spacedBy(0.dp),
         ) {
             itemsIndexed(
@@ -112,6 +127,7 @@ internal fun RestaurantCategoryScreen(
             ) { index, category ->
                 LauncherCard(
                     modifier = Modifier
+                        .focusRequester(focusRequesters[index])
                         .fillMaxWidth(fraction = sidebarWidthFraction)
                         .height(64.dp)
                         .padding(top = 8.dp, bottom = 8.dp)
