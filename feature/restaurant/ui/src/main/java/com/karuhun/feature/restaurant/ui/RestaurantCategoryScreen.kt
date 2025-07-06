@@ -103,7 +103,7 @@ internal fun RestaurantCategoryScreen(
     ) {
         LazyColumn(
             modifier = Modifier
-                .fillMaxWidth(fraction = sidebarWidthFraction)
+                .weight(1f)
                 .fillMaxHeight()
                 .focusRestorer()
                 .focusGroup()
@@ -128,7 +128,7 @@ internal fun RestaurantCategoryScreen(
                 LauncherCard(
                     modifier = Modifier
                         .focusRequester(focusRequesters[index])
-                        .fillMaxWidth(fraction = sidebarWidthFraction)
+                        .fillMaxWidth()
                         .height(64.dp)
                         .padding(top = 8.dp, bottom = 8.dp)
                         .onFocusChanged {
@@ -155,14 +155,19 @@ internal fun RestaurantCategoryScreen(
         }
 
         LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier
+                .weight(3f)
+                .fillMaxHeight()
+                .padding(start = 16.dp),
+            columns = GridCells.Fixed(3),
+            verticalArrangement = Arrangement.spacedBy(0.dp),
+            horizontalArrangement = Arrangement.spacedBy(0.dp)
         ) {
             items(30) { index ->
                 LauncherCard(
                     modifier = Modifier
-                        .height(200.dp)
+                        .padding(8.dp)
+                        .height(170.dp)
                 ) {
 
                 }
