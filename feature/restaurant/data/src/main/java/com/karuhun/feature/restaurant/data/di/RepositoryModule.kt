@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.restaurant.ui
+package com.karuhun.feature.restaurant.data.di
 
-import com.karuhun.core.model.FoodCategory
+import com.karuhun.core.domain.repository.FoodCategoryRepository
+import com.karuhun.feature.restaurant.data.repository.FoodCategoryRepositoryImpl
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-internal object RestaurantContract {
-    data class UiState(
-        val foodCategories: List<FoodCategory> = emptyList()
-    )
-    sealed interface UiAction {
-        data object LoadCategory : UiAction
-    }
-    sealed interface UiEffect {
-        data class ShowError(val message: String)
-    }
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class RepositoryModule {
+    @Binds
+    @Singleton
+    abstract fun bindFoodCategoryRepository(impl: FoodCategoryRepositoryImpl): FoodCategoryRepository
 }

@@ -50,6 +50,7 @@ kotlinxSerializationJson = "1.8.0"
 ksp = "2.1.10-1.0.31"
 moduleGraph = "2.7.1"
 okhttp = "4.12.0"
+pagingRuntime = "3.3.6"
 protobuf = "4.29.2"
 protobufPlugin = "0.9.4"
 retrofit = "2.11.0"
@@ -106,6 +107,8 @@ androidx-lint-gradle = { group = "androidx.lint", name = "lint-gradle", version.
 androidx-metrics = { group = "androidx.metrics", name = "metrics-performance", version.ref = "androidxMetrics" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 androidx-navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "androidxNavigation" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingRuntime" }
+androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pagingRuntime" }
 androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "androidxProfileinstaller" }
 androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidxTestCore" }
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspresso" }

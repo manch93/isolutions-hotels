@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.core.domain.usecase
 
+import com.karuhun.core.domain.repository.FoodCategoryRepository
 import com.karuhun.core.model.FoodCategory
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-interface RestaurantRepository {
-    fun getRestaurantCategories(): Flow<List<FoodCategory>>
+class GetFoodCategories @Inject constructor(
+    private val repository: FoodCategoryRepository
+) {
+    operator fun invoke(): Flow<List<FoodCategory>?> = repository.getRestaurantCategories()
 }

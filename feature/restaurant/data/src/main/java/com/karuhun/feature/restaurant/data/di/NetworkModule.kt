@@ -14,18 +14,22 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.restaurant.ui
+package com.karuhun.feature.restaurant.data.di
 
-import com.karuhun.core.model.FoodCategory
+import com.karuhun.feature.restaurant.data.source.RestaurantApiService
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import javax.inject.Singleton
 
-internal object RestaurantContract {
-    data class UiState(
-        val foodCategories: List<FoodCategory> = emptyList()
-    )
-    sealed interface UiAction {
-        data object LoadCategory : UiAction
-    }
-    sealed interface UiEffect {
-        data class ShowError(val message: String)
-    }
+@Module
+@InstallIn(SingletonComponent::class)
+internal object NetworkModule {
+    @Provides
+    @Singleton
+    fun provideRestaurantApiService(
+        retrofit: Retrofit
+    ): RestaurantApiService = retrofit.create(RestaurantApiService::class.java)
 }

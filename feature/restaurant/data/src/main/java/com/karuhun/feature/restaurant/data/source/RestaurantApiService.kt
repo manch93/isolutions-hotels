@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.restaurant.ui
+package com.karuhun.feature.restaurant.data.source
 
-import com.karuhun.core.model.FoodCategory
+import com.karuhun.core.network.model.BasePaginationResponse
+import com.karuhun.core.network.model.BaseResponse
+import com.karuhun.feature.restaurant.data.source.remote.response.GetCategoryResponse
+import retrofit2.http.GET
+import retrofit2.http.QueryMap
 
-internal object RestaurantContract {
-    data class UiState(
-        val foodCategories: List<FoodCategory> = emptyList()
-    )
-    sealed interface UiAction {
-        data object LoadCategory : UiAction
-    }
-    sealed interface UiEffect {
-        data class ShowError(val message: String)
-    }
+interface RestaurantApiService {
+    @GET("food-category")
+    suspend fun getCategories(
+        @QueryMap(encoded = true) params: Map<String, String>
+    ): BaseResponse<BasePaginationResponse<GetCategoryResponse>>
 }

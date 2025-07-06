@@ -14,32 +14,12 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.database.model
+package com.karuhun.core.domain.repository
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.karuhun.core.common.Syncable
 import com.karuhun.core.model.FoodCategory
+import kotlinx.coroutines.flow.Flow
 
-@Entity(
-    tableName = "food_category",
-)
-data class FoodCategoryEntity(
-    @PrimaryKey
-    val id: Int?,
-    val name: String?,
-    val description: String?,
-    val image: String?
-)
-
-fun FoodCategoryEntity?.toDomain(): FoodCategory {
-    return FoodCategory(
-        id = this?.id,
-        name = this?.name,
-        description = this?.description,
-        image = this?.image
-    )
-}
-
-fun List<FoodCategoryEntity>?.toDomainList() : List<FoodCategory>? {
-    return this?.map { it.toDomain() }
+interface FoodCategoryRepository : Syncable{
+    fun getRestaurantCategories(): Flow<List<FoodCategory>?>
 }

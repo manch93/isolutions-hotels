@@ -14,18 +14,30 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.restaurant.ui
+package com.karuhun.feature.restaurant.data.source.remote.response
 
-import com.karuhun.core.model.FoodCategory
+import com.google.gson.annotations.SerializedName
 
-internal object RestaurantContract {
-    data class UiState(
-        val foodCategories: List<FoodCategory> = emptyList()
-    )
-    sealed interface UiAction {
-        data object LoadCategory : UiAction
-    }
-    sealed interface UiEffect {
-        data class ShowError(val message: String)
-    }
-}
+data class GetCategoryResponse(
+
+	@field:SerializedName("image")
+	val image: String? = null,
+
+	@field:SerializedName("updated_at")
+	val updatedAt: String? = null,
+
+	@field:SerializedName("hotel_id")
+	val hotelId: Int? = null,
+
+	@field:SerializedName("name")
+	val name: String? = null,
+
+	@field:SerializedName("description")
+	val description: String? = null,
+
+	@field:SerializedName("created_at")
+	val createdAt: String? = null,
+
+	@field:SerializedName("id")
+	val id: Int? = null
+)

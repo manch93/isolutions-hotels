@@ -14,18 +14,8 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.restaurant.ui
+package com.karuhun.core.network.model
 
-import com.karuhun.core.model.FoodCategory
-
-internal object RestaurantContract {
-    data class UiState(
-        val foodCategories: List<FoodCategory> = emptyList()
-    )
-    sealed interface UiAction {
-        data object LoadCategory : UiAction
-    }
-    sealed interface UiEffect {
-        data class ShowError(val message: String)
-    }
+open class BasePaginationResponse<T> {
+    val data: List<T>? = null
 }
