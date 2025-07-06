@@ -34,6 +34,7 @@ import androidx.tv.material3.MaterialTheme
 fun LauncherCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
+    isSelected: Boolean = false,
     radius: Dp = 12.dp,
     color: CardColors = CardDefaults.colors(
         containerColor = Color.Black.copy(alpha = 0.60f),
@@ -45,16 +46,19 @@ fun LauncherCard(
     borderWidth: Dp = 1.dp,
     content: @Composable () -> Unit,
 ) {
+    val border = Border(
+        border = BorderStroke(
+            width = borderWidth,
+            color = borderColor
+        )
+    )
+
     Card(
         onClick = onClick,
         modifier = modifier,
         border = CardDefaults.border(
-            focusedBorder = Border(
-                border = BorderStroke(
-                    width = borderWidth,
-                    color = borderColor
-                )
-            ),
+            focusedBorder = border,
+            border = if (isSelected) border else Border.None
         ),
         scale = CardDefaults.scale(
             focusedScale = 1.05f

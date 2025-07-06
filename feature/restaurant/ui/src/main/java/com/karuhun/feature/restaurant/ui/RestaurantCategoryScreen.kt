@@ -18,141 +18,160 @@ package com.karuhun.feature.restaurant.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusGroup
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Devices.TV_1080p
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.Border
-import androidx.tv.material3.DrawerState
+import androidx.tv.material3.Button
 import androidx.tv.material3.DrawerValue
 import androidx.tv.material3.Icon
+import androidx.tv.material3.ListItem
+import androidx.tv.material3.ListItemDefaults
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.NavigationDrawer
 import androidx.tv.material3.NavigationDrawerItem
-import androidx.tv.material3.NavigationDrawerItemDefaults
 import androidx.tv.material3.Text
 import androidx.tv.material3.rememberDrawerState
+import com.karuhun.core.common.orZero
+import com.karuhun.core.model.FoodCategory
+import com.karuhun.launcher.core.designsystem.component.LauncherCard
+import com.karuhun.launcher.core.designsystem.theme.AppTheme
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 internal fun RestaurantCategoryScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    sidebarWidthFraction: Float = 0.32f,
+    uiState: RestaurantContract.UiState,
+    uiEffect: Flow<RestaurantContract.UiEffect>,
+    onAction: (RestaurantContract.UiAction) -> Unit,
 ) {
+    var selectedCategoryIndex by rememberSaveable { mutableIntStateOf(0) }
+    val focusRequester = remember { FocusRequester() }
 
-    var selectedIndex by remember { mutableIntStateOf(0) }
-
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
-
-    val items =
-        listOf(
-            CategoryItem(
-                id = 1,
-                name = "Makanan"
-            ),
-            CategoryItem(
-                id = 2,
-                name = "Minuman"
-            ),
-            CategoryItem(
-                id = 3,
-                name = "Alcohol"
-            ),
-            CategoryItem(
-                id = 4,
-                name = "Breakfast"
-            ),
-            CategoryItem(
-                id = 5,
-                name = "Dessert"
-            ),
-            CategoryItem(
-                id = 6,
-                name = "Appetizer"
-            ),
-        )
-
-    Box{
-        NavigationDrawer(
-            drawerState = drawerState,
-            drawerContent = {
-                Column(
-                    Modifier.background(Color.Transparent).fillMaxHeight().padding(12.dp).selectableGroup(),
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+    Row(
+        modifier = Modifier
+            .fillMaxSize(),
+    ) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth(fraction = sidebarWidthFraction)
+                .fillMaxHeight()
+                .focusRestorer()
+                .focusGroup(),
+            verticalArrangement = Arrangement.spacedBy(0.dp),
+        ) {
+            itemsIndexed(
+                items = uiState.foodCategories.orEmpty(),
+                key = { _, category -> category.id.orZero() }
+            ) { index, category ->
+                LauncherCard(
+                    modifier = Modifier
+                        .fillMaxWidth(fraction = sidebarWidthFraction)
+                        .height(64.dp)
+                        .padding(top = 8.dp, bottom = 8.dp)
+                        .onFocusChanged {
+                            if (it.isFocused) {
+                                selectedCategoryIndex = index
+                            }
+                        },
+                    isSelected = index == selectedCategoryIndex,
+                    onClick = { selectedCategoryIndex = index }
                 ) {
-                    items.forEachIndexed { index, item ->
-                        val (text, icon) = item
-
-                        NavigationDrawerItem(
-
-                            selected = selectedIndex == index,
-                            onClick = { selectedIndex = index },
-                            modifier = Modifier.onFocusChanged { focusState ->
-                                if (focusState.isFocused) {
-                                    selectedIndex = index
-                                }
-                            },
-                            leadingContent = {},
-                            colors = NavigationDrawerItemDefaults.colors(
-                                containerColor = Color.Black.copy(alpha = 0.60f),
-                                focusedContainerColor = Color.Black.copy(alpha = 0.60f),
-                                selectedContainerColor = Color.Black.copy(alpha = 0.60f),
-                                focusedContentColor = Color.White,
-                                contentColor = Color.White,
-                                selectedContentColor = Color.White
-                            ),
-                            shape = NavigationDrawerItemDefaults.shape(
-                                shape = RoundedCornerShape(30)
-                            ),
-                            border = NavigationDrawerItemDefaults.border(
-                                focusedBorder = Border(
-                                    border = BorderStroke(
-                                        width = 1.dp,
-                                        color = MaterialTheme.colorScheme.primary
-                                    )
-                                )
-
-                            )
-                        ) {
-                            Text(
-                                text = items[index].name
-                            )
-                        }
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .padding(start = 16.dp),
+                            text = category.name.orEmpty()
+                        )
                     }
                 }
+            }
+        }
 
-            },
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Box(
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "Selected : ${items[selectedIndex].name}, Focused :",
-                    color = Color.White
-                )
+            items(30) { index ->
+                LauncherCard(
+                    modifier = Modifier
+                        .height(200.dp)
+                ) {
+
+                }
             }
         }
     }
 }
 
-data class CategoryItem(
-    val id: Int,
-    val name: String
-)
+@Preview(device = TV_1080p)
+@Composable
+private fun RestaurantCategoryScreenPreview() {
+    AppTheme {
+        RestaurantCategoryScreen(
+            uiState = RestaurantContract.UiState(
+                foodCategories = List(10) {
+                    FoodCategory(
+                        id = it,
+                        name = "Category $it",
+                        description = "",
+                        image = "",
+                    )
+                },
+            ),
+            uiEffect = emptyFlow(),
+            onAction = {},
+        )
+    }
+}

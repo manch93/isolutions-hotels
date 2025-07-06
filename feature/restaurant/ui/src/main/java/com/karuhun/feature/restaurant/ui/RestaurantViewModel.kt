@@ -17,23 +17,41 @@
 package com.karuhun.feature.restaurant.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.karuhun.core.domain.usecase.GetFoodCategories
 import com.karuhun.core.ui.navigation.delegate.mvi.MVI
 import com.karuhun.core.ui.navigation.delegate.mvi.mvi
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 internal class RestaurantViewModel @Inject constructor(
-    private val getFoodCategories: GetFoodCategories
+    private val getFoodCategories: GetFoodCategories,
 ) : ViewModel(),
     MVI<RestaurantContract.UiState, RestaurantContract.UiAction, RestaurantContract.UiEffect> by mvi(
         initialState = RestaurantContract.UiState(),
     ) {
 
+    init {
+        onAction(RestaurantContract.UiAction.LoadCategory)
+    }
+
     override fun onAction(action: RestaurantContract.UiAction) {
-        when(action){
-            RestaurantContract.UiAction.LoadCategory -> {}
+        when (action) {
+            RestaurantContract.UiAction.LoadCategory -> {
+                loadCategory()
+            }
+        }
+    }
+
+    private fun loadCategory() = viewModelScope.launch {
+        getFoodCategories().collect {
+            updateUiState {
+                copy(
+                    foodCategories = it
+                )
+            }
         }
     }
 }

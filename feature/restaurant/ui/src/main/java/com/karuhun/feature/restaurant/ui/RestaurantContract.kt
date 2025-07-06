@@ -20,7 +20,7 @@ import com.karuhun.core.model.FoodCategory
 
 internal object RestaurantContract {
     data class UiState(
-        val foodCategories: List<FoodCategory> = emptyList()
+        val foodCategories: List<FoodCategory>? = emptyList()
     )
     sealed interface UiAction {
         data object LoadCategory : UiAction
