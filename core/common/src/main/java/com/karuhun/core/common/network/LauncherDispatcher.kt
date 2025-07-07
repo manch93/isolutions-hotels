@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.network.model
+package com.karuhun.core.common.network
 
-import com.google.gson.annotations.SerializedName
+import javax.inject.Qualifier
 
-open class BasePaginationResponse<T> {
-    val data: List<T>? = null
-    @SerializedName("latest_version")
-    val latestVersion: Int? = null
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class Dispatcher(val launcherDispacther: LauncherDispatcher)
+
+enum class LauncherDispatcher {
+    Default,
+    IO
 }

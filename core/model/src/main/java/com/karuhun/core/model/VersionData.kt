@@ -14,12 +14,8 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.network.model
+package com.karuhun.core.model
 
-import com.google.gson.annotations.SerializedName
-
-open class BasePaginationResponse<T> {
-    val data: List<T>? = null
-    @SerializedName("latest_version")
-    val latestVersion: Int? = null
-}
+data class VersionData(
+    val foodCategoryVersion: Int
+)
