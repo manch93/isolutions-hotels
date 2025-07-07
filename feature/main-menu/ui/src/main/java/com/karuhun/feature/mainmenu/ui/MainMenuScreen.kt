@@ -74,6 +74,7 @@ fun MainMenuScreen(
     uiEffect: Flow<MainMenuContract.UiEffect>,
     uiAction: (MainMenuContract.UiAction) -> Unit,
     onNavigateToDetailContent: (Int) -> Unit,
+    onNavigateToRestaurant: () -> Unit,
 ) {
 
     val gridState = rememberLazyGridState()
@@ -113,7 +114,7 @@ fun MainMenuScreen(
                         .width(200.dp)
                         .padding(8.dp),
                     icon = Icons.Default.RestaurantMenu,
-                    onClick = {},
+                    onClick = { onNavigateToRestaurant() },
                     title = "Restaurant",
                 )
             }
@@ -214,7 +215,8 @@ private fun MainMenuScreenPreview() {
             ),
             uiEffect = emptyFlow(),
             uiAction = {},
-            onNavigateToDetailContent = {}
+            onNavigateToDetailContent = {},
+            onNavigateToRestaurant = {}
         )
     }
 }

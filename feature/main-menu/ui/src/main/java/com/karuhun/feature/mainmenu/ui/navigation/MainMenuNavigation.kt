@@ -32,6 +32,7 @@ import kotlinx.serialization.Serializable
 
 fun NavGraphBuilder.mainMenuScreen(
     onNavigateToContentItems: (Int) -> Unit,
+    onNavigateToRestaurant: () -> Unit
 ) {
     composable<MainMenu> {
         val viewModel = hiltViewModel<MainMenuViewModel>()
@@ -43,7 +44,8 @@ fun NavGraphBuilder.mainMenuScreen(
             uiState = uiState,
             uiEffect = uiEffect,
             uiAction = uiAction,
-            onNavigateToDetailContent = onNavigateToContentItems
+            onNavigateToDetailContent = onNavigateToContentItems,
+            onNavigateToRestaurant = onNavigateToRestaurant
         )
     }
 }

@@ -38,7 +38,7 @@ fun LauncherAppNavGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = RestaurantCategory,
+        startDestination = Home,
     ) {
         homeScreen(
             onMenuItemClick = { menuItem ->
@@ -55,6 +55,11 @@ fun LauncherAppNavGraph(
             onNavigateToContentItems = { contentId ->
                 navController.apply {
                     navigate(ContentItems(contentId = contentId))
+                }
+            },
+            onNavigateToRestaurant = {
+                navController.apply {
+                    navigate(RestaurantCategory)
                 }
             }
         )
