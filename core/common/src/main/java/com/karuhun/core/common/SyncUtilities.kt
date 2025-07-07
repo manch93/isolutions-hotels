@@ -20,6 +20,7 @@ import android.util.Log
 import kotlin.coroutines.cancellation.CancellationException
 
 interface Synchronizer {
+    suspend fun getVersion(): Int
 
     suspend fun Syncable.sync() = this@sync.syncWith(this@Synchronizer)
 }
@@ -40,21 +41,6 @@ private suspend fun <T> suspendRunCatching(block: suspend () -> T): Result<T> = 
     )
     Result.failure(exception)
 }
-
-suspend fun Synchronizer.forceUpdate(
-    modelUpdater: suspend (List<String>) -> Unit,
-    modelDeleter: suspend (List<String>) -> Unit
-) = suspendRunCatching {
-
-}.isSuccess
-
-suspend fun <T> Synchronizer.forceSync(
-    fetch: suspend () -> T,
-    save: suspend (T) -> Unit,
-) = suspendRunCatching {
-    save(fetch())
-}.isSuccess
-
 // Tambahkan overload untuk menangani Resource
 suspend fun <T> Synchronizer.forceSyncWithResource(
     fetch: suspend () -> Resource<T>,

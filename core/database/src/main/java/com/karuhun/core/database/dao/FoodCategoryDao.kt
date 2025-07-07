@@ -33,4 +33,7 @@ interface FoodCategoryDao {
 
     @Query("DELETE FROM food_category")
     suspend fun deleteAll()
+
+    @Query("DELETE FROM food_category WHERE id in (:ids)")
+    suspend fun deleteByIds(ids: List<Int>)
 }

@@ -27,6 +27,7 @@ import com.karuhun.core.common.forceSyncWithResource
 import com.karuhun.core.database.dao.FoodCategoryDao
 import com.karuhun.core.database.model.FoodCategoryEntity
 import com.karuhun.core.database.model.toDomainList
+import com.karuhun.core.datastore.LauncherPreferencesDatastore
 import com.karuhun.core.domain.repository.FoodCategoryRepository
 import com.karuhun.core.model.FoodCategory
 import com.karuhun.feature.restaurant.data.paging.FoodCategoryPagingSource
@@ -38,7 +39,8 @@ import javax.inject.Inject
 
 class FoodCategoryRepositoryImpl @Inject constructor(
     private val restaurantApiService: RestaurantApiService,
-    private val foodCategoryDao: FoodCategoryDao
+    private val foodCategoryDao: FoodCategoryDao,
+    private val launcherDatastore: LauncherPreferencesDatastore
 ) : FoodCategoryRepository{
     override fun getRestaurantCategories(): Flow<List<FoodCategory>?> {
         return foodCategoryDao.getAll().map {
