@@ -28,6 +28,7 @@ import com.karuhun.core.common.Synchronizer
 import com.karuhun.core.domain.repository.ApplicationRepository
 import com.karuhun.core.domain.repository.ContentRepository
 import com.karuhun.core.domain.repository.FoodCategoryRepository
+import com.karuhun.core.domain.repository.FoodRepository
 import com.karuhun.core.domain.repository.HotelRepository
 import com.karuhun.core.domain.usecase.GetHotelProfileUseCase
 import com.karuhun.sync.initializer.SyncConstraints
@@ -46,6 +47,7 @@ class SyncWorker @AssistedInject constructor(
     private val contentRepository: ContentRepository,
     private val applicationRepository: ApplicationRepository,
     private val foodCategoryRepository: FoodCategoryRepository,
+    private val foodRepository: FoodRepository
 ) : CoroutineWorker(appContext, workerParams), Synchronizer {
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         Log.d("SyncWorker", "doWork: Starting sync operation")
@@ -54,7 +56,8 @@ class SyncWorker @AssistedInject constructor(
 //                async { hotelRepository.sync() },
 //                async { contentRepository.sync() },
 //                async { applicationRepository.sync() },
-                async { foodCategoryRepository.sync() }
+                async { foodCategoryRepository.sync() },
+                async { foodRepository.sync() }
             ).all { it }
 
             if (syncedSuccessfully) {

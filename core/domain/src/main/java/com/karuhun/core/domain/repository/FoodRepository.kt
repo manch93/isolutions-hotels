@@ -14,21 +14,12 @@
  * limitations under the License.
  */
 
-package com.karuhun.feature.restaurant.ui
+package com.karuhun.core.domain.repository
 
+import com.karuhun.core.common.Syncable
 import com.karuhun.core.model.Food
-import com.karuhun.core.model.FoodCategory
+import kotlinx.coroutines.flow.Flow
 
-internal object RestaurantContract {
-    data class UiState(
-        val foodCategories: List<FoodCategory>? = emptyList(),
-        val foods: List<Food> = emptyList()
-    )
-    sealed interface UiAction {
-        data object LoadCategory : UiAction
-        data class LoadFood(val categoryId: Int) : UiAction
-    }
-    sealed interface UiEffect {
-        data class ShowError(val message: String)
-    }
+interface FoodRepository : Syncable {
+    fun getFoodsByCategoryId(categoryId: Int): Flow<List<Food>>
 }

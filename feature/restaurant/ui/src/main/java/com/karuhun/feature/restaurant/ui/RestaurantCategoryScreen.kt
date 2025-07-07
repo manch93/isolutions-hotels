@@ -61,6 +61,7 @@ import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices.TV_1080p
@@ -76,6 +77,7 @@ import androidx.tv.material3.NavigationDrawer
 import androidx.tv.material3.NavigationDrawerItem
 import androidx.tv.material3.Text
 import androidx.tv.material3.rememberDrawerState
+import coil.compose.AsyncImage
 import com.karuhun.core.common.orZero
 import com.karuhun.core.model.FoodCategory
 import com.karuhun.launcher.core.designsystem.component.LauncherCard
@@ -134,6 +136,7 @@ internal fun RestaurantCategoryScreen(
                         .onFocusChanged {
                             if (it.isFocused) {
                                 selectedCategoryIndex = index
+                                onAction(RestaurantContract.UiAction.LoadFood(category.id.orZero()))
                             }
                         },
                     isSelected = index == selectedCategoryIndex,
@@ -163,13 +166,36 @@ internal fun RestaurantCategoryScreen(
             verticalArrangement = Arrangement.spacedBy(0.dp),
             horizontalArrangement = Arrangement.spacedBy(0.dp)
         ) {
-            items(30) { index ->
+            items(uiState.foods, key = {it.id}) { food ->
                 LauncherCard(
                     modifier = Modifier
                         .padding(8.dp)
                         .height(170.dp)
                 ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.surface),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        AsyncImage(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            model = food.imageUrl,
+                            contentDescription = food.name,
+                            contentScale = ContentScale.Crop
 
+                        )
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.BottomStart),
+                            text = food.name.orEmpty(),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
                 }
             }
         }

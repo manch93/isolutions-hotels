@@ -19,6 +19,7 @@ package com.karuhun.feature.restaurant.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karuhun.core.domain.usecase.GetFoodCategories
+import com.karuhun.core.domain.usecase.GetFoodsUseCase
 import com.karuhun.core.ui.navigation.delegate.mvi.MVI
 import com.karuhun.core.ui.navigation.delegate.mvi.mvi
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,6 +29,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class RestaurantViewModel @Inject constructor(
     private val getFoodCategories: GetFoodCategories,
+    private val getFoodsUseCase: GetFoodsUseCase
 ) : ViewModel(),
     MVI<RestaurantContract.UiState, RestaurantContract.UiAction, RestaurantContract.UiEffect> by mvi(
         initialState = RestaurantContract.UiState(),
@@ -39,8 +41,12 @@ internal class RestaurantViewModel @Inject constructor(
 
     override fun onAction(action: RestaurantContract.UiAction) {
         when (action) {
-            RestaurantContract.UiAction.LoadCategory -> {
+            is RestaurantContract.UiAction.LoadCategory -> {
                 loadCategory()
+            }
+
+            is RestaurantContract.UiAction.LoadFood -> {
+                loadFood(action.categoryId)
             }
         }
     }
@@ -50,6 +56,16 @@ internal class RestaurantViewModel @Inject constructor(
             updateUiState {
                 copy(
                     foodCategories = it
+                )
+            }
+        }
+    }
+
+    private fun loadFood(categoryId: Int) = viewModelScope.launch {
+        getFoodsUseCase(categoryId).collect {
+            updateUiState {
+                copy(
+                    foods = it
                 )
             }
         }
