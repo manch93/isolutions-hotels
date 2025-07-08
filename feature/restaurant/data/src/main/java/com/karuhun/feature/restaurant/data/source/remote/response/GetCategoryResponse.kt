@@ -17,6 +17,7 @@
 package com.karuhun.feature.restaurant.data.source.remote.response
 
 import com.google.gson.annotations.SerializedName
+import com.karuhun.core.model.FoodCategory
 
 data class GetCategoryResponse(
 
@@ -41,3 +42,15 @@ data class GetCategoryResponse(
 	@field:SerializedName("id")
 	val id: Int? = null
 )
+
+fun GetCategoryResponse.toDomain(): FoodCategory =
+    FoodCategory(
+        id = id,
+        name = name,
+        description = description,
+        image = image
+    )
+
+fun List<GetCategoryResponse>.toDomainList(): List<FoodCategory> {
+    return this.map { it.toDomain() }
+}

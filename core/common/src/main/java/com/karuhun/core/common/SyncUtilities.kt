@@ -20,7 +20,6 @@ import android.util.Log
 import kotlin.coroutines.cancellation.CancellationException
 
 interface Synchronizer {
-    suspend fun getVersion(): Int
 
     suspend fun Syncable.sync() = this@sync.syncWith(this@Synchronizer)
 }
@@ -41,7 +40,24 @@ private suspend fun <T> suspendRunCatching(block: suspend () -> T): Result<T> = 
     )
     Result.failure(exception)
 }
-// Tambahkan overload untuk menangani Resource
+
+suspend fun <T> Synchronizer.changeListSync(
+    versionReader: suspend () -> Int,
+    fetchData: suspend (Int) -> Resource<Pair<List<T>, Int>>,
+    saveData: suspend (List<T>) -> Unit,
+    updateVersion: suspend (Int) -> Unit,
+): Boolean = suspendRunCatching {
+    val localVersion = versionReader()
+    when (val result = fetchData(localVersion)) {
+        is Resource.Success -> {
+            val (data, newVersion) = result.data
+            saveData(data)
+            updateVersion(newVersion)
+        }
+        is Resource.Error -> throw result.exception
+    }
+}.isSuccess
+
 suspend fun <T> Synchronizer.forceSyncWithResource(
     fetch: suspend () -> Resource<T>,
     save: suspend (T) -> Unit,
@@ -49,5 +65,21 @@ suspend fun <T> Synchronizer.forceSyncWithResource(
     when (val result = fetch()) {
         is Resource.Success -> save(result.data)
         is Resource.Error -> throw result.exception
+    }
+}.isSuccess
+
+suspend fun Synchronizer.syncFoodCategories(
+    versionReader: suspend () -> Int,
+    fetchFoodCategories: suspend (Int) -> List<com.karuhun.core.model.FoodCategory>,
+    saveFoodCategories: suspend (List<com.karuhun.core.model.FoodCategory>) -> Unit,
+    updateVersion: suspend (Int) -> Unit,
+): Boolean = suspendRunCatching {
+    val localVersion = versionReader()
+    val foodCategories = fetchFoodCategories(localVersion)
+
+    if (foodCategories.isNotEmpty()) {
+        saveFoodCategories(foodCategories)
+        // Increment version after successful sync
+        updateVersion(localVersion + 1)
     }
 }.isSuccess

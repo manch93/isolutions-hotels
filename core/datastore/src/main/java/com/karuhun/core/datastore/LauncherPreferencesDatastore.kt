@@ -33,6 +33,10 @@ class LauncherPreferencesDatastore @Inject constructor(
             )
         }
 
+    suspend fun getVersion() = versionData.collect {
+        it.foodCategoryVersion
+    }
+
     suspend fun setFoodCategoryVersion(newVersion: Int) {
         try {
             version.updateData {

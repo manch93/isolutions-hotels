@@ -43,3 +43,15 @@ fun FoodCategoryEntity?.toDomain(): FoodCategory {
 fun List<FoodCategoryEntity>?.toDomainList() : List<FoodCategory>? {
     return this?.map { it.toDomain() }
 }
+
+fun FoodCategory.toEntity(): FoodCategoryEntity =
+    FoodCategoryEntity(
+        id = id,
+        name = name,
+        description = description,
+        image = image
+    )
+
+fun List<FoodCategory>.toEntityList(): List<FoodCategoryEntity> {
+    return this.map { it.toEntity() }
+}
