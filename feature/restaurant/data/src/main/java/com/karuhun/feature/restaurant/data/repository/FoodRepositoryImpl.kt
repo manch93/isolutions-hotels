@@ -20,22 +20,29 @@ import com.karuhun.core.common.BasePagingSource.Companion.DEFAULT_PAGE_SIZE
 import com.karuhun.core.common.Resource
 import com.karuhun.core.common.Synchronizer
 import com.karuhun.core.common.forceSyncWithResource
+import com.karuhun.core.common.syncData
 import com.karuhun.core.database.dao.FoodDao
 import com.karuhun.core.database.model.FoodCategoryEntity
 import com.karuhun.core.database.model.FoodEntity
 import com.karuhun.core.database.model.toDomainList
+import com.karuhun.core.database.model.toEntityList
+import com.karuhun.core.datastore.LauncherPreferencesDatastore
 import com.karuhun.core.domain.repository.FoodRepository
 import com.karuhun.core.model.Food
 import com.karuhun.feature.restaurant.data.paging.FoodCategoryPagingSource
 import com.karuhun.feature.restaurant.data.paging.FoodPagingSource
 import com.karuhun.feature.restaurant.data.source.RestaurantApiService
+import com.karuhun.feature.restaurant.data.source.remote.RestaurantNetworkDataSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class FoodRepositoryImpl @Inject constructor(
     private val foodDao: FoodDao,
-    private val restaurantApiService: RestaurantApiService
+    private val restaurantApiService: RestaurantApiService,
+    private val networkDataSource: RestaurantNetworkDataSource,
+    private val launcherDatastore: LauncherPreferencesDatastore
 ) : FoodRepository{
 
     override fun getFoodsByCategoryId(categoryId: Int): Flow<List<Food>> {
@@ -45,32 +52,23 @@ class FoodRepositoryImpl @Inject constructor(
     }
 
     override suspend fun syncWith(synchronizer: Synchronizer): Boolean {
-        return synchronizer.forceSyncWithResource(
-            fetch = {
-                val allCategories = mutableListOf<FoodEntity>()
-
-                val pagingSource = FoodPagingSource(restaurantApiService)
-                var currentPage = 1
-                var hasNextPage = true
-
-                while (hasNextPage) {
-                    val result = pagingSource.fetchData(currentPage, DEFAULT_PAGE_SIZE)
-                    if (result.isEmpty() || result.size < DEFAULT_PAGE_SIZE) {
-                        hasNextPage = false
-                    } else {
-                        currentPage++
-                    }
-
-                    val entities = pagingSource.mapToLocalData(result)
-                    allCategories.addAll(entities)
-                }
-
-                Resource.Success(allCategories)
+        return synchronizer.syncData(
+            versionReader = {
+                launcherDatastore.versionData.first().foodVersion
             },
-            save = {
-                foodDao.deleteAll()
-                foodDao.upsert(it)
+            fetchData = { networkDataSource.getFoods(it)},
+            saveData = { foodList ->
+                val foodsDeleted: List<Int> = foodList.filter { it.isDeleted == 1 }
+                    .map { it.id }
+                val foodsToSave = foodList.filter { it.isDeleted != 1 }.toEntityList()
+
+                foodDao.delete(foodsDeleted)
+                foodDao.upsert(foodsToSave)
+
             },
+            updateVersion = {
+//                launcherDatastore.setFoodVersion(it)
+            }
         )
     }
 }

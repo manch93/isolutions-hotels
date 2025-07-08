@@ -17,6 +17,7 @@
 package com.karuhun.core.common
 
 import android.util.Log
+import com.karuhun.core.model.FoodCategory
 import kotlin.coroutines.cancellation.CancellationException
 
 interface Synchronizer {
@@ -68,18 +69,19 @@ suspend fun <T> Synchronizer.forceSyncWithResource(
     }
 }.isSuccess
 
-suspend fun Synchronizer.syncFoodCategories(
+suspend fun <T> Synchronizer.syncData(
     versionReader: suspend () -> Int,
-    fetchFoodCategories: suspend (Int) -> List<com.karuhun.core.model.FoodCategory>,
-    saveFoodCategories: suspend (List<com.karuhun.core.model.FoodCategory>) -> Unit,
+    fetchData: suspend (Int) -> List<T>,
+    saveData: suspend (List<T>) -> Unit,
     updateVersion: suspend (Int) -> Unit,
 ): Boolean = suspendRunCatching {
     val localVersion = versionReader()
-    val foodCategories = fetchFoodCategories(localVersion)
+    val data = fetchData(localVersion)
 
-    if (foodCategories.isNotEmpty()) {
-        saveFoodCategories(foodCategories)
+    if (data.isNotEmpty()) {
+        saveData(data)
         // Increment version after successful sync
         updateVersion(localVersion + 1)
     }
 }.isSuccess
+

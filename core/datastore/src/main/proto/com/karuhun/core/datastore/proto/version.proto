@@ -5,4 +5,5 @@ option java_multiple_files = true;
 
 message Version {
     int32 foodCategoryVersion = 1;
+    int32 foodVersion = 2;
 }

@@ -17,6 +17,7 @@
 package com.karuhun.feature.restaurant.data.source.remote.response
 
 import com.google.gson.annotations.SerializedName
+import com.karuhun.core.model.Food
 
 data class GetFoodsResponse(
 
@@ -28,6 +29,9 @@ data class GetFoodsResponse(
 
 	@field:SerializedName("food_category_id")
 	val foodCategoryId: Int? = null,
+
+    @field:SerializedName("is_deleted")
+    val isDeleted: Int? = null,
 
 	@field:SerializedName("price")
 	val price: Int? = null,
@@ -47,3 +51,17 @@ data class GetFoodsResponse(
 	@field:SerializedName("id")
 	val id: Int? = null
 )
+
+fun GetFoodsResponse.toDomain() = Food(
+    id = id?: 0,
+    name = name.orEmpty(),
+    description = description.orEmpty(),
+    price = price ?: 0,
+    imageUrl = image.orEmpty(),
+    categoryId = foodCategoryId,
+    isDeleted = isDeleted
+)
+
+fun List<GetFoodsResponse>.toDomainList(): List<Food> {
+    return map { it.toDomain() }
+}

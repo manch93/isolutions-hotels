@@ -18,6 +18,7 @@ package com.karuhun.feature.restaurant.data.di
 
 import com.karuhun.core.common.network.Dispatcher
 import com.karuhun.core.common.network.LauncherDispatcher
+import com.karuhun.core.datastore.LauncherPreferencesDatastore
 import com.karuhun.feature.restaurant.data.source.RestaurantApiService
 import com.karuhun.feature.restaurant.data.source.remote.RestaurantNetworkDataSource
 import dagger.Module
@@ -39,11 +40,15 @@ internal object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRestaurantNetworkDataSource(restaurantApiService: RestaurantApiService, @Dispatcher(
-        LauncherDispatcher.IO) ioDispatcher: CoroutineDispatcher): RestaurantNetworkDataSource {
+    fun provideRestaurantNetworkDataSource(
+        restaurantApiService: RestaurantApiService,
+        @Dispatcher(LauncherDispatcher.IO) ioDispatcher: CoroutineDispatcher,
+        preferencesDatastore: LauncherPreferencesDatastore
+    ): RestaurantNetworkDataSource {
         return RestaurantNetworkDataSource(
             restaurantApiService = restaurantApiService,
-            ioDispatcher = ioDispatcher
+            ioDispatcher = ioDispatcher,
+            preferencesDatastore
         )
     }
 }

@@ -29,7 +29,8 @@ class LauncherPreferencesDatastore @Inject constructor(
     val versionData = version.data
         .map {
             VersionData(
-                foodCategoryVersion = it.foodCategoryVersion
+                foodCategoryVersion = it.foodCategoryVersion,
+                foodVersion = it.foodVersion
             )
         }
 
@@ -42,6 +43,17 @@ class LauncherPreferencesDatastore @Inject constructor(
             version.updateData {
                 it.copy {
                     foodCategoryVersion = newVersion
+                }
+            }
+        } catch (ioException: IOException) {
+            Log.d("LauncherPreferences", "Failed to update food category version")
+        }
+    }
+    suspend fun setFoodVersion(newVersion: Int) {
+        try {
+            version.updateData {
+                it.copy {
+                    foodVersion = newVersion
                 }
             }
         } catch (ioException: IOException) {

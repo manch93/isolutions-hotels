@@ -57,7 +57,7 @@ class SyncWorker @AssistedInject constructor(
 //                async { contentRepository.sync() },
 //                async { applicationRepository.sync() },
                 async { foodCategoryRepository.sync() },
-//                async { foodRepository.sync() }
+                async { foodRepository.sync() }
             ).all { it }
 
             if (syncedSuccessfully) {

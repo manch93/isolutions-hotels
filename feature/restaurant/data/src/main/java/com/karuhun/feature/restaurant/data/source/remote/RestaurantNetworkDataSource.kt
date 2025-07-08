@@ -16,6 +16,9 @@
 
 package com.karuhun.feature.restaurant.data.source.remote
 
+import com.karuhun.core.common.orZero
+import com.karuhun.core.datastore.LauncherPreferencesDatastore
+import com.karuhun.core.model.Food
 import com.karuhun.core.model.FoodCategory
 import com.karuhun.feature.restaurant.data.source.RestaurantApiService
 import com.karuhun.feature.restaurant.data.source.remote.response.toDomainList
@@ -25,7 +28,8 @@ import javax.inject.Inject
 
 class RestaurantNetworkDataSource @Inject constructor(
     private val restaurantApiService: RestaurantApiService,
-    private val ioDispatcher: CoroutineDispatcher
+    private val ioDispatcher: CoroutineDispatcher,
+    private val preferencesDatastore: LauncherPreferencesDatastore
 ) {
     suspend fun getFoodCategories(after: Int): List<FoodCategory> {
         return withContext(ioDispatcher) {
@@ -40,10 +44,32 @@ class RestaurantNetworkDataSource @Inject constructor(
                     "page" to "$currentPage"
                 )
                 val response = restaurantApiService.getCategories(params)
+                preferencesDatastore.setFoodCategoryVersion(response.data?.latestVersion.orZero())
                 allFoodCategories.addAll(response.data?.data?.toDomainList() ?: emptyList())
                 currentPage++
             } while (response.data?.nextPageUrl != null)
             allFoodCategories
+        }
+    }
+
+    suspend fun getFoods(
+        after: Int
+    ): List<Food> {
+        return  withContext(ioDispatcher) {
+            val allFoods = mutableListOf<Food>()
+            var currentPage = 1
+
+            do {
+                val params = mapOf(
+                    "after" to after.toString(),
+                    "paginate" to "10",
+                    "page" to "$currentPage"
+                )
+                val response = restaurantApiService.getFoods(params)
+                allFoods.addAll(response.data?.data?.toDomainList() ?: emptyList())
+                currentPage++
+            } while (response.data?.nextPageUrl != null)
+            allFoods
         }
     }
 }

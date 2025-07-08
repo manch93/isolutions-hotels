@@ -16,29 +16,18 @@
 
 package com.karuhun.feature.restaurant.data.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.map
-import com.karuhun.core.common.BasePagingSource.Companion.DEFAULT_PAGE_SIZE
-import com.karuhun.core.common.Resource
 import com.karuhun.core.common.Synchronizer
-import com.karuhun.core.common.forceSyncWithResource
-import com.karuhun.core.common.syncFoodCategories
+import com.karuhun.core.common.syncData
 import com.karuhun.core.database.dao.FoodCategoryDao
-import com.karuhun.core.database.model.FoodCategoryEntity
 import com.karuhun.core.database.model.toDomainList
 import com.karuhun.core.database.model.toEntityList
 import com.karuhun.core.datastore.LauncherPreferencesDatastore
 import com.karuhun.core.domain.repository.FoodCategoryRepository
 import com.karuhun.core.model.FoodCategory
-import com.karuhun.feature.restaurant.data.paging.FoodCategoryPagingSource
-import com.karuhun.feature.restaurant.data.source.RestaurantApiService
 import com.karuhun.feature.restaurant.data.source.remote.RestaurantNetworkDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
 import javax.inject.Inject
 
 class FoodCategoryRepositoryImpl @Inject constructor(
@@ -53,17 +42,29 @@ class FoodCategoryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun syncWith(synchronizer: Synchronizer): Boolean {
-        return synchronizer.syncFoodCategories(
+        return synchronizer.syncData(
             versionReader = { launcherDatastore.versionData.first().foodCategoryVersion },
-            fetchFoodCategories = { version ->
+            fetchData = { version ->
                 restaurantNetworkDataSource.getFoodCategories(version)
             },
-            saveFoodCategories = { foodCategories ->
-                foodCategoryDao.upsert(foodCategories.toEntityList())
+            saveData = { data ->
+                foodCategoryDao.upsert(data.toEntityList())
             },
             updateVersion = { newVersion ->
                 launcherDatastore.setFoodCategoryVersion(newVersion)
             }
         )
+//        return synchronizer.syncData(
+//            versionReader = { launcherDatastore.versionData.first().foodCategoryVersion },
+//            fetchFoodCategories = { version ->
+//                restaurantNetworkDataSource.getFoodCategories(version)
+//            },
+//            saveFoodCategories = { foodCategories ->
+//                foodCategoryDao.upsert(foodCategories.toEntityList())
+//            },
+//            updateVersion = { newVersion ->
+//                launcherDatastore.setFoodCategoryVersion(newVersion)
+//            }
+//        )
     }
 }

@@ -41,4 +41,7 @@ interface FoodDao {
 
     @Upsert
     suspend fun upsert(food: List<FoodEntity>)
+
+    @Query("DELETE FROM foods where id in (:ids)")
+    suspend fun delete(ids: List<Int>)
 }

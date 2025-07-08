@@ -22,5 +22,6 @@ data class Food(
     val description: String?,
     val price: Int?,
     val imageUrl: String?,
-    val categoryId: Int?
+    val categoryId: Int?,
+    val isDeleted: Int?
 )
