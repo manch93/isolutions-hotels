@@ -44,6 +44,15 @@ The project uses the following major libraries and technologies:
 *   [Room](https://developer.android.com/training/data-storage/room)
 *   [Coil](https://coil-kt.github.io/coil/)
 
+## Screenshoot
+<div align="center">
+    <img alt="App image" src="docs/screenshoot/screensaver.png" width="30%">
+    <img alt="App image" src="docs/screenshoot/home.png" width="30%">
+    <img alt="App image" src="docs/screenshoot/main-menu.png" width="30%">
+    <img alt="App image" src="docs/screenshoot/content.png" width="30%">
+    <img alt="App image" src="docs/screenshoot/detail-content.png" width="30%">
+</div>
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
