@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="185pt" height="188pt" viewBox="0 0 185 188">
+    <g class="graph" transform="translate(4 184)">
+        <title>G</title>
+        <path fill="#fff" d="M-4 4v-188h185.34V4z"/>
+        <g class="node">
+            <title>:core:datastore</title>
+            <ellipse cx="65.17" cy="-162" fill="none" stroke="#000" rx="65.17" ry="18"/>
+            <text xml:space="preserve" x="65.17" y="-156.95" font-family="Times,serif" font-size="14" text-anchor="middle">:core:datastore</text>
+        </g>
+        <g class="node">
+            <title>:core:model</title>
+            <ellipse cx="65.17" cy="-18" fill="none" stroke="#000" rx="55.45" ry="18"/>
+            <text xml:space="preserve" x="65.17" y="-12.95" font-family="Times,serif" font-size="14" text-anchor="middle">:core:model</text>
+        </g>
+        <g class="edge">
+            <title>:core:datastore-&gt;:core:model</title>
+            <path fill="none" stroke="#000" d="M53.98-144.14C48.01-134.1 41.26-120.85 38.17-108c-3.73 15.56-3.73 20.44 0 36 2.15 8.94 6.06 18.07 10.26 26.17"/>
+            <path stroke="#000" d="m51.44-47.62 1.81 10.44-7.93-7.03z"/>
+        </g>
+        <g class="node">
+            <title>:core:common</title>
+            <ellipse cx="112.17" cy="-90" fill="none" stroke="#000" rx="65.17" ry="18"/>
+            <text xml:space="preserve" x="112.17" y="-84.95" font-family="Times,serif" font-size="14" text-anchor="middle">:core:common</text>
+        </g>
+        <g class="edge">
+            <title>:core:datastore-&gt;:core:common</title>
+            <path fill="none" stroke="red" stroke-width="2" d="M76.55-144.05c5.42 8.08 12.04 17.93 18.09 26.94"/>
+            <path fill="red" stroke="red" stroke-width="2" d="m96.54-120.56 2.67 10.26-8.48-6.35z"/>
+        </g>
+        <g class="edge">
+            <title>:core:common-&gt;:core:model</title>
+            <path fill="none" stroke="red" stroke-width="2" d="M100.79-72.05c-5.42 8.08-12.04 17.93-18.09 26.94"/>
+            <path fill="red" stroke="red" stroke-width="2" d="m86.61-44.65-8.48 6.35 2.67-10.26z"/>
+        </g>
+    </g>
+</svg>
