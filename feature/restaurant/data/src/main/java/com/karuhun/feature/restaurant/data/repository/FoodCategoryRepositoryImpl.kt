@@ -16,8 +16,8 @@
 
 package com.karuhun.feature.restaurant.data.repository
 
-import com.karuhun.core.common.Synchronizer
-import com.karuhun.core.common.syncData
+import com.karuhun.core.data.Synchronizer
+import com.karuhun.core.data.syncData
 import com.karuhun.core.database.dao.FoodCategoryDao
 import com.karuhun.core.database.model.toDomainList
 import com.karuhun.core.database.model.toEntityList

@@ -44,7 +44,7 @@ fun FoodEntity.toDomain(): Food {
         price = price,
         imageUrl = image,
         categoryId = foodCategoryId,
-        isDeleted = 0
+        isDeleted = false
     )
 }
 

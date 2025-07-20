@@ -18,8 +18,7 @@ package com.karuhun.feature.content.data.repository
 
 import android.util.Log
 import com.karuhun.core.common.Resource
-import com.karuhun.core.common.Synchronizer
-import com.karuhun.core.common.forceSyncWithResource
+import com.karuhun.core.data.Synchronizer
 import com.karuhun.core.database.dao.ContentDao
 import com.karuhun.core.database.dao.ContentItemDao
 import com.karuhun.core.database.model.toDomainModel
@@ -52,26 +51,6 @@ class ContentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun syncWith(synchronizer: Synchronizer): Boolean {
-        return synchronizer.forceSyncWithResource(
-            fetch = {
-                safeApiCall { apiService.getContentItems() }
-            },
-            save = { response ->
-                val contents = response.data.toDomain()
-                contentDao.deleteAll()
-                contentDao.upsert(contents.toEntity())
-                contents.forEach { content ->
-                    when (val itemResult = safeApiCall { apiService.getContentItemById(content.id.toString()) }) {
-                        is Resource.Success -> {
-                            contentItemDao.upsert(itemResult.data.data.toDomainModel().toEntity())
-                        }
-                        is Resource.Error -> {
-                            // Log error tapi tidak throw exception untuk item individual
-                            Log.w("ContentRepository", "Failed to sync content item ${content.id}: ${itemResult.exception.message}")
-                        }
-                    }
-                }
-            }
-        )
+        return true
     }
 }

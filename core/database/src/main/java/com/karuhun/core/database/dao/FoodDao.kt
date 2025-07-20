@@ -44,4 +44,7 @@ interface FoodDao {
 
     @Query("DELETE FROM foods where id in (:ids)")
     suspend fun delete(ids: List<Int>)
+
+    @Query("DELETE FROM foods WHERE id in (:id)")
+    suspend fun deleteById(id: List<Int>)
 }

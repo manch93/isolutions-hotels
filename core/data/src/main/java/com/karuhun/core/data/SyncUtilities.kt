@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.common
+package com.karuhun.core.data
 
 import android.util.Log
-import com.karuhun.core.model.FoodCategory
+import com.karuhun.core.common.Resource
+import com.karuhun.core.datastore.ChangeListVersions
+import com.karuhun.core.network.model.NetworkChangeList
 import kotlin.coroutines.cancellation.CancellationException
 
 interface Synchronizer {
 
     suspend fun Syncable.sync() = this@sync.syncWith(this@Synchronizer)
+    suspend fun getChangeListVersions(): ChangeListVersions
+
+    suspend fun updateChangeListVersions(update: ChangeListVersions.() -> ChangeListVersions)
 }
 
 interface Syncable {
@@ -41,34 +46,6 @@ private suspend fun <T> suspendRunCatching(block: suspend () -> T): Result<T> = 
     )
     Result.failure(exception)
 }
-
-suspend fun <T> Synchronizer.changeListSync(
-    versionReader: suspend () -> Int,
-    fetchData: suspend (Int) -> Resource<Pair<List<T>, Int>>,
-    saveData: suspend (List<T>) -> Unit,
-    updateVersion: suspend (Int) -> Unit,
-): Boolean = suspendRunCatching {
-    val localVersion = versionReader()
-    when (val result = fetchData(localVersion)) {
-        is Resource.Success -> {
-            val (data, newVersion) = result.data
-            saveData(data)
-            updateVersion(newVersion)
-        }
-        is Resource.Error -> throw result.exception
-    }
-}.isSuccess
-
-suspend fun <T> Synchronizer.forceSyncWithResource(
-    fetch: suspend () -> Resource<T>,
-    save: suspend (T) -> Unit,
-) = suspendRunCatching {
-    when (val result = fetch()) {
-        is Resource.Success -> save(result.data)
-        is Resource.Error -> throw result.exception
-    }
-}.isSuccess
-
 suspend fun <T> Synchronizer.syncData(
     versionReader: suspend () -> Int,
     fetchData: suspend (Int) -> List<T>,
@@ -85,3 +62,24 @@ suspend fun <T> Synchronizer.syncData(
     }
 }.isSuccess
 
+suspend fun Synchronizer.changeListSync(
+    versionReader: (ChangeListVersions) -> Int,
+    changeListFetcher: suspend (Int) -> List<NetworkChangeList>,
+    versionUpdater: ChangeListVersions.(Int) -> ChangeListVersions,
+    modelDeleter: suspend (List<Int>) -> Unit,
+    modelUpdater: suspend (List<Int>) -> Unit,
+): Boolean = suspendRunCatching {
+    val currentVersion = versionReader(getChangeListVersions())
+    val changeList = changeListFetcher(currentVersion)
+    if (changeList.isEmpty()) return@suspendRunCatching true
+    val (deleted, updated) = changeList.partition(NetworkChangeList::isDeleted)
+
+    modelDeleter(deleted.map { it.id })
+    modelUpdater(updated.map { it.id })
+
+    val latestVersion = changeList.last().version
+
+    updateChangeListVersions {
+        versionUpdater(latestVersion)
+    }
+}.isSuccess

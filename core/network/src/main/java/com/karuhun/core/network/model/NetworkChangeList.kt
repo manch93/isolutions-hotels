@@ -21,11 +21,11 @@ import com.google.gson.annotations.SerializedName
 data class NetworkChangeList(
 
 	@field:SerializedName("is_deleted")
-	val isDeleted: Int? = null,
+	val isDeleted: Boolean,
 
 	@field:SerializedName("id")
-	val id: Int? = null,
+	val id: Int,
 
 	@field:SerializedName("version")
-	val version: Int? = null
+	val version: Int
 )

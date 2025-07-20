@@ -31,7 +31,7 @@ data class GetFoodsResponse(
 	val foodCategoryId: Int? = null,
 
     @field:SerializedName("is_deleted")
-    val isDeleted: Int? = null,
+    val isDeleted: Boolean? = null,
 
 	@field:SerializedName("price")
 	val price: Int? = null,

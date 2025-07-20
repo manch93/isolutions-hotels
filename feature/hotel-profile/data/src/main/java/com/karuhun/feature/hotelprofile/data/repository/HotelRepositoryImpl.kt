@@ -18,20 +18,17 @@ package com.karuhun.feature.hotelprofile.data.repository
 
 import android.content.Context
 import com.karuhun.core.common.Resource
-import com.karuhun.core.common.Synchronizer
-import com.karuhun.core.common.forceSyncWithResource
 import com.karuhun.core.common.map
-import com.karuhun.core.common.toModel
+import com.karuhun.core.common.util.DeviceUtil
+import com.karuhun.core.data.Synchronizer
 import com.karuhun.core.database.dao.HotelDao
 import com.karuhun.core.database.model.toDomain
-import com.karuhun.core.database.model.toEntity
 import com.karuhun.core.domain.repository.HotelRepository
 import com.karuhun.core.model.Hotel
 import com.karuhun.core.model.RoomDetail
 import com.karuhun.core.network.safeApiCall
 import com.karuhun.feature.hotelprofile.data.source.HotelApiService
 import com.karuhun.feature.hotelprofile.data.source.remote.response.toDomain
-import com.karuhun.core.common.util.DeviceUtil
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -52,14 +49,5 @@ class HotelRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun syncWith(synchronizer: Synchronizer): Boolean = synchronizer.forceSyncWithResource(
-        fetch = {
-            safeApiCall { api.getHotelProfile() }
-        },
-        save = { response ->
-            val hotel = response.data.toDomain()
-            hotelDao.deleteAll()
-            hotelDao.upsert(hotel.toEntity())
-        },
-    )
+    override suspend fun syncWith(synchronizer: Synchronizer): Boolean = true
 }

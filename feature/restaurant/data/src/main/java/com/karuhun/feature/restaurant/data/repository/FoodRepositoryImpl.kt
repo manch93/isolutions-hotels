@@ -16,21 +16,16 @@
 
 package com.karuhun.feature.restaurant.data.repository
 
-import com.karuhun.core.common.BasePagingSource.Companion.DEFAULT_PAGE_SIZE
-import com.karuhun.core.common.Resource
-import com.karuhun.core.common.Synchronizer
-import com.karuhun.core.common.forceSyncWithResource
-import com.karuhun.core.common.syncData
+import com.karuhun.core.data.Synchronizer
+import com.karuhun.core.data.changeListSync
+import com.karuhun.core.data.syncData
 import com.karuhun.core.database.dao.FoodDao
-import com.karuhun.core.database.model.FoodCategoryEntity
-import com.karuhun.core.database.model.FoodEntity
 import com.karuhun.core.database.model.toDomainList
 import com.karuhun.core.database.model.toEntityList
+import com.karuhun.core.datastore.ChangeListVersions
 import com.karuhun.core.datastore.LauncherPreferencesDatastore
 import com.karuhun.core.domain.repository.FoodRepository
 import com.karuhun.core.model.Food
-import com.karuhun.feature.restaurant.data.paging.FoodCategoryPagingSource
-import com.karuhun.feature.restaurant.data.paging.FoodPagingSource
 import com.karuhun.feature.restaurant.data.source.RestaurantApiService
 import com.karuhun.feature.restaurant.data.source.remote.RestaurantNetworkDataSource
 import kotlinx.coroutines.flow.Flow
@@ -52,22 +47,24 @@ class FoodRepositoryImpl @Inject constructor(
     }
 
     override suspend fun syncWith(synchronizer: Synchronizer): Boolean {
-        return synchronizer.syncData(
-            versionReader = {
-                launcherDatastore.versionData.first().foodVersion
+        return synchronizer.changeListSync(
+            versionReader = ChangeListVersions::foodVersion,
+            changeListFetcher = { currentVersion ->
+                networkDataSource.getFoodChangelist(after = currentVersion)
             },
-            fetchData = { networkDataSource.getFoods(it)},
-            saveData = { foodList ->
-                val foodsDeleted: List<Int> = foodList.filter { it.isDeleted == 1 }
-                    .map { it.id }
-                val foodsToSave = foodList.filter { it.isDeleted != 1 }.toEntityList()
-
-                foodDao.delete(foodsDeleted)
-                foodDao.upsert(foodsToSave)
-
+            versionUpdater = { latestVersion ->
+                copy(
+                    foodVersion = latestVersion
+                )
             },
-            updateVersion = {
-//                launcherDatastore.setFoodVersion(it)
+            modelDeleter = {
+                foodDao.delete(it)
+            },
+            modelUpdater = { changedIds ->
+                val networkFoods = networkDataSource.getFoods(changedIds)
+                foodDao.upsert(
+                    food = networkFoods.toEntityList()
+                )
             }
         )
     }

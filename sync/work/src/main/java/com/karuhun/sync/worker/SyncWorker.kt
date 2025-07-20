@@ -22,15 +22,15 @@ import androidx.hilt.work.HiltWorker
 import androidx.tracing.traceAsync
 import androidx.work.CoroutineWorker
 import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkerParameters
-import com.karuhun.core.common.Synchronizer
+import com.karuhun.core.data.Synchronizer
+import com.karuhun.core.datastore.ChangeListVersions
+import com.karuhun.core.datastore.LauncherPreferencesDatastore
 import com.karuhun.core.domain.repository.ApplicationRepository
 import com.karuhun.core.domain.repository.ContentRepository
 import com.karuhun.core.domain.repository.FoodCategoryRepository
 import com.karuhun.core.domain.repository.FoodRepository
 import com.karuhun.core.domain.repository.HotelRepository
-import com.karuhun.core.domain.usecase.GetHotelProfileUseCase
 import com.karuhun.sync.initializer.SyncConstraints
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -47,7 +47,8 @@ class SyncWorker @AssistedInject constructor(
     private val contentRepository: ContentRepository,
     private val applicationRepository: ApplicationRepository,
     private val foodCategoryRepository: FoodCategoryRepository,
-    private val foodRepository: FoodRepository
+    private val foodRepository: FoodRepository,
+    private val launcherDatastore: LauncherPreferencesDatastore
 ) : CoroutineWorker(appContext, workerParams), Synchronizer {
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         Log.d("SyncWorker", "doWork: Starting sync operation")
@@ -56,7 +57,7 @@ class SyncWorker @AssistedInject constructor(
 //                async { hotelRepository.sync() },
 //                async { contentRepository.sync() },
 //                async { applicationRepository.sync() },
-                async { foodCategoryRepository.sync() },
+//                async { foodCategoryRepository.sync() },
                 async { foodRepository.sync() }
             ).all { it }
 
@@ -68,6 +69,14 @@ class SyncWorker @AssistedInject constructor(
                 Result.retry()
             }
         }
+    }
+
+    override suspend fun getChangeListVersions(): ChangeListVersions {
+        return launcherDatastore.getChangeListVersions()
+    }
+
+    override suspend fun updateChangeListVersions(update: ChangeListVersions.() -> ChangeListVersions) {
+        return launcherDatastore.updateChangeListVersions(update)
     }
 
     companion object {

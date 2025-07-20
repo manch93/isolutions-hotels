@@ -20,6 +20,7 @@ import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.IOException
 import com.karuhun.core.model.VersionData
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -58,6 +59,36 @@ class LauncherPreferencesDatastore @Inject constructor(
             }
         } catch (ioException: IOException) {
             Log.d("LauncherPreferences", "Failed to update food category version")
+        }
+    }
+
+    suspend fun getChangeListVersions(): ChangeListVersions = version.data
+        .map {
+            ChangeListVersions(
+                foodVersion = it.foodVersion,
+                foodCategoryVersion = it.foodCategoryVersion
+            )
+        }
+        .firstOrNull() ?: ChangeListVersions()
+
+    suspend fun updateChangeListVersions(
+        update: ChangeListVersions.() -> ChangeListVersions
+    ) {
+        try {
+            version.updateData { currentPreferences ->
+                val updatedPreferences = update(
+                    ChangeListVersions(
+                        foodVersion = currentPreferences.foodVersion,
+                        foodCategoryVersion = currentPreferences.foodCategoryVersion
+                    )
+                )
+                currentPreferences.copy {
+                    foodVersion = updatedPreferences.foodVersion
+                    foodCategoryVersion = updatedPreferences.foodCategoryVersion
+                }
+            }
+        } catch (ioException: IOException) {
+            Log.e("LauncherPreferences", "Failed to update change list versions", ioException)
         }
     }
 }

@@ -20,8 +20,6 @@ import com.google.gson.annotations.SerializedName
 
 open class BasePaginationResponse<T> {
     val data: List<T>? = null
-    @SerializedName("latest_version")
-    val latestVersion: Int? = null
     @SerializedName("next_page_url")
     val nextPageUrl: String? = null
 }

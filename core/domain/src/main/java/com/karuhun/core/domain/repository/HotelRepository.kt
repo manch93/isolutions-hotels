@@ -17,13 +17,12 @@
 package com.karuhun.core.domain.repository
 
 import com.karuhun.core.common.Resource
-import com.karuhun.core.common.Syncable
-import com.karuhun.core.model.Content
+import com.karuhun.core.data.Syncable
 import com.karuhun.core.model.Hotel
 import com.karuhun.core.model.RoomDetail
 import kotlinx.coroutines.flow.Flow
 
-interface HotelRepository : Syncable{
+interface HotelRepository : Syncable {
     suspend fun getHotelProfile(): Flow<Hotel>
     suspend fun getRoomDetail(): Resource<RoomDetail>
 }

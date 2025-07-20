@@ -14,14 +14,9 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.model
+package com.karuhun.core.datastore
 
-data class Food(
-    val id: Int,
-    val name: String?,
-    val description: String?,
-    val price: Int?,
-    val imageUrl: String?,
-    val categoryId: Int?,
-    val isDeleted: Boolean?
+data class ChangeListVersions(
+    val foodVersion: Int = -1,
+    val foodCategoryVersion: Int = -1,
 )

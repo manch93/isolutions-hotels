@@ -20,6 +20,7 @@ import com.karuhun.core.common.orZero
 import com.karuhun.core.datastore.LauncherPreferencesDatastore
 import com.karuhun.core.model.Food
 import com.karuhun.core.model.FoodCategory
+import com.karuhun.core.network.model.NetworkChangeList
 import com.karuhun.feature.restaurant.data.source.RestaurantApiService
 import com.karuhun.feature.restaurant.data.source.remote.response.toDomainList
 import kotlinx.coroutines.CoroutineDispatcher
@@ -34,26 +35,12 @@ class RestaurantNetworkDataSource @Inject constructor(
     suspend fun getFoodCategories(after: Int): List<FoodCategory> {
         return withContext(ioDispatcher) {
             val allFoodCategories = mutableListOf<FoodCategory>()
-            var currentPage = 1
-
-
-            do {
-                val params = mapOf(
-                    "after" to after.toString(),
-                    "paginate" to "10",
-                    "page" to "$currentPage"
-                )
-                val response = restaurantApiService.getCategories(params)
-                preferencesDatastore.setFoodCategoryVersion(response.data?.latestVersion.orZero())
-                allFoodCategories.addAll(response.data?.data?.toDomainList() ?: emptyList())
-                currentPage++
-            } while (response.data?.nextPageUrl != null)
             allFoodCategories
         }
     }
 
     suspend fun getFoods(
-        after: Int
+        ids: List<Int>
     ): List<Food> {
         return  withContext(ioDispatcher) {
             val allFoods = mutableListOf<Food>()
@@ -61,15 +48,36 @@ class RestaurantNetworkDataSource @Inject constructor(
 
             do {
                 val params = mapOf(
-                    "after" to after.toString(),
+                    "order" to "asc",
                     "paginate" to "10",
-                    "page" to "$currentPage"
+                    "page" to "$currentPage",
+                    "ids" to ids.joinToString(",")
                 )
                 val response = restaurantApiService.getFoods(params)
                 allFoods.addAll(response.data?.data?.toDomainList() ?: emptyList())
                 currentPage++
             } while (response.data?.nextPageUrl != null)
             allFoods
+        }
+    }
+
+    suspend fun getFoodChangelist(after: Int) : List<NetworkChangeList> {
+        return withContext(ioDispatcher) {
+            val allChangeLists = mutableListOf<NetworkChangeList>()
+            var currentPage = 1
+            do {
+                val params = mapOf(
+                    "order" to "asc",
+                    "orderBy" to "foods.version",
+                    "paginate" to "10",
+                    "page" to "$currentPage",
+                    "after" to after.toString()
+                )
+                val response = restaurantApiService.getFoodChangeList(params)
+                allChangeLists.addAll(response.data?.data ?: emptyList())
+                currentPage++
+            } while (response.data?.nextPageUrl != null)
+            allChangeLists
         }
     }
 }
