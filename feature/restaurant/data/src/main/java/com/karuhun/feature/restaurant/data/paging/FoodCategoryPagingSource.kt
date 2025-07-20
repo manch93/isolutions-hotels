@@ -18,7 +18,6 @@ package com.karuhun.feature.restaurant.data.paging
 
 import com.karuhun.core.common.BasePagingSource
 import com.karuhun.core.database.model.FoodCategoryEntity
-import com.karuhun.core.network.model.BaseResponse
 import com.karuhun.feature.restaurant.data.source.RestaurantApiService
 import com.karuhun.feature.restaurant.data.source.remote.response.GetCategoryResponse
 
@@ -32,7 +31,7 @@ internal class FoodCategoryPagingSource(
             put("page", page.toString())
         }
 
-        val response = restaurantApiService.getCategories(params)
+        val response = restaurantApiService.getFoodCategories(params)
         return response.data?.data ?: emptyList()
     }
 

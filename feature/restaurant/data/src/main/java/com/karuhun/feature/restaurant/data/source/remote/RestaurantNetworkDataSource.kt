@@ -16,7 +16,6 @@
 
 package com.karuhun.feature.restaurant.data.source.remote
 
-import com.karuhun.core.common.orZero
 import com.karuhun.core.datastore.LauncherPreferencesDatastore
 import com.karuhun.core.model.Food
 import com.karuhun.core.model.FoodCategory
@@ -32,10 +31,43 @@ class RestaurantNetworkDataSource @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher,
     private val preferencesDatastore: LauncherPreferencesDatastore
 ) {
-    suspend fun getFoodCategories(after: Int): List<FoodCategory> {
+    suspend fun getFoodCategories(ids: List<Int>): List<FoodCategory> {
         return withContext(ioDispatcher) {
-            val allFoodCategories = mutableListOf<FoodCategory>()
-            allFoodCategories
+            val allFoods = mutableListOf<FoodCategory>()
+            var currentPage = 1
+
+            do {
+                val params = mapOf(
+                    "order" to "asc",
+                    "paginate" to "10",
+                    "page" to "$currentPage",
+                    "ids" to ids.joinToString(",")
+                )
+                val response = restaurantApiService.getFoodCategories(params)
+                allFoods.addAll(response.data?.data?.toDomainList() ?: emptyList())
+                currentPage++
+            } while (response.data?.nextPageUrl != null)
+            allFoods
+        }
+    }
+
+    suspend fun getFoodCategoriesChangeList(after: Int) : List<NetworkChangeList> {
+        return withContext(ioDispatcher) {
+            val allChangeLists = mutableListOf<NetworkChangeList>()
+            var currentPage = 1
+            do {
+                val params = mapOf(
+                    "order" to "asc",
+                    "orderBy" to "food_categories.version",
+                    "paginate" to "10",
+                    "page" to "$currentPage",
+                    "after" to after.toString()
+                )
+                val response = restaurantApiService.getFoodCategoryChangeList(params)
+                allChangeLists.addAll(response.data?.data ?: emptyList())
+                currentPage++
+            } while (response.data?.nextPageUrl != null)
+            allChangeLists
         }
     }
 

@@ -17,10 +17,12 @@
 package com.karuhun.feature.restaurant.data.repository
 
 import com.karuhun.core.data.Synchronizer
+import com.karuhun.core.data.changeListSync
 import com.karuhun.core.data.syncData
 import com.karuhun.core.database.dao.FoodCategoryDao
 import com.karuhun.core.database.model.toDomainList
 import com.karuhun.core.database.model.toEntityList
+import com.karuhun.core.datastore.ChangeListVersions
 import com.karuhun.core.datastore.LauncherPreferencesDatastore
 import com.karuhun.core.domain.repository.FoodCategoryRepository
 import com.karuhun.core.model.FoodCategory
@@ -33,7 +35,7 @@ import javax.inject.Inject
 class FoodCategoryRepositoryImpl @Inject constructor(
     private val foodCategoryDao: FoodCategoryDao,
     private val launcherDatastore: LauncherPreferencesDatastore,
-    private val restaurantNetworkDataSource: RestaurantNetworkDataSource
+    private val networkDataSource: RestaurantNetworkDataSource
 ) : FoodCategoryRepository{
     override fun getRestaurantCategories(): Flow<List<FoodCategory>?> {
         return foodCategoryDao.getAll().map {
@@ -42,29 +44,25 @@ class FoodCategoryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun syncWith(synchronizer: Synchronizer): Boolean {
-        return synchronizer.syncData(
-            versionReader = { launcherDatastore.versionData.first().foodCategoryVersion },
-            fetchData = { version ->
-                restaurantNetworkDataSource.getFoodCategories(version)
+        return synchronizer.changeListSync(
+            versionReader = ChangeListVersions::foodCategoryVersion,
+            changeListFetcher = { currentVersion ->
+                networkDataSource.getFoodCategoriesChangeList(after = currentVersion)
             },
-            saveData = { data ->
-                foodCategoryDao.upsert(data.toEntityList())
+            versionUpdater = { latestVersion->
+                copy(
+                    foodCategoryVersion = latestVersion
+                )
             },
-            updateVersion = { newVersion ->
-                launcherDatastore.setFoodCategoryVersion(newVersion)
-            }
+            modelDeleter = {
+                foodCategoryDao.deleteByIds(it)
+            },
+            modelUpdater = { changedIds ->
+                val networkFoodCategories = networkDataSource.getFoodCategories(ids = changedIds)
+                foodCategoryDao.upsert(
+                    items = networkFoodCategories.toEntityList()
+                )
+            },
         )
-//        return synchronizer.syncData(
-//            versionReader = { launcherDatastore.versionData.first().foodCategoryVersion },
-//            fetchFoodCategories = { version ->
-//                restaurantNetworkDataSource.getFoodCategories(version)
-//            },
-//            saveFoodCategories = { foodCategories ->
-//                foodCategoryDao.upsert(foodCategories.toEntityList())
-//            },
-//            updateVersion = { newVersion ->
-//                launcherDatastore.setFoodCategoryVersion(newVersion)
-//            }
-//        )
     }
 }

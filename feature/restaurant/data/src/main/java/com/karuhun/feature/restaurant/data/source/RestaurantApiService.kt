@@ -26,7 +26,7 @@ import retrofit2.http.QueryMap
 
 interface RestaurantApiService {
     @GET("food-category")
-    suspend fun getCategories(
+    suspend fun getFoodCategories(
         @QueryMap(encoded = true) params: Map<String, String>
     ): BaseResponse<BasePaginationResponse<GetCategoryResponse>>
 
