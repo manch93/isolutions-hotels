@@ -16,53 +16,42 @@
 
 package com.karuhun.feature.content.data.repository
 
-import android.util.Log
-import com.karuhun.core.common.Resource
 import com.karuhun.core.data.Synchronizer
 import com.karuhun.core.data.changeListSync
-import com.karuhun.core.database.dao.ContentDao
 import com.karuhun.core.database.dao.ContentItemDao
 import com.karuhun.core.database.model.toDomainModel
 import com.karuhun.core.database.model.toEntity
-import com.karuhun.core.database.model.toModel
 import com.karuhun.core.datastore.ChangeListVersions
-import com.karuhun.core.domain.repository.ContentRepository
-import com.karuhun.core.model.Content
+import com.karuhun.core.domain.repository.ContentItemsRepository
 import com.karuhun.core.model.ContentItem
-import com.karuhun.core.network.safeApiCall
-import com.karuhun.feature.content.data.source.ContentApiService
 import com.karuhun.feature.content.data.source.remote.ContentNetworkDataSource
-import com.karuhun.feature.content.data.source.remote.response.toDomain
-import com.karuhun.feature.content.data.source.remote.response.toDomainModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class ContentRepositoryImpl @Inject constructor(
-    private val apiService: ContentApiService,
-    private val contentDao: ContentDao,
+class ContentItemsRepositoryImpl @Inject constructor(
     private val contentItemDao: ContentItemDao,
     private val networkDataSource: ContentNetworkDataSource
-) : ContentRepository {
-    override suspend fun getContents(): Flow<List<Content>> {
-        return contentDao.getAll().map { it.toModel() }
+) : ContentItemsRepository {
+    override suspend fun getContentItems(id: Int): Flow<List<ContentItem>> {
+        return contentItemDao.getByContentId(id).map { it.toDomainModel() }
     }
 
     override suspend fun syncWith(synchronizer: Synchronizer): Boolean {
         return synchronizer.changeListSync(
-            versionReader = ChangeListVersions::contentsVersion,
+            versionReader = ChangeListVersions::contentItemsVersion,
             changeListFetcher = { currentVersion ->
-                networkDataSource.getContentChangeList(currentVersion)
+                networkDataSource.getContentItemChangelist(currentVersion)
             },
             versionUpdater = { latestVersion ->
                 copy(
-                    contentsVersion = latestVersion
+                    contentItemsVersion = latestVersion
                 )
             },
-            modelDeleter = contentDao::deleteContentByIds,
+            modelDeleter = contentItemDao::deleteById,
             modelUpdater = { changedIds ->
-                val networkContents = networkDataSource.getContents(changedIds)
-                contentDao.upsert(networkContents.toEntity())
+                val networkContents = networkDataSource.getContentItems(changedIds)
+                contentItemDao.upsert(networkContents.toEntity())
             }
         )
     }

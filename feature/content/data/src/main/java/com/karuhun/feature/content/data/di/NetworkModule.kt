@@ -21,6 +21,7 @@ import com.karuhun.core.common.network.LauncherDispatcher
 import com.karuhun.feature.content.data.source.ApplicationApiService
 import com.karuhun.feature.content.data.source.ContentApiService
 import com.karuhun.feature.content.data.source.remote.ApplicationNetworkDataSource
+import com.karuhun.feature.content.data.source.remote.ContentNetworkDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,6 +50,18 @@ object NetworkModule {
         @Dispatcher(LauncherDispatcher.IO) ioDispatcher: CoroutineDispatcher
     ) : ApplicationNetworkDataSource{
         return ApplicationNetworkDataSource(
+            apiService = apiService,
+            ioDispatcher = ioDispatcher
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideContentNetworkDataSource(
+        apiService: ContentApiService,
+        @Dispatcher(LauncherDispatcher.IO) ioDispatcher: CoroutineDispatcher
+    ) : ContentNetworkDataSource{
+        return ContentNetworkDataSource(
             apiService = apiService,
             ioDispatcher = ioDispatcher
         )

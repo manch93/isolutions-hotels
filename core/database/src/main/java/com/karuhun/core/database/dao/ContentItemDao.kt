@@ -28,11 +28,8 @@ interface ContentItemDao {
     suspend fun upsert(data: List<ContentItemEntity>)
 
     @Query("SELECT * FROM content_item WHERE contentId = :contentId")
-    fun getContentItemsByContentId(contentId: Int): Flow<List<ContentItemEntity>>
+    fun getByContentId(contentId: Int): Flow<List<ContentItemEntity>>
 
-    @Query("SELECT * FROM content_item")
-    fun getAll(): Flow<List<ContentItemEntity>>
-
-    @Query("DELETE FROM content_item")
-    suspend fun deleteAll()
+    @Query("DELETE FROM content_item WHERE id in (:ids)")
+    suspend fun deleteById(ids: List<Int>)
 }

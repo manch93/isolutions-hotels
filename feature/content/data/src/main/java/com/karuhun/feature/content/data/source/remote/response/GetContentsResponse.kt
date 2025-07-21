@@ -41,7 +41,7 @@ data class GetContentsResponse(
 	val id: Int? = null
 )
 
-fun List<GetContentsResponse>?.toDomain(): List<Content> {
+fun List<GetContentsResponse>.toDomainList(): List<Content> {
     return this.orEmpty().map { response ->
         Content(
             id = response.id.orZero(),

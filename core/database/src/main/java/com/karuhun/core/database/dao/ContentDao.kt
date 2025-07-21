@@ -30,6 +30,9 @@ interface ContentDao {
     @Upsert
     suspend fun upsert(data: List<ContentEntity>)
 
+    @Upsert
+    suspend fun upsertContentItems(data: List<ContentItemEntity>)
+
     @Query("SELECT * FROM content WHERE id = :id")
     suspend fun getContentById(id: Int): ContentEntity?
 
@@ -41,4 +44,10 @@ interface ContentDao {
 
     @Query("DELETE FROM content")
     suspend fun deleteAll()
+
+    @Query("DELETE FROM content WHERE id in (:ids)")
+    suspend fun deleteContentByIds(ids: List<Int>)
+
+    @Query("DELETE FROM content_item WHERE id in (:ids)")
+    suspend fun deleteContentItemByIds(ids: List<Int>)
 }

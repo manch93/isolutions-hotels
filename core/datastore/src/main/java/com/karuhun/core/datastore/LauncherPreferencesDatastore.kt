@@ -35,39 +35,14 @@ class LauncherPreferencesDatastore @Inject constructor(
             )
         }
 
-    suspend fun getVersion() = versionData.collect {
-        it.foodCategoryVersion
-    }
-
-    suspend fun setFoodCategoryVersion(newVersion: Int) {
-        try {
-            version.updateData {
-                it.copy {
-                    foodCategoryVersion = newVersion
-                }
-            }
-        } catch (ioException: IOException) {
-            Log.d("LauncherPreferences", "Failed to update food category version")
-        }
-    }
-    suspend fun setFoodVersion(newVersion: Int) {
-        try {
-            version.updateData {
-                it.copy {
-                    foodVersion = newVersion
-                }
-            }
-        } catch (ioException: IOException) {
-            Log.d("LauncherPreferences", "Failed to update food category version")
-        }
-    }
-
     suspend fun getChangeListVersions(): ChangeListVersions = version.data
         .map {
             ChangeListVersions(
                 foodVersion = it.foodVersion,
                 foodCategoryVersion = it.foodCategoryVersion,
-                applicationVersion = it.applicationVersion
+                applicationVersion = it.applicationVersion,
+                contentsVersion = it.contentsVersion,
+                contentItemsVersion = it.contentItemsVersion,
             )
         }
         .firstOrNull() ?: ChangeListVersions()
@@ -81,12 +56,17 @@ class LauncherPreferencesDatastore @Inject constructor(
                     ChangeListVersions(
                         foodVersion = currentPreferences.foodVersion,
                         foodCategoryVersion = currentPreferences.foodCategoryVersion,
-                        applicationVersion = currentPreferences.applicationVersion
+                        applicationVersion = currentPreferences.applicationVersion,
+                        contentsVersion = currentPreferences.contentsVersion,
+                        contentItemsVersion = currentPreferences.contentItemsVersion
                     )
                 )
                 currentPreferences.copy {
                     foodVersion = updatedPreferences.foodVersion
                     foodCategoryVersion = updatedPreferences.foodCategoryVersion
+                    applicationVersion = updatedPreferences.applicationVersion
+                    contentsVersion = updatedPreferences.contentsVersion
+                    contentItemsVersion = updatedPreferences.contentItemsVersion
                 }
             }
         } catch (ioException: IOException) {

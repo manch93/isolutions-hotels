@@ -27,6 +27,7 @@ import com.karuhun.core.data.Synchronizer
 import com.karuhun.core.datastore.ChangeListVersions
 import com.karuhun.core.datastore.LauncherPreferencesDatastore
 import com.karuhun.core.domain.repository.ApplicationRepository
+import com.karuhun.core.domain.repository.ContentItemsRepository
 import com.karuhun.core.domain.repository.ContentRepository
 import com.karuhun.core.domain.repository.FoodCategoryRepository
 import com.karuhun.core.domain.repository.FoodRepository
@@ -45,6 +46,7 @@ class SyncWorker @AssistedInject constructor(
     @Assisted private val workerParams: WorkerParameters,
     private val hotelRepository: HotelRepository,
     private val contentRepository: ContentRepository,
+    private val contentItemsRepository: ContentItemsRepository,
     private val applicationRepository: ApplicationRepository,
     private val foodCategoryRepository: FoodCategoryRepository,
     private val foodRepository: FoodRepository,
@@ -54,11 +56,12 @@ class SyncWorker @AssistedInject constructor(
         Log.d("SyncWorker", "doWork: Starting sync operation")
         traceAsync("Sync", 0) {
             val syncedSuccessfully = awaitAll(
-                async { hotelRepository.sync() },
-//                async { contentRepository.sync() },
-                async { applicationRepository.sync() },
-                async { foodCategoryRepository.sync() },
-                async { foodRepository.sync() }
+//                async { hotelRepository.sync() },
+                async { contentRepository.sync() },
+                async { contentItemsRepository.sync() },
+//                async { applicationRepository.sync() },
+//                async { foodCategoryRepository.sync() },
+//                async { foodRepository.sync() }
             ).all { it }
 
             if (syncedSuccessfully) {

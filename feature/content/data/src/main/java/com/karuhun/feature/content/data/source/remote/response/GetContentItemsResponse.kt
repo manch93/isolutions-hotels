@@ -55,4 +55,4 @@ fun GetContentItemsResponse.toDomainModel() = ContentItem(
     contentId = featureCategoryId.orZero()
 )
 
-fun List<GetContentItemsResponse>?.toDomainModel() = this.orEmpty().map { it.toDomainModel() }
+fun List<GetContentItemsResponse>?.toDomainList() = this.orEmpty().map { it.toDomainModel() }

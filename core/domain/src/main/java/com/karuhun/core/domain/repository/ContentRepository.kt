@@ -23,5 +23,4 @@ import kotlinx.coroutines.flow.Flow
 
 interface ContentRepository : Syncable {
     suspend fun getContents(): Flow<List<Content>>
-    fun getContentItemsById(id: Int): Flow<List<ContentItem>>
 }
