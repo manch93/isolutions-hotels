@@ -48,6 +48,7 @@ class ContentRepositoryImpl @Inject constructor(
         return contentDao.getAll().map { it.toModel() }
     }
 
+
     override suspend fun syncWith(synchronizer: Synchronizer): Boolean {
         return synchronizer.changeListSync(
             versionReader = ChangeListVersions::contentsVersion,

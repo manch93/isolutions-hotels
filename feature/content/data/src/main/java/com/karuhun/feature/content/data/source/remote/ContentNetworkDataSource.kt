@@ -39,7 +39,7 @@ class ContentNetworkDataSource @Inject constructor(
                     "order" to "asc",
                     "paginate" to "10",
                     "page" to "$currentPage",
-                    "ids" to ids.joinToString(",")
+                    "id" to ids.joinToString(",")
                 )
                 val response = apiService.getContents(params)
                 allFoods.addAll(response.data?.data?.toDomainList() ?: emptyList())
@@ -81,7 +81,7 @@ class ContentNetworkDataSource @Inject constructor(
                     "order" to "asc",
                     "paginate" to "10",
                     "page" to "$currentPage",
-                    "ids" to ids.joinToString(",")
+                    "id" to ids.joinToString(",")
                 )
                 val response = apiService.getContentItems(params)
                 allFoods.addAll(response.data?.data?.toDomainList() ?: emptyList())
