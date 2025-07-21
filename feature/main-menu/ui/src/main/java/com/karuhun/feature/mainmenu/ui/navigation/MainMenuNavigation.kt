@@ -44,7 +44,7 @@ fun NavGraphBuilder.mainMenuScreen(
             uiState = uiState,
             uiEffect = uiEffect,
             uiAction = uiAction,
-            onNavigateToDetailContent = onNavigateToContentItems,
+            onNavigateToContentItems = onNavigateToContentItems,
             onNavigateToRestaurant = onNavigateToRestaurant
         )
     }

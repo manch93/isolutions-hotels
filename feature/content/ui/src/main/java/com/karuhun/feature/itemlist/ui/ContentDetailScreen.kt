@@ -36,6 +36,7 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.karuhun.core.model.ContentItem
 import com.karuhun.launcher.core.designsystem.component.LauncherCard
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
 import kotlinx.coroutines.flow.Flow
@@ -45,6 +46,7 @@ import kotlinx.coroutines.flow.emptyFlow
 fun ContentDetailScreen(
     modifier: Modifier = Modifier,
     contentId: Int,
+    content: ContentItem? = null,
     uiState: ContentContract.UiState,
     uiEffect: Flow<ContentContract.UiEffect>,
     onAction: (ContentContract.UiAction) -> Unit,
@@ -61,7 +63,7 @@ fun ContentDetailScreen(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("http://cms.fortytv.id:2021/storage/arounds/arounds_25-06-2025_685bcfc1f0628.jpg")
+                    .data(content?.image)
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
@@ -81,12 +83,12 @@ fun ContentDetailScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = "Mount Bromo",
+                    text = content?.name.orEmpty(),
                     style = MaterialTheme.typography.titleMedium
                 )
 
                 Text(
-                    text = "The Bromo, or Mount Bromo is an active somma volcano, a Hindu pilgrimage site, and part of the Tengger mountains, in East Java, Indonesia. At 2,329 meters it is not the highest peak of the massif, but is the most active and famous.",
+                    text = content?.description.orEmpty(),
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Light
                     )

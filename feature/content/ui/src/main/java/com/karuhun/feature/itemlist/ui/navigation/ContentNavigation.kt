@@ -24,15 +24,21 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.karuhun.core.model.ContentItem
 import com.karuhun.feature.itemlist.ui.ContentDetailScreen
 import com.karuhun.feature.itemlist.ui.ContentItemsScreen
 import com.karuhun.feature.itemlist.ui.ContentViewModel
 import kotlinx.serialization.Serializable
 
 @Serializable data class ContentItems(val contentId: Int)
-@Serializable data class ContentDetail(val contentId: Int)
+@Serializable data class ContentDetail(
+    val contentId: Int,
+    val contentImage: String?,
+    val contentTitle: String?,
+    val contentDescription: String?,
+)
 fun NavGraphBuilder.contentScreen(
-    onNavigateToDetail: (Int) -> Unit,
+    onNavigateToDetail: (ContentItem) -> Unit,
 ) {
     composable<ContentItems> {
         val args: ContentItems = it.toRoute()
@@ -60,6 +66,13 @@ fun NavGraphBuilder.contentScreen(
         ContentDetailScreen(
             modifier = Modifier.fillMaxSize(),
             contentId = args.contentId,
+            content = ContentItem(
+                id = args.contentId,
+                image = args.contentImage,
+                description = args.contentDescription,
+                name = args.contentTitle,
+                contentId = args.contentId,
+            ),
             uiState = uiState,
             uiEffect = uiEffect,
             onAction = onAction,

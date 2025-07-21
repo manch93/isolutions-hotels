@@ -66,7 +66,12 @@ fun LauncherAppNavGraph(
         contentScreen(
             onNavigateToDetail = {
                 navController.apply {
-                    navigate(ContentDetail(contentId = it))
+                    navigate(ContentDetail(
+                        contentId = it.id,
+                        contentImage = it.image,
+                        contentTitle = it.name,
+                        contentDescription = it.description,
+                    ))
                 }
             }
         )

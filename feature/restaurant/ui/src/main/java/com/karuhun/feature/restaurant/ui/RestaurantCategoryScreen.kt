@@ -59,6 +59,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.layout.ContentScale
@@ -88,7 +89,6 @@ import kotlinx.coroutines.flow.emptyFlow
 @Composable
 internal fun RestaurantCategoryScreen(
     modifier: Modifier = Modifier,
-    sidebarWidthFraction: Float = 0.32f,
     uiState: RestaurantContract.UiState,
     uiEffect: Flow<RestaurantContract.UiEffect>,
     onAction: (RestaurantContract.UiAction) -> Unit,
@@ -174,9 +174,8 @@ internal fun RestaurantCategoryScreen(
                 ) {
                     Box(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.surface),
-                        contentAlignment = Alignment.Center
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.BottomStart
                     ) {
                         AsyncImage(
                             modifier = Modifier
@@ -186,14 +185,27 @@ internal fun RestaurantCategoryScreen(
                             contentScale = ContentScale.Crop
 
                         )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(
+                                    brush = Brush.verticalGradient(
+                                        colors = listOf(
+                                            Color.Transparent,
+                                            Color.Black
+                                        ),
+                                        startY = 100f
+                                    )
+                                )
+                        )
                         Text(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .align(Alignment.BottomStart),
+                                .padding(12.dp),
                             text = food.name.orEmpty(),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = Color.White
                         )
                     }
                 }

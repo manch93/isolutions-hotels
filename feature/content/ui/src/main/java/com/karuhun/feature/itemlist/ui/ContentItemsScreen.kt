@@ -45,6 +45,7 @@ import androidx.tv.material3.Text
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.karuhun.core.common.orZero
+import com.karuhun.core.model.ContentItem
 import com.karuhun.launcher.core.designsystem.component.LauncherCard
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
 import kotlinx.coroutines.flow.Flow
@@ -57,7 +58,7 @@ fun ContentItemsScreen(
     uiEffect: Flow<ContentContract.UiEffect>,
     onAction: (ContentContract.UiAction) -> Unit,
     contentId: Int,
-    onNavigateToDetail: (Int) -> Unit,
+    onNavigateToDetail: (ContentItem) -> Unit,
 ) {
 
     LaunchedEffect(true) {
@@ -88,7 +89,7 @@ fun ContentItemsScreen(
                         .fillMaxSize()
                         .padding(8.dp)
                         .width(250.dp),
-                    onClick = { onNavigateToDetail(it.id.orZero()) },
+                    onClick = { onNavigateToDetail(it) },
                 ) {
                     Box {
                         AsyncImage(

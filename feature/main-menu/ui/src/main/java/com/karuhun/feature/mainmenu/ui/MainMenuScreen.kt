@@ -28,20 +28,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.RestaurantMenu
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices.TV_720p
 import androidx.compose.ui.tooling.preview.Preview
@@ -54,15 +50,7 @@ import com.karuhun.core.model.Application
 import com.karuhun.launcher.core.designsystem.component.LauncherCard
 import com.karuhun.launcher.core.designsystem.component.MenuItemCard
 import com.karuhun.launcher.core.designsystem.icon.AmazonPrimeVideoSvgrepoCom
-import com.karuhun.launcher.core.designsystem.icon.ArroundUs
-import com.karuhun.launcher.core.designsystem.icon.DisneySvgrepoCom
-import com.karuhun.launcher.core.designsystem.icon.Facility
 import com.karuhun.launcher.core.designsystem.icon.HotelProfile
-import com.karuhun.launcher.core.designsystem.icon.NetflixSvgrepoCom
-import com.karuhun.launcher.core.designsystem.icon.Offer
-import com.karuhun.launcher.core.designsystem.icon.RoomType
-import com.karuhun.launcher.core.designsystem.icon.SettingSvgrepoCom
-import com.karuhun.launcher.core.designsystem.icon.YoutubeTvSvgrepoCom
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -73,7 +61,7 @@ fun MainMenuScreen(
     uiState: MainMenuContract.UiState,
     uiEffect: Flow<MainMenuContract.UiEffect>,
     uiAction: (MainMenuContract.UiAction) -> Unit,
-    onNavigateToDetailContent: (Int) -> Unit,
+    onNavigateToContentItems: (Int) -> Unit,
     onNavigateToRestaurant: () -> Unit,
 ) {
 
@@ -166,7 +154,7 @@ fun MainMenuScreen(
                         .width(250.dp)
                         .height(90.dp)
                         .padding(8.dp),
-                    onClick = { onNavigateToDetailContent(it.id.orZero()) },
+                    onClick = { onNavigateToContentItems(it.id.orZero()) },
                 ) {
                     Row(
                         modifier = Modifier
@@ -215,7 +203,7 @@ private fun MainMenuScreenPreview() {
             ),
             uiEffect = emptyFlow(),
             uiAction = {},
-            onNavigateToDetailContent = {},
+            onNavigateToContentItems = {},
             onNavigateToRestaurant = {}
         )
     }
