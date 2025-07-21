@@ -35,4 +35,7 @@ interface ApplicationDao {
 
      @Query("DELETE FROM application")
      suspend fun deleteAll()
+
+     @Query("DELETE FROM application WHERE id in (:ids)")
+     suspend fun deleteByIds(ids: List<Int>)
 }

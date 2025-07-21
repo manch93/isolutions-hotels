@@ -66,7 +66,8 @@ class LauncherPreferencesDatastore @Inject constructor(
         .map {
             ChangeListVersions(
                 foodVersion = it.foodVersion,
-                foodCategoryVersion = it.foodCategoryVersion
+                foodCategoryVersion = it.foodCategoryVersion,
+                applicationVersion = it.applicationVersion
             )
         }
         .firstOrNull() ?: ChangeListVersions()
@@ -79,7 +80,8 @@ class LauncherPreferencesDatastore @Inject constructor(
                 val updatedPreferences = update(
                     ChangeListVersions(
                         foodVersion = currentPreferences.foodVersion,
-                        foodCategoryVersion = currentPreferences.foodCategoryVersion
+                        foodCategoryVersion = currentPreferences.foodCategoryVersion,
+                        applicationVersion = currentPreferences.applicationVersion
                     )
                 )
                 currentPreferences.copy {

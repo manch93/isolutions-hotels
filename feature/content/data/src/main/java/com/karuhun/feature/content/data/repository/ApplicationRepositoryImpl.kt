@@ -17,27 +17,44 @@
 package com.karuhun.feature.content.data.repository
 
 import com.karuhun.core.data.Synchronizer
+import com.karuhun.core.data.changeListSync
 import com.karuhun.core.database.dao.ApplicationDao
 import com.karuhun.core.database.model.toDomainList
 import com.karuhun.core.database.model.toEntityList
+import com.karuhun.core.datastore.ChangeListVersions
 import com.karuhun.core.domain.repository.ApplicationRepository
 import com.karuhun.core.model.Application
-import com.karuhun.core.network.safeApiCall
-import com.karuhun.feature.content.data.source.ApplicationApiService
-import com.karuhun.feature.content.data.source.remote.response.toDomainList
+import com.karuhun.feature.content.data.source.remote.ApplicationNetworkDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ApplicationRepositoryImpl @Inject constructor(
     private val applicationDao: ApplicationDao,
-    private val apiService: ApplicationApiService
+    private val networkDataSource: ApplicationNetworkDataSource
 ) : ApplicationRepository{
     override fun getAllApplications(): Flow<List<Application>> {
         return applicationDao.getAll().map { it.toDomainList() }
     }
 
     override suspend fun syncWith(synchronizer: Synchronizer): Boolean {
-        return true
+        return synchronizer.changeListSync(
+            versionReader = ChangeListVersions::applicationVersion,
+            changeListFetcher = { currentVersion ->
+                networkDataSource.getApplicationChangeList(currentVersion)
+            },
+            versionUpdater = { latestVersion ->
+                copy(
+                    applicationVersion = latestVersion
+                )
+            },
+            modelDeleter = {
+                applicationDao.deleteByIds(it)
+            },
+            modelUpdater = { changedIds ->
+                val networkApplication = networkDataSource.getApplications(changedIds)
+                applicationDao.upsert(networkApplication.toEntityList())
+            },
+        )
     }
 }

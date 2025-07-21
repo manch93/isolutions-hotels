@@ -56,7 +56,7 @@ class SyncWorker @AssistedInject constructor(
             val syncedSuccessfully = awaitAll(
 //                async { hotelRepository.sync() },
 //                async { contentRepository.sync() },
-//                async { applicationRepository.sync() },
+                async { applicationRepository.sync() },
                 async { foodCategoryRepository.sync() },
                 async { foodRepository.sync() }
             ).all { it }
