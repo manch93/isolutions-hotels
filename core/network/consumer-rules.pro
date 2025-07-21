@@ -1,1 +1,3 @@
 -keep class com.karuhun.core.network.model.BaseResponse { *; }
+-keep class com.karuhun.core.network.model.NetworkChangeList { *; }
+-keep class com.karuhun.core.network.model.BasePaginationResponse { *; }

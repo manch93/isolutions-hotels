@@ -5,6 +5,42 @@
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
+# Keep ChangeListVersions and property references for sync operations
+-keep class com.karuhun.core.datastore.ChangeListVersions { *; }
+-keepclassmembers class com.karuhun.core.datastore.ChangeListVersions {
+    *;
+}
+
+# Keep Kotlin property references used in sync operations
+-keep class kotlin.reflect.** { *; }
+-keep class kotlin.jvm.internal.** { *; }
+-keepclassmembers class kotlin.Metadata {
+    *;
+}
+
+# Keep lambda functions and function types used in sync
+-keepclassmembers class ** {
+    kotlin.jvm.functions.Function* *;
+    kotlin.reflect.KProperty* *;
+}
+
+# Keep sync utilities and synchronizer interface
+-keep class com.karuhun.core.data.** { *; }
+-keepclassmembers class com.karuhun.core.data.** {
+    *;
+}
+
+# Keep network change list models
+-keep class com.karuhun.core.network.model.NetworkChangeList { *; }
+-keepclassmembers class com.karuhun.core.network.model.NetworkChangeList {
+    *;
+}
+
+# Keep extension functions on ChangeListVersions
+-keepclassmembers class com.karuhun.core.datastore.ChangeListVersions {
+    *** copy(...);
+}
+
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
 # class:

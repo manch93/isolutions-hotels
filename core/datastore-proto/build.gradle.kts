@@ -5,6 +5,10 @@ plugins {
 
 android {
     namespace = "com.karuhun.core.datastore.proto"
+
+    defaultConfig {
+        consumerProguardFiles("proguard-rules.pro")
+    }
 }
 
 // Setup protobuf configuration, generating lite Java and Kotlin classes
@@ -23,14 +27,6 @@ protobuf {
                 }
             }
         }
-    }
-}
-
-androidComponents.beforeVariants {
-    android.sourceSets.register(it.name) {
-        val buildDir = layout.buildDirectory.get().asFile
-        java.srcDir(buildDir.resolve("generated/source/proto/${it.name}/java"))
-        kotlin.srcDir(buildDir.resolve("generated/source/proto/${it.name}/kotlin"))
     }
 }
 
