@@ -26,10 +26,10 @@ import retrofit2.http.QueryMap
 interface ApplicationApiService {
     @GET("applications")
     suspend fun getApplications(
-        @QueryMap params: Map<String, String>
+        @QueryMap(encoded = true) params: Map<String, String>
     ) : BaseResponse<BasePaginationResponse<GetApplicationsResponse>>
     @GET("changelist/applications")
     suspend fun getApplicationChangelist(
-        @QueryMap params: Map<String, String>
+        @QueryMap(encoded = true) params: Map<String, String>
     ) : BaseResponse<BasePaginationResponse<NetworkChangeList>>
 }

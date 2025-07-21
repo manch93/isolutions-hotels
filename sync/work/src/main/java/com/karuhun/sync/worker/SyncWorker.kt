@@ -54,7 +54,7 @@ class SyncWorker @AssistedInject constructor(
         Log.d("SyncWorker", "doWork: Starting sync operation")
         traceAsync("Sync", 0) {
             val syncedSuccessfully = awaitAll(
-//                async { hotelRepository.sync() },
+                async { hotelRepository.sync() },
 //                async { contentRepository.sync() },
                 async { applicationRepository.sync() },
                 async { foodCategoryRepository.sync() },
