@@ -16,8 +16,7 @@
 
 package com.karuhun.launcher
 
-import com.karuhun.core.model.Hotel
-import com.karuhun.core.model.Hotel.Companion.Empty
+import com.karuhun.core.datastore.HotelProfile
 import com.karuhun.core.model.RoomDetail
 
 object MainContract {
@@ -25,7 +24,7 @@ object MainContract {
         val isLoading: Boolean = false,
         val errorMessage: String? = null,
         val isRefreshing: Boolean = false,
-        val hotelProfile: Hotel? = Empty,
+        val hotelProfile: HotelProfile? = HotelProfile.Empty,
         val roomDetail: RoomDetail? = RoomDetail.Empty
     )
     sealed interface UiEffect {

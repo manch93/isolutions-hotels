@@ -16,13 +16,14 @@
 
 package com.karuhun.feature.home.ui
 
+import com.karuhun.core.datastore.HotelProfile
 import com.karuhun.core.model.Hotel
 import com.karuhun.core.model.RoomDetail
 
 internal object HomeContract {
     data class UiState(
         val isLoading: Boolean = false,
-        val hotelProfile: Hotel? = Hotel.Empty,
+        val hotelProfile: HotelProfile? = HotelProfile.Empty,
         val roomDetail: RoomDetail? = RoomDetail.Empty
     )
     sealed interface UiAction {

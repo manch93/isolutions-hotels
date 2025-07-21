@@ -59,6 +59,7 @@ import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.CardDefaults
 import androidx.tv.material3.Text
 import coil.compose.AsyncImage
+import com.karuhun.core.datastore.HotelProfile
 import com.karuhun.core.model.Hotel
 import com.karuhun.core.ui.navigation.extension.collectWithLifecycle
 import com.karuhun.feature.screensaver.ui.component.VideoPlayer
@@ -208,7 +209,7 @@ fun ScreenSaver(
 fun ScreenSaverPreview() {
     val uiState = ScreenSaverContract.UiState(
         isLoading = false,
-        hotelProfile = Hotel.Empty,
+        hotelProfile = HotelProfile.Empty,
         videoConfig = null,
         isVideoPlaying = true,
         errorMessage = null

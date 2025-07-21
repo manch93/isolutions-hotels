@@ -23,6 +23,9 @@ import androidx.datastore.dataStoreFile
 import com.karuhun.core.common.network.Dispatcher
 import com.karuhun.core.common.network.LauncherDispatcher
 import com.karuhun.core.common.network.di.ApplicationScope
+import com.karuhun.core.datastore.Hotel
+import com.karuhun.core.datastore.HotelProfile
+import com.karuhun.core.datastore.HotelProfileSerializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,5 +53,20 @@ object DataStoreModule {
             scope = scope,
         ) {
             context.dataStoreFile("version.pb")
+        }
+
+    @Provides
+    @Singleton
+    fun provideHotelProfileDataStore(
+        @ApplicationContext context: Context,
+        @Dispatcher(LauncherDispatcher.IO) ioDispatcher: CoroutineDispatcher,
+        @ApplicationScope scope: CoroutineScope,
+        hotelProfileSerializer: HotelProfileSerializer
+    ): DataStore<Hotel> =
+        DataStoreFactory.create(
+            serializer = hotelProfileSerializer,
+            scope = scope,
+        ) {
+            context.dataStoreFile("hotel_profile.pb")
         }
 }

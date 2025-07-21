@@ -25,7 +25,8 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class LauncherPreferencesDatastore @Inject constructor(
-    private val version: DataStore<Version>
+    private val version: DataStore<Version>,
+    private val hotel: DataStore<Hotel>
 ) {
     val versionData = version.data
         .map {
@@ -34,6 +35,8 @@ class LauncherPreferencesDatastore @Inject constructor(
                 foodVersion = it.foodVersion
             )
         }
+
+    val hotelData = hotel.data
 
     suspend fun getChangeListVersions(): ChangeListVersions = version.data
         .map {
@@ -71,6 +74,54 @@ class LauncherPreferencesDatastore @Inject constructor(
             }
         } catch (ioException: IOException) {
             Log.e("LauncherPreferences", "Failed to update change list versions", ioException)
+        }
+    }
+
+    suspend fun updateHotelData(
+        update: HotelProfile.() -> HotelProfile
+    ) {
+        try {
+            hotel.updateData { currentPreferences ->
+                val updatedPreferences = update(
+                    HotelProfile(
+                        id = currentPreferences.id,
+                        name = currentPreferences.name,
+                        phone = currentPreferences.phone,
+                        email = currentPreferences.email,
+                        website = currentPreferences.website,
+                        defaultGreeting = currentPreferences.defaultGreeting,
+                        passwordSetting = currentPreferences.passwordSetting,
+                        logoWhite = currentPreferences.logoWhite,
+                        logoBlack = currentPreferences.logoBlack,
+                        primaryColor = currentPreferences.primaryColor,
+                        mainPhoto = currentPreferences.mainPhoto,
+                        backgroundPhoto = currentPreferences.backgroundPhoto,
+                        introVideo = currentPreferences.introVideo,
+                        welcomeText = currentPreferences.welcomeText,
+                        runningText = currentPreferences.runningText
+                    )
+                )
+
+                currentPreferences.copy {
+                    id = updatedPreferences.id
+                    name = updatedPreferences.name
+                    phone = updatedPreferences.phone
+                    email = updatedPreferences.email
+                    website = updatedPreferences.website
+                    defaultGreeting = updatedPreferences.defaultGreeting
+                    passwordSetting = updatedPreferences.passwordSetting
+                    logoWhite = updatedPreferences.logoWhite
+                    logoBlack = updatedPreferences.logoBlack
+                    primaryColor = updatedPreferences.primaryColor
+                    mainPhoto = updatedPreferences.mainPhoto
+                    backgroundPhoto = updatedPreferences.backgroundPhoto
+                    introVideo = updatedPreferences.introVideo
+                    welcomeText = updatedPreferences.welcomeText
+                    runningText = updatedPreferences.runningText
+                }
+            }
+        } catch (ioException: IOException) {
+            Log.e("LauncherPreferences", "Failed to update hotel data", ioException)
         }
     }
 }

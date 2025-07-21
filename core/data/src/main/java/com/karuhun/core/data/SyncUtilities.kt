@@ -62,6 +62,16 @@ suspend fun <T> Synchronizer.syncData(
     }
 }.isSuccess
 
+suspend fun <T> Synchronizer.syncSimpleData(
+    fetchData: suspend () -> T?,
+    saveData: suspend (T) -> Unit,
+): Boolean = suspendRunCatching {
+    val data = fetchData()
+    if (data != null) {
+        saveData(data)
+    }
+}.isSuccess
+
 suspend fun Synchronizer.changeListSync(
     versionReader: (ChangeListVersions) -> Int,
     changeListFetcher: suspend (Int) -> List<NetworkChangeList>,
