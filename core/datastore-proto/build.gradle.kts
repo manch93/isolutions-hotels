@@ -1,17 +1,13 @@
 plugins {
     alias(libs.plugins.nowinandroid.android.library)
-    alias(libs.plugins.nowinandroid.android.library.jacoco)
-    alias(libs.plugins.nowinandroid.hilt)
     alias(libs.plugins.protobuf)
 }
 
 android {
-    defaultConfig {
-        consumerProguardFiles("consumer-proguard-rules.pro")
-    }
-    namespace = "com.karuhun.core.datastore"
+    namespace = "com.karuhun.core.datastore.proto"
 }
 
+// Setup protobuf configuration, generating lite Java and Kotlin classes
 protobuf {
     protoc {
         artifact = libs.protobuf.protoc.get().toString()
@@ -39,11 +35,5 @@ androidComponents.beforeVariants {
 }
 
 dependencies {
-    api(libs.androidx.dataStore)
-    api(projects.core.model)
-    api(projects.core.datastoreProto)
     api(libs.protobuf.kotlin.lite)
-
-    implementation(projects.core.common)
-
 }
