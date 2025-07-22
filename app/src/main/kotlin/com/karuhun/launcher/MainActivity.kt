@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -53,6 +54,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.tv.material3.Text
 import coil.compose.AsyncImage
 import com.karuhun.core.common.util.DeviceUtil
+import com.karuhun.core.ui.navigation.extension.collectWithLifecycle
 import com.karuhun.launcher.core.designsystem.component.RunningText
 import com.karuhun.launcher.core.designsystem.component.TopBar
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
@@ -118,7 +120,6 @@ fun LauncherApplication(
     onAction: (MainContract.UiAction) -> Unit,
     onMenuItemClick: (String) -> Unit,
 ) {
-
     Box(
         modifier = modifier,
     ) {

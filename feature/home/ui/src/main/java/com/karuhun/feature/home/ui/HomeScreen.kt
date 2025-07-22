@@ -57,7 +57,11 @@ import com.karuhun.launcher.core.designsystem.component.MenuItemCard
 import com.karuhun.launcher.core.designsystem.icon.MoreSvgrepoCom
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 @Composable
 internal fun HomeScreen(
@@ -232,7 +236,7 @@ private fun HomeScreenPreview() {
             uiState = HomeContract.UiState(isLoading = false),
             uiAction = {},
             uiEffect = emptyFlow(),
-            onGoToMainMenu = {}
+            onGoToMainMenu = {},
         )
     }
 }

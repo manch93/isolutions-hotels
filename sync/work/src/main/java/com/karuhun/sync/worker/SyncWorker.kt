@@ -33,11 +33,13 @@ import com.karuhun.core.domain.repository.FoodCategoryRepository
 import com.karuhun.core.domain.repository.FoodRepository
 import com.karuhun.core.domain.repository.HotelRepository
 import com.karuhun.sync.initializer.SyncConstraints
+import com.karuhun.sync.status.SyncSubscriber
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 @HiltWorker
@@ -50,11 +52,14 @@ class SyncWorker @AssistedInject constructor(
     private val applicationRepository: ApplicationRepository,
     private val foodCategoryRepository: FoodCategoryRepository,
     private val foodRepository: FoodRepository,
-    private val launcherDatastore: LauncherPreferencesDatastore
+    private val launcherDatastore: LauncherPreferencesDatastore,
+    private val syncSubscriber: SyncSubscriber,
 ) : CoroutineWorker(appContext, workerParams), Synchronizer {
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         Log.d("SyncWorker", "doWork: Starting sync operation")
         traceAsync("Sync", 0) {
+            syncSubscriber.subscribe()
+            delay(20000)
             val syncedSuccessfully = awaitAll(
                 async { hotelRepository.sync() },
                 async { contentRepository.sync() },

@@ -25,7 +25,8 @@ object MainContract {
         val errorMessage: String? = null,
         val isRefreshing: Boolean = false,
         val hotelProfile: HotelProfile? = HotelProfile.Empty,
-        val roomDetail: RoomDetail? = RoomDetail.Empty
+        val roomDetail: RoomDetail? = RoomDetail.Empty,
+        val isSyncing: Boolean = false
     )
     sealed interface UiEffect {
         data class ShowError(val message: String) : UiEffect
@@ -36,5 +37,6 @@ object MainContract {
         data class ShowError(val message: String) : UiAction
         data object LoadHotelProfile : UiAction
         data object LoadRoomDetail : UiAction
+        data object SubscribeSyncStatus: UiAction
     }
 }

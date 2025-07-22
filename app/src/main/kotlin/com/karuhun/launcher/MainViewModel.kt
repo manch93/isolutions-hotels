@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karuhun.core.common.onFailure
 import com.karuhun.core.common.onSuccess
+import com.karuhun.core.data.util.SyncManager
 import com.karuhun.core.domain.usecase.GetHotelProfileUseCase
 import com.karuhun.core.domain.usecase.GetRoomDetailUseCase
 import com.karuhun.core.ui.navigation.delegate.mvi.MVI
@@ -31,12 +32,14 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getHotelProfileUseCase: GetHotelProfileUseCase,
-    private val getRoomDetailUseCase: GetRoomDetailUseCase
+    private val getRoomDetailUseCase: GetRoomDetailUseCase,
+    private val syncManager: SyncManager
 ) : ViewModel(),
     MVI<MainContract.UiState, MainContract.UiAction, MainContract.UiEffect> by mvi(initialState = MainContract.UiState()) {
     init {
         onAction(MainContract.UiAction.LoadHotelProfile)
         onAction(MainContract.UiAction.LoadRoomDetail)
+        onAction(MainContract.UiAction.SubscribeSyncStatus)
     }
 
     override fun onAction(action: MainContract.UiAction) {
@@ -50,6 +53,16 @@ class MainViewModel @Inject constructor(
             is MainContract.UiAction.LoadRoomDetail -> {
                 loadRoomDetail()
             }
+
+            MainContract.UiAction.SubscribeSyncStatus -> {
+                subscribeSyncStatus()
+            }
+        }
+    }
+
+    private fun subscribeSyncStatus() = viewModelScope.launch {
+        syncManager.isSyncing.collect { isSyncing ->
+            updateUiState { copy(isSyncing = isSyncing) }
         }
     }
 

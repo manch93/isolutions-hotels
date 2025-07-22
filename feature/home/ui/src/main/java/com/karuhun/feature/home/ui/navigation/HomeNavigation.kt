@@ -44,7 +44,7 @@ fun NavGraphBuilder.homeScreen(
             uiState = uiState,
             uiAction = uiAction,
             uiEffect = uiEffect,
-            onGoToMainMenu = onGoToMainMenu
+            onGoToMainMenu = onGoToMainMenu,
         )
     }
 }
