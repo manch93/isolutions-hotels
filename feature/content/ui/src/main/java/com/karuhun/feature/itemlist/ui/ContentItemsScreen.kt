@@ -118,7 +118,7 @@ fun ContentItemsScreen(
                                         fontSize = 20.sp,
                                     ),
                                     textAlign = TextAlign.Center,
-                                    color = Color.White.copy(alpha = 0.8f),
+                                    color = MaterialTheme.colorScheme.onBackground,
                                     modifier = Modifier
                                         .padding(8.dp),
                                     maxLines = 2,

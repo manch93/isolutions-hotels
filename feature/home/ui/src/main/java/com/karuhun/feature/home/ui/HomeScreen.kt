@@ -104,7 +104,7 @@ fun LeftContent(
         Text(
             text = stringResource(com.karuhun.feature.home.ui.R.string.feature_home_ui_welcome),
             style = MaterialTheme.typography.headlineLarge.copy(
-                color = Color.White,
+                color = Color(0xFFEFEFEF),
                 fontSize = 46.sp,
                 fontWeight = FontWeight.Bold
             ),
@@ -112,7 +112,7 @@ fun LeftContent(
         Text(
             text = guestName,
             style = MaterialTheme.typography.headlineLarge.copy(
-                color = Color.White,
+                color = Color(0xFFEFEFEF),
                 fontSize = 46.sp,
                 fontWeight = FontWeight.Bold
             ),
@@ -121,7 +121,7 @@ fun LeftContent(
             modifier = Modifier.padding(bottom = 8.dp),
             text = stringResource(com.karuhun.feature.home.ui.R.string.feature_home_ui_welcome_text),
             style = MaterialTheme.typography.bodyLarge.copy(
-                color = Color.White,
+                color = Color(0xFFEFEFEF),
                 fontWeight = FontWeight.Light
             ),
         )
@@ -138,7 +138,7 @@ fun LeftContent(
             Text(
                 text = "@one_hotel",
                 style = MaterialTheme.typography.bodyLarge.copy(
-                    color = Color.White,
+                    color = Color(0xFFEFEFEF),
                     fontWeight = FontWeight.Light,
                 ),
             )
@@ -147,12 +147,12 @@ fun LeftContent(
                 modifier = Modifier.size(20.dp),
                 imageVector = FacebookSvgrepoCom,
                 contentDescription = null,
-                tint = Color.White
+                tint = Color(0xFFEFEFEF)
             )
             Text(
                 text = "@one_hotel",
                 style = MaterialTheme.typography.bodyLarge.copy(
-                    color = Color.White,
+                    color = Color(0xFFEFEFEF),
                     fontWeight = FontWeight.Light,
                 ),
             )

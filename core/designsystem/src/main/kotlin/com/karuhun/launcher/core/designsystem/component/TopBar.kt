@@ -16,14 +16,9 @@
 
 package com.karuhun.launcher.core.designsystem.component
 
-import android.widget.TextClock
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -34,24 +29,16 @@ import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices.TV_1080p
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import coil.compose.AsyncImage
-import com.karuhun.launcher.core.designsystem.icon.HiltonHotelsLogo
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
 
 @OptIn(ExperimentalTvMaterial3Api::class)
@@ -112,12 +99,12 @@ fun TopBar(
 
         Text(
             text = "Room $roomNumber",
-            color = Color.White,
+            color = Color(0xFFEFEFEF),
             fontSize = 18.sp,
             modifier = Modifier.align(Alignment.CenterVertically),
         )
         Spacer(modifier = Modifier.width(24.dp))
-        Text(text = date, color = Color.White, fontSize = 18.sp, modifier = Modifier.align(Alignment.CenterVertically))
+        Text(text = date, color = Color(0xFFEFEFEF), fontSize = 18.sp, modifier = Modifier.align(Alignment.CenterVertically))
         Spacer(modifier = Modifier.width(24.dp))
         Icon(
             Icons.Default.WbSunny,
@@ -126,7 +113,7 @@ fun TopBar(
             modifier = Modifier.align(Alignment.CenterVertically),
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Text(text = temperature, color = Color.White, fontSize = 18.sp, modifier = Modifier.align(Alignment.CenterVertically))
+        Text(text = temperature, color = Color(0xFFEFEFEF), fontSize = 18.sp, modifier = Modifier.align(Alignment.CenterVertically))
         Spacer(modifier = Modifier.width(24.dp))
         TextClock(
             modifier = Modifier.align(Alignment.CenterVertically),

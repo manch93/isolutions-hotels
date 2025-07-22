@@ -75,6 +75,7 @@ fun MenuItemCard(
                 contentDescription = title,
                 modifier = Modifier
                     .size(46.dp),
+                tint = Color(0xFFEFEFEF)
             )
 
             Spacer(modifier = Modifier.height(6.dp))
@@ -87,7 +88,8 @@ fun MenuItemCard(
                     textAlign = TextAlign.Center,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    color = Color(0xFFEFEFEF)
                 )
             }
         }
