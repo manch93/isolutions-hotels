@@ -47,6 +47,8 @@ import androidx.tv.material3.Text
 import coil.compose.AsyncImage
 import com.karuhun.core.common.orZero
 import com.karuhun.core.model.Application
+import com.karuhun.core.model.Content
+import com.karuhun.core.model.ContentItem
 import com.karuhun.launcher.core.designsystem.component.LauncherCard
 import com.karuhun.launcher.core.designsystem.component.MenuItemCard
 import com.karuhun.launcher.core.designsystem.icon.AmazonPrimeVideoSvgrepoCom
@@ -61,7 +63,7 @@ fun MainMenuScreen(
     uiState: MainMenuContract.UiState,
     uiEffect: Flow<MainMenuContract.UiEffect>,
     uiAction: (MainMenuContract.UiAction) -> Unit,
-    onNavigateToContentItems: (Int) -> Unit,
+    onNavigateToContentItems: (Content) -> Unit,
     onNavigateToRestaurant: () -> Unit,
 ) {
 
@@ -154,7 +156,7 @@ fun MainMenuScreen(
                         .width(250.dp)
                         .height(90.dp)
                         .padding(8.dp),
-                    onClick = { onNavigateToContentItems(it.id.orZero()) },
+                    onClick = { onNavigateToContentItems(it) },
                 ) {
                     Row(
                         modifier = Modifier

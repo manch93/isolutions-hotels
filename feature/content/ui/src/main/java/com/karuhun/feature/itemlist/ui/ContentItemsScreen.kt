@@ -45,6 +45,7 @@ import androidx.tv.material3.Text
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.karuhun.core.common.orZero
+import com.karuhun.core.model.Content
 import com.karuhun.core.model.ContentItem
 import com.karuhun.launcher.core.designsystem.component.LauncherCard
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
@@ -57,17 +58,17 @@ fun ContentItemsScreen(
     uiState: ContentContract.UiState,
     uiEffect: Flow<ContentContract.UiEffect>,
     onAction: (ContentContract.UiAction) -> Unit,
-    contentId: Int,
+    content: Content,
     onNavigateToDetail: (ContentItem) -> Unit,
 ) {
 
     LaunchedEffect(true) {
-        onAction(ContentContract.UiAction.LoadContents(contentId))
+        onAction(ContentContract.UiAction.LoadContents(content.id.orZero()))
     }
 
     Column {
         Text(
-            text = "Arround Us",
+            text = content.title.orEmpty(),
             style = MaterialTheme.typography.titleLarge.copy(
                 fontWeight = FontWeight.Bold,
             ),
@@ -142,7 +143,12 @@ private fun DetailMenuScreenPreview() {
             uiState = ContentContract.UiState(),
             uiEffect = emptyFlow(),
             onAction = {},
-            contentId = 0
+            content = Content(
+                id = 1,
+                title = "Sample Content",
+                image = "https://example.com/image.jpg",
+                isActive = false,
+            )
         )
     }
 }

@@ -49,31 +49,39 @@ fun LauncherAppNavGraph(
                     navigate(MainMenu)
                     saveState()
                 }
-            }
+            },
         )
         mainMenuScreen(
-            onNavigateToContentItems = { contentId ->
+            onNavigateToContentItems = { content ->
                 navController.apply {
-                    navigate(ContentItems(contentId = contentId))
+                    navigate(
+                        ContentItems(
+                            id = content.id!!,
+                            name = content.title,
+                            image = content.image,
+                        ),
+                    )
                 }
             },
             onNavigateToRestaurant = {
                 navController.apply {
                     navigate(RestaurantCategory)
                 }
-            }
+            },
         )
         contentScreen(
             onNavigateToDetail = {
                 navController.apply {
-                    navigate(ContentDetail(
-                        contentId = it.id,
-                        contentImage = it.image,
-                        contentTitle = it.name,
-                        contentDescription = it.description,
-                    ))
+                    navigate(
+                        ContentDetail(
+                            contentId = it.id,
+                            contentImage = it.image,
+                            contentTitle = it.name,
+                            contentDescription = it.description,
+                        ),
+                    )
                 }
-            }
+            },
         )
         restaurantGraph()
     }

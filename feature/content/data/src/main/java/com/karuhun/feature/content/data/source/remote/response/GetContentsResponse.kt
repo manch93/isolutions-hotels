@@ -34,6 +34,9 @@ data class GetContentsResponse(
 	@field:SerializedName("name")
 	val name: String? = null,
 
+    @field:SerializedName("image")
+    val image: String? = null,
+
 	@field:SerializedName("created_at")
 	val createdAt: String? = null,
 
@@ -46,6 +49,7 @@ fun List<GetContentsResponse>.toDomainList(): List<Content> {
         Content(
             id = response.id.orZero(),
             title = response.name.orEmpty(),
+            image = response.image.orEmpty(),
             isActive = response.isActive.orZero() == 1,
         )
     }

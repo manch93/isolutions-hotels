@@ -23,6 +23,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.karuhun.core.model.Content
+import com.karuhun.core.model.ContentItem
 import com.karuhun.core.ui.navigation.Screen
 import com.karuhun.feature.mainmenu.ui.MainMenuScreen
 import com.karuhun.feature.mainmenu.ui.MainMenuViewModel
@@ -31,7 +33,7 @@ import kotlinx.serialization.Serializable
 @Serializable data object MainMenu : Screen
 
 fun NavGraphBuilder.mainMenuScreen(
-    onNavigateToContentItems: (Int) -> Unit,
+    onNavigateToContentItems: (Content) -> Unit,
     onNavigateToRestaurant: () -> Unit
 ) {
     composable<MainMenu> {
