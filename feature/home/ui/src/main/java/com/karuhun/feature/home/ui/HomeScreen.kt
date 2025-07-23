@@ -140,7 +140,7 @@ fun LeftContent(
                 tint = Color.White
             )
             Text(
-                text = "@one_hotel",
+                text = "@the_hotel",
                 style = MaterialTheme.typography.bodyLarge.copy(
                     color = Color(0xFFEFEFEF),
                     fontWeight = FontWeight.Light,
@@ -154,7 +154,7 @@ fun LeftContent(
                 tint = Color(0xFFEFEFEF)
             )
             Text(
-                text = "@one_hotel",
+                text = "@the_hotel",
                 style = MaterialTheme.typography.bodyLarge.copy(
                     color = Color(0xFFEFEFEF),
                     fontWeight = FontWeight.Light,

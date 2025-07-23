@@ -67,7 +67,7 @@ class ScreenSaverViewModel @Inject constructor(
     }
 
     private fun setupDefaultVideo() {
-        // Sample MP4 video URL - replace with your actual video URL
+
         val defaultVideoConfig = VideoConfig(
             uri = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
             isAutoPlay = true,

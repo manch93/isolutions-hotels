@@ -37,6 +37,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices.TV_720p
@@ -126,6 +127,7 @@ fun MainMenuScreen(
                             modifier = Modifier.size(64.dp),
                             model = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Disney%2B_Hotstar_logo.svg",
                             contentDescription = it.name.orEmpty(),
+                            colorFilter = if (it.image.isNullOrEmpty()) null else ColorFilter.tint(Color(0xFFEFEFEF))
                         )
                         Text(
                             text = it.name.orEmpty(),
@@ -165,11 +167,11 @@ fun MainMenuScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        Icon(
+                        AsyncImage(
                             modifier = Modifier.size(56.dp),
-                            imageVector = AmazonPrimeVideoSvgrepoCom,
+                            model = it.image.orEmpty(),
                             contentDescription = null,
-                            tint = Color.White,
+                            colorFilter = if (it.image.isNullOrEmpty()) null else ColorFilter.tint(Color(0xFFEFEFEF))
                         )
                         Text(
                             text = it.title.orEmpty(),

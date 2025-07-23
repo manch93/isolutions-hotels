@@ -2,34 +2,9 @@
 
 LauncherCompose is a launcher for Android TV applications built with Kotlin and Jetpack Compose. It serves as a launcher for hotel applications, providing a user-friendly interface for guests to access various hotel services.
 
-## About The Project
+## Dependencies
 
-This project is a demonstration of modern Android application development. It showcases the use of the latest technologies and best practices, including:
-
-*   **100% Kotlin**: The entire codebase is written in Kotlin.
-*   **Jetpack Compose**: The UI is built entirely with Jetpack Compose, Google's modern toolkit for building native Android UI.
-*   **Modular Architecture**: The project is divided into multiple modules to promote separation of concerns and improve scalability.
-*   **Clean Architecture**: The project follows the principles of Clean Architecture to create a robust, maintainable, and testable codebase.
-*   **Coroutines and Flow**: Asynchronous operations are handled using Kotlin Coroutines and Flow.
-*   **Dagger Hilt**: Dependency injection is managed using Hilt.
-*   **TV Material Design**: The UI is designed based on the TV Material Design guidelines.
-
-## Getting Started
-
-To get a local copy up and running, follow these simple steps.
-
-### Prerequisites
-
-*   Android Studio (latest version recommended)
-*   JDK 17
-
-### Installation
-
-1.  Clone the repo
-    ```sh
-    git clone https://github.com/karuhun-developer/LauncherCompose.git
-    ```
-2.  Open the project in Android Studio.
+Backend : [https://github.com/karuhun-developer/hotel](https://github.com/karuhun-developer/hotel)
 
 ## Dependencies
 
@@ -53,18 +28,18 @@ The project uses the following major libraries and technologies:
     <img alt="App image" src="docs/screenshoot/detail-content.png" width="30%">
 </div>
 
-## Contributing
+## Demo
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+<video
+    src='docs/video/demo.mp4'
+    controls
+    width="100%"
+    alt="Demo video of LauncherCompose">
+    Your browser does not support the video element. You can view the demo at our website.
+</video>
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1.  Fork the Project
-2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4.  Push to the Branch (`git push origin feature/AmazingFeature`)
-5.  Open a Pull Request
+## Dependency graph
+![Dependency graph](docs/images/graphs/dep_graph_app.svg)
 
 ## License
 
