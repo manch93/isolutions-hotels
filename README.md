@@ -30,13 +30,16 @@ The project uses the following major libraries and technologies:
 
 ## Demo
 
+
 <video
-    src='docs/video/demo.mp4'
+    src='[docs/video/demo.mp4](https://github.com/user-attachments/assets/de92c8bd-e7a5-4851-9ba1-48ef249c6732)'
     controls
     width="100%"
     alt="Demo video of LauncherCompose">
     Your browser does not support the video element. You can view the demo at our website.
 </video>
+
+
 
 ## Dependency graph
 ![Dependency graph](docs/images/graphs/dep_graph_app.svg)
