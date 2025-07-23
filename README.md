@@ -32,7 +32,7 @@ The project uses the following major libraries and technologies:
 
 
 <video
-    src='[docs/video/demo.mp4](https://github.com/user-attachments/assets/de92c8bd-e7a5-4851-9ba1-48ef249c6732)'
+    src='https://github.com/user-attachments/assets/de92c8bd-e7a5-4851-9ba1-48ef249c6732'
     controls
     width="100%"
     alt="Demo video of LauncherCompose">
