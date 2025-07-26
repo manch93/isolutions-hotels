@@ -1,6 +1,6 @@
 # LauncherCompose
 
-LauncherCompose is a launcher for Android TV applications built with Kotlin and Jetpack Compose. It serves as a launcher for hotel applications, providing a user-friendly interface for guests to access various hotel services.
+LauncherCompose is an open source launcher for Android TV applications built with Kotlin and Jetpack Compose. It serves as a launcher for hotel applications, providing a user-friendly interface for guests to access various hotel services.
 
 ## Dependencies
 
