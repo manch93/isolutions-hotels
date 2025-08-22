@@ -34,6 +34,7 @@ import com.karuhun.feature.restaurant.ui.navigation.restaurantGraph
 fun LauncherAppNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController,
+    onMenuItemClick: (String) -> Unit = {},
 ) {
     NavHost(
         modifier = modifier,
@@ -41,9 +42,7 @@ fun LauncherAppNavGraph(
         startDestination = Home,
     ) {
         homeScreen(
-            onMenuItemClick = { menuItem ->
-
-            },
+            onMenuItemClick = onMenuItemClick,
             onGoToMainMenu = {
                 navController.apply {
                     navigate(MainMenu)

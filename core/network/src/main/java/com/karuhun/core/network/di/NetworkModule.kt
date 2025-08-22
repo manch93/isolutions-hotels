@@ -68,4 +68,10 @@ internal object NetworkModule {
             .build()
     }
 
+    @Provides
+    @Singleton
+    fun provideWifiApiService(retrofit: Retrofit): com.karuhun.core.network.service.WifiApiService {
+        return retrofit.create(com.karuhun.core.network.service.WifiApiService::class.java)
+    }
+
 }
