@@ -295,7 +295,8 @@ fun LauncherApplication(
                 roomNumber = DeviceUtil.getDeviceName(LocalContext.current),
                 date = "06 April 2020",
                 temperature = "30°C",
-                imageUrl = uiState.hotelProfile?.logoWhite.orEmpty()
+                imageUrl = uiState.hotelProfile?.logoWhite.orEmpty(),
+                settingsPassword = uiState.hotelProfile?.passwordSetting
             )
             Row(
                 modifier = Modifier
