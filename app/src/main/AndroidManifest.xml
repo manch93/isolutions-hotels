@@ -18,6 +18,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Start at boot -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <!--
     Firebase automatically adds these AD_ID and ADSERVICES permissions, even though we don't use them.
@@ -40,16 +44,64 @@
         android:theme="@style/Theme.Nia">
         <profileable android:shell="true" tools:targetApi="q" />
 
-        <activity
+                <activity
             android:name="com.karuhun.launcher.MainActivity"
             android:configChanges="uiMode"
-            android:exported="true">
-            <intent-filter>
+                    android:exported="true"
+                    android:theme="@style/Theme.Nia.Splash">
+          <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+
+                <!-- Required for being seen as HOME -->
                 <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.COMMON_HOME" />
+
+                <!-- TV/Leanback support -->
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+
+                <!-- Generic launcher category (some devices check for this too) -->
+                <category android:name="android.intent.category.LAUNCHER" />
+
+                <!-- Keep DEFAULT so it shows in chooser -->
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".BootLaunchService"
+            android:exported="false"
+            android:directBootAware="true"
+            tools:targetApi="p" />
+
+        <!-- Optional: Device admin receiver to allow setting app as device owner/kiosk -->
+        <receiver
+            android:name=".KioskDeviceAdminReceiver"
+            android:permission="android.permission.BIND_DEVICE_ADMIN"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin_receiver" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Auto-start on boot so the launcher comes up even if not yet default -->
+        <receiver
+            android:name="com.karuhun.launcher.BootReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_UNLOCKED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <!-- Some devices use quickboot -->
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
 
         <!-- Disable Firebase analytics by default. This setting is overwritten for the `prod`
         flavor -->

@@ -14,5 +14,6 @@ dependencies {
     implementation(projects.feature.mainMenu.ui)
     implementation(projects.feature.content.ui)
     implementation(projects.feature.screensaver.ui)
+    implementation(projects.feature.hotelProfile.ui)
     implementation(projects.feature.restaurant.ui)
 }
