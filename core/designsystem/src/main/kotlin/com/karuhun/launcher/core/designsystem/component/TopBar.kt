@@ -26,6 +26,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.WbSunny
+import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.CloudQueue
+import androidx.compose.material.icons.filled.WaterDrop
+import androidx.compose.material.icons.filled.AcUnit
+import androidx.compose.material.icons.filled.Thunderstorm
+import androidx.compose.ui.graphics.vector.ImageVector
 import android.content.Intent
 import android.provider.Settings
 import androidx.compose.runtime.Composable
@@ -74,6 +80,39 @@ import androidx.compose.foundation.layout.widthIn
 import coil.compose.AsyncImage
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
 
+// Function to get appropriate weather icon based on weather code
+private fun getWeatherIcon(weatherCode: Int): ImageVector {
+    return when (weatherCode) {
+        0 -> Icons.Default.WbSunny // Clear Sky
+        1, 2, 3 -> Icons.Default.CloudQueue // Partly Cloudy
+        45, 48 -> Icons.Default.Cloud // Foggy
+        51, 53, 55 -> Icons.Default.WaterDrop // Light Rain
+        56, 57 -> Icons.Default.WaterDrop // Freezing Rain
+        61, 63, 65 -> Icons.Default.WaterDrop // Rain
+        66, 67 -> Icons.Default.WaterDrop // Freezing Rain
+        71, 73, 75 -> Icons.Default.AcUnit // Snow
+        77 -> Icons.Default.AcUnit // Snow Grains
+        80, 81, 82 -> Icons.Default.WaterDrop // Rain Showers
+        85, 86 -> Icons.Default.AcUnit // Snow Showers
+        95 -> Icons.Default.Thunderstorm // Thunderstorm
+        96, 99 -> Icons.Default.Thunderstorm // Thunderstorm with Hail
+        else -> Icons.Default.WbSunny // Default to Clear
+    }
+}
+
+// Function to get appropriate weather icon color
+private fun getWeatherIconColor(weatherCode: Int): Color {
+    return when (weatherCode) {
+        0 -> Color.Yellow // Clear Sky - Sun
+        1, 2, 3 -> Color(0xFFB0BEC5) // Partly Cloudy - Light Gray
+        45, 48 -> Color(0xFF90A4AE) // Foggy - Gray
+        51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82 -> Color(0xFF42A5F5) // Rain - Blue
+        71, 73, 75, 77, 85, 86 -> Color(0xFFE3F2FD) // Snow - Light Blue/White
+        95, 96, 99 -> Color(0xFF7E57C2) // Thunderstorm - Purple
+        else -> Color.Yellow // Default to Yellow
+    }
+}
+
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun TopBar(
@@ -82,6 +121,7 @@ fun TopBar(
     roomNumber: String,
     date: String,
     temperature: String,
+    weatherCode: Int = 0, // Default to clear sky
     imageUrl: String,
     settingsPassword: String? = null,
     onOpenSettings: (() -> Unit)? = null,
@@ -142,9 +182,9 @@ fun TopBar(
         Text(text = date, color = Color(0xFFEFEFEF), fontSize = 18.sp, modifier = Modifier.align(Alignment.CenterVertically))
         Spacer(modifier = Modifier.width(24.dp))
         Icon(
-            Icons.Default.WbSunny,
+            getWeatherIcon(weatherCode),
             contentDescription = "Weather",
-            tint = Color.Yellow,
+            tint = getWeatherIconColor(weatherCode),
             modifier = Modifier.align(Alignment.CenterVertically),
         )
         Spacer(modifier = Modifier.width(8.dp))
@@ -286,6 +326,7 @@ fun TopBarPreview() {
             roomNumber = "101",
             date = "July 26, 2024",
             temperature = "25°C",
+            weatherCode = 61, // Rain for testing
             imageUrl = "",
         )
     }
@@ -305,6 +346,7 @@ fun TopBarPasswordPreview() {
             roomNumber = "202",
             date = "Aug 25, 2025",
             temperature = "22°C",
+            weatherCode = 71, // Snow for testing
             imageUrl = "",
             settingsPassword = "123456",
             onOpenSettings = { opened = true }

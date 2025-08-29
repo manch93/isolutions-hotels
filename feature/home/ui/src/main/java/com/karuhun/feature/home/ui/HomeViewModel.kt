@@ -26,6 +26,7 @@ import com.karuhun.core.domain.usecase.GetHotelProfileUseCase
 import com.karuhun.core.domain.usecase.GetRoomDetailUseCase
 import com.karuhun.core.ui.navigation.delegate.mvi.MVI
 import com.karuhun.core.ui.navigation.delegate.mvi.mvi
+import com.karuhun.core.common.AppRefreshTrigger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
@@ -40,8 +41,20 @@ internal class HomeViewModel @Inject constructor(
     MVI<HomeContract.UiState, HomeContract.UiAction, HomeContract.UiEffect> by mvi(initialState = HomeContract.UiState()) {
 
     init {
+        // android.util.Log.d("HomeViewModel", "HomeViewModel initialized")
         onAction(HomeContract.UiAction.LoadMenuItems)
         onAction(HomeContract.UiAction.LoadRoomDetail)
+        
+        // Listen for refresh triggers from MainActivity
+        // android.util.Log.d("HomeViewModel", "Setting up refresh trigger listener")
+        viewModelScope.launch {
+            // android.util.Log.d("HomeViewModel", "Started collecting refresh triggers")
+            AppRefreshTrigger.refreshTrigger.collect { event ->
+                // android.util.Log.d("HomeViewModel", "Received refresh trigger: ${event.reason} at ${event.timestamp}")
+                // Refresh all data when triggered
+                refreshAllData()
+            }
+        }
     }
     override fun onAction(action: HomeContract.UiAction) {
         when (action) {
@@ -68,9 +81,7 @@ internal class HomeViewModel @Inject constructor(
     }
 
     private fun loadRoomDetail() = viewModelScope.launch {
-        getRoomDetailUseCase().onSuccess { roomDetail ->
-
-        }
+        getRoomDetailUseCase()
             .onSuccess {
                 updateUiState {
                     copy(
@@ -79,7 +90,14 @@ internal class HomeViewModel @Inject constructor(
                 }
             }
             .onFailure { error ->
-
+                Log.e("HomeViewModel", "Failed to load room detail: $error")
             }
+    }
+
+    private fun refreshAllData() = viewModelScope.launch {
+        // Log.d("HomeViewModel", "Refreshing all data...")
+        // Refresh both hotel profile and room detail
+        onAction(HomeContract.UiAction.LoadMenuItems)
+        onAction(HomeContract.UiAction.LoadRoomDetail)
     }
 }

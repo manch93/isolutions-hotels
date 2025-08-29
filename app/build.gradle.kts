@@ -99,6 +99,10 @@ dependencies {
     implementation(libs.coil.kt)
     implementation(libs.coil.kt.svg)
     implementation(libs.kotlinx.serialization.json)
+    
+    // Weather API dependencies
+    implementation(libs.retrofit.core)
+    implementation(libs.converter.gson)
 
     ksp(libs.hilt.compiler)
 
