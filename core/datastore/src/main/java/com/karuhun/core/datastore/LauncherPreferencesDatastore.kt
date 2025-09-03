@@ -98,7 +98,9 @@ class LauncherPreferencesDatastore @Inject constructor(
                         backgroundPhoto = currentPreferences.backgroundPhoto,
                         introVideo = currentPreferences.introVideo,
                         welcomeText = currentPreferences.welcomeText,
-                        runningText = currentPreferences.runningText
+                        runningText = currentPreferences.runningText,
+                        instagramUsername = currentPreferences.instagramUsername,
+                        facebookUsername = currentPreferences.facebookUsername
                     )
                 )
 
@@ -118,6 +120,8 @@ class LauncherPreferencesDatastore @Inject constructor(
                     introVideo = updatedPreferences.introVideo
                     welcomeText = updatedPreferences.welcomeText
                     runningText = updatedPreferences.runningText
+                    instagramUsername = updatedPreferences.instagramUsername
+                    facebookUsername = updatedPreferences.facebookUsername
                 }
             }
         } catch (ioException: IOException) {

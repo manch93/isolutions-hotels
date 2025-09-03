@@ -78,6 +78,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.widthIn
 import coil.compose.AsyncImage
+import androidx.compose.ui.layout.ContentScale
 import com.karuhun.launcher.core.designsystem.theme.AppTheme
 
 // Function to get appropriate weather icon based on weather code
@@ -139,9 +140,15 @@ fun TopBar(
         ) {
             AsyncImage(
                 model = imageUrl,
-                contentDescription = "Logo",
+                contentDescription = "Hotel Logo",
                 modifier = Modifier
-                    .size(64.dp),
+                    .size(150.dp)  // Even bigger size like the WiFi buttons area
+                    .background(
+                        color = Color.Black.copy(alpha = 0.6f),  // Dark background like WiFi button
+                        shape = RoundedCornerShape(16.dp)  // Rounded corners without border
+                    )
+                    .padding(12.dp),  // More padding for the logo inside
+                contentScale = ContentScale.Fit
             )
 
             Spacer(modifier = Modifier.width(16.dp))

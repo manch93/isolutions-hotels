@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "597793484c667df52a4901d2150aee40",
+    "identityHash": "17837f03a54f2bf74027d277612dd8e5",
     "entities": [
       {
         "tableName": "hotel",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `name` TEXT, `phone` TEXT, `email` TEXT, `website` TEXT, `defaultGreeting` TEXT, `passwordSetting` TEXT, `logoWhite` TEXT, `logoBlack` TEXT, `primaryColor` TEXT, `mainPhoto` TEXT, `backgroundPhoto` TEXT, `introVideo` TEXT, `welcomeText` TEXT, `runningText` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `name` TEXT, `phone` TEXT, `email` TEXT, `website` TEXT, `defaultGreeting` TEXT, `passwordSetting` TEXT, `logoWhite` TEXT, `logoBlack` TEXT, `primaryColor` TEXT, `mainPhoto` TEXT, `backgroundPhoto` TEXT, `introVideo` TEXT, `welcomeText` TEXT, `runningText` TEXT, `instagramUsername` TEXT, `facebookUsername` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -95,6 +95,18 @@
           {
             "fieldPath": "runningText",
             "columnName": "runningText",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "instagramUsername",
+            "columnName": "instagramUsername",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "facebookUsername",
+            "columnName": "facebookUsername",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -350,7 +362,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '597793484c667df52a4901d2150aee40')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '17837f03a54f2bf74027d277612dd8e5')"
     ]
   }
 }

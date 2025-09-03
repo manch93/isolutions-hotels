@@ -19,4 +19,6 @@ message Hotel {
     string intro_video = 13;
     string welcome_text = 14;
     string running_text = 15;
+    string instagram_username = 16;
+    string facebook_username = 17;
 }

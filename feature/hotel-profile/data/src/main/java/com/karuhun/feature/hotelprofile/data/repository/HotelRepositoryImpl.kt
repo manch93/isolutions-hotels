@@ -30,6 +30,7 @@ import com.karuhun.core.datastore.HotelProfile
 import com.karuhun.core.datastore.LauncherPreferencesDatastore
 import com.karuhun.core.domain.repository.HotelRepository
 import com.karuhun.core.model.Hotel
+import com.karuhun.core.model.Promo
 import com.karuhun.core.model.RoomDetail
 import com.karuhun.core.network.safeApiCall
 import com.karuhun.feature.hotelprofile.data.source.HotelApiService
@@ -62,7 +63,9 @@ class HotelRepositoryImpl @Inject constructor(
                 backgroundPhoto = hotel.backgroundPhoto,
                 introVideo = hotel.introVideo,
                 welcomeText = hotel.welcomeText,
-                runningText = hotel.runningText
+                runningText = hotel.runningText,
+                instagramUsername = hotel.instagramUsername,
+                facebookUsername = hotel.facebookUsername
             )
         }
         .catch {
@@ -70,8 +73,33 @@ class HotelRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getRoomDetail(): Resource<RoomDetail> {
-        return safeApiCall { api.getRoomDetail(DeviceUtil.getDeviceName(context)) }.map {
-            it.data.toDomain()
+        return safeApiCall { api.getRoomDetail(DeviceUtil.getDeviceName(context)) }.map { response ->
+            // If the room response includes hotel profile data, update the datastore
+            response.data?.hotel?.let { hotel ->
+                val profile = hotel.profile
+                // Update hotel data if there are social media fields, default greeting, or welcome text
+                if (!profile?.instagramUsername.isNullOrBlank() || 
+                    !profile?.facebookUsername.isNullOrBlank() || 
+                    !hotel.defaultGreeting.isNullOrBlank() ||
+                    !profile?.welcomeText.isNullOrBlank()) {
+                    launcherDatastore.updateHotelData {
+                        copy(
+                            defaultGreeting = hotel.defaultGreeting ?: defaultGreeting,
+                            welcomeText = profile?.welcomeText ?: welcomeText,
+                            instagramUsername = profile?.instagramUsername ?: instagramUsername,
+                            facebookUsername = profile?.facebookUsername ?: facebookUsername
+                        )
+                    }
+                }
+            }
+            
+            response.data?.toDomain() ?: RoomDetail.Empty
+        }
+    }
+
+    override suspend fun getPromos(): Resource<List<Promo>> {
+        return safeApiCall { api.getPromos() }.map { response ->
+            response.data?.map { it.toDomain() } ?: emptyList()
         }
     }
 
@@ -83,7 +111,7 @@ class HotelRepositoryImpl @Inject constructor(
             },
             saveData = { hotel ->
                 launcherDatastore.updateHotelData {
-                    HotelProfile(
+                    copy(
                         id = hotel.id.orZero(),
                         name = hotel.name.orEmpty(),
                         phone = hotel.phone.orEmpty(),
@@ -98,7 +126,9 @@ class HotelRepositoryImpl @Inject constructor(
                         backgroundPhoto = hotel.backgroundPhoto.orEmpty(),
                         introVideo = hotel.introVideo.orEmpty(),
                         welcomeText = hotel.welcomeText.orEmpty(),
-                        runningText = hotel.runningText.orEmpty()
+                        runningText = hotel.runningText.orEmpty(),
+                        instagramUsername = hotel.instagramUsername.orEmpty(),
+                        facebookUsername = hotel.facebookUsername.orEmpty()
                     )
                 }
 

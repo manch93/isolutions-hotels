@@ -28,7 +28,68 @@ data class GetRoomDetailResponse(
 	val greeting: String? = null,
 
 	@field:SerializedName("is_birthday")
-	val isBirthday: Int? = null
+	val isBirthday: Int? = null,
+
+	@field:SerializedName("hotel")
+	val hotel: HotelInRoom? = null
+)
+
+data class HotelInRoom(
+	@field:SerializedName("id")
+	val id: Int? = null,
+
+	@field:SerializedName("name")
+	val name: String? = null,
+
+	@field:SerializedName("phone")
+	val phone: String? = null,
+
+	@field:SerializedName("email")
+	val email: String? = null,
+
+	@field:SerializedName("website")
+	val website: String? = null,
+
+	@field:SerializedName("default_greeting")
+	val defaultGreeting: String? = null,
+
+	@field:SerializedName("password_setting")
+	val passwordSetting: String? = null,
+
+	@field:SerializedName("profile")
+	val profile: ProfileInRoom? = null
+)
+
+data class ProfileInRoom(
+	@field:SerializedName("logo_white")
+	val logoWhite: String? = null,
+
+	@field:SerializedName("logo_black")
+	val logoBlack: String? = null,
+
+	@field:SerializedName("primary_color")
+	val primaryColor: String? = null,
+
+	@field:SerializedName("main_photo")
+	val mainPhoto: String? = null,
+
+	@field:SerializedName("background_photo")
+	val backgroundPhoto: String? = null,
+
+	@field:SerializedName("intro_video")
+	val introVideo: String? = null,
+
+	@field:SerializedName("welcome_text")
+	val welcomeText: String? = null,
+
+	@field:SerializedName("running_text")
+	val runningText: String? = null,
+
+	@field:SerializedName("instagram_username")
+	val instagramUsername: String? = null,
+
+	@field:SerializedName("facebook_username")
+	val facebookUsername: String? = null
 )
 
 fun GetRoomDetailResponse?.toDomain() = RoomDetail(

@@ -68,6 +68,10 @@ class MainViewModel @Inject constructor(
 
     private fun loadHotelProfile() = viewModelScope.launch {
         updateUiState { copy(isLoading = true) }
+        
+        // Trigger sync to fetch fresh data from backend
+        syncManager.requestSync()
+        
         getHotelProfileUseCase()
             .collect {
                 updateUiState {

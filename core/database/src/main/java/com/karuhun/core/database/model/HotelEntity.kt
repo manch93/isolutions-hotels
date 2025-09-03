@@ -40,6 +40,8 @@ data class HotelEntity(
     val introVideo: String?,
     val welcomeText: String?,
     val runningText: String?,
+    val instagramUsername: String?,
+    val facebookUsername: String?,
 )
 
 fun HotelEntity?.toDomain() = Hotel(
@@ -57,6 +59,8 @@ fun HotelEntity?.toDomain() = Hotel(
     introVideo = this?.introVideo,
     welcomeText = this?.welcomeText,
     runningText = this?.runningText,
+    instagramUsername = this?.instagramUsername,
+    facebookUsername = this?.facebookUsername,
 )
 
 fun Hotel.toEntity() = HotelEntity(
@@ -74,4 +78,6 @@ fun Hotel.toEntity() = HotelEntity(
     introVideo = introVideo,
     welcomeText = welcomeText,
     runningText = runningText,
+    instagramUsername = instagramUsername,
+    facebookUsername = facebookUsername,
 )

@@ -1,10 +1,10 @@
-# LauncherCompose
+# iSolutions Hotels
 
-LauncherCompose is an open source launcher for Android TV applications built with Kotlin and Jetpack Compose. It serves as a launcher for hotel applications, providing a user-friendly interface for guests to access various hotel services.
+iSolutions Hotels is an open source launcher for Android TV applications built with Kotlin and Jetpack Compose. It serves as a launcher for hotel applications, providing a user-friendly interface for guests to access various hotel services.
 
 ## Dependencies
 
-Backend : [https://github.com/karuhun-developer/hotel](https://github.com/karuhun-developer/hotel)
+Backend : [https://github.com/manch93/isolutions-hotels-backend](https://github.com/manch93/isolutions-hotels-backend)
 
 ## Dependencies
 
@@ -52,3 +52,13 @@ You can join on telegram:
 
 Distributed under the Apache License 2.0. See `LICENSE` for more information.
 
+## Configuration
+
+Open core/network/src/main/java/com/karuhun/core/network/interceptor/AuthInterceptor.kt. The interceptor currently hard‑codes a token in runBlocking
+Replace the string inside runBlocking { "..." } with the token you generated in the back‑end for that hotel:
+
+val token = runBlocking {
+    "eyJpdiI6Ij...your-encrypted-token-here..."  // from Crypt::encrypt
+}
+
+Do not change the header name; the interceptor already adds X‑API‑KEY.

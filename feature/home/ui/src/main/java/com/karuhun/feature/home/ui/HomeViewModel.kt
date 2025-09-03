@@ -23,6 +23,7 @@ import com.karuhun.core.common.onFailure
 import com.karuhun.core.common.onSuccess
 import com.karuhun.core.data.util.SyncManager
 import com.karuhun.core.domain.usecase.GetHotelProfileUseCase
+import com.karuhun.core.domain.usecase.GetPromosUseCase
 import com.karuhun.core.domain.usecase.GetRoomDetailUseCase
 import com.karuhun.core.ui.navigation.delegate.mvi.MVI
 import com.karuhun.core.ui.navigation.delegate.mvi.mvi
@@ -37,6 +38,7 @@ import javax.inject.Inject
 internal class HomeViewModel @Inject constructor(
     private val getHotelProfileUseCase: GetHotelProfileUseCase,
     private val getRoomDetailUseCase: GetRoomDetailUseCase,
+    private val getPromosUseCase: GetPromosUseCase,
 ) : ViewModel(),
     MVI<HomeContract.UiState, HomeContract.UiAction, HomeContract.UiEffect> by mvi(initialState = HomeContract.UiState()) {
 
@@ -44,6 +46,7 @@ internal class HomeViewModel @Inject constructor(
         // android.util.Log.d("HomeViewModel", "HomeViewModel initialized")
         onAction(HomeContract.UiAction.LoadMenuItems)
         onAction(HomeContract.UiAction.LoadRoomDetail)
+        onAction(HomeContract.UiAction.LoadPromos)
         
         // Listen for refresh triggers from MainActivity
         // android.util.Log.d("HomeViewModel", "Setting up refresh trigger listener")
@@ -65,6 +68,7 @@ internal class HomeViewModel @Inject constructor(
             HomeContract.UiAction.OnMenuItemClick -> {}
             HomeContract.UiAction.OnMoreClick -> {}
             HomeContract.UiAction.LoadRoomDetail -> { loadRoomDetail() }
+            HomeContract.UiAction.LoadPromos -> { loadPromos() }
         }
     }
 
@@ -94,10 +98,25 @@ internal class HomeViewModel @Inject constructor(
             }
     }
 
+    private fun loadPromos() = viewModelScope.launch {
+        getPromosUseCase()
+            .onSuccess { promos ->
+                updateUiState {
+                    copy(
+                        promos = promos
+                    )
+                }
+            }
+            .onFailure { error ->
+                Log.e("HomeViewModel", "Failed to load promos: $error")
+            }
+    }
+
     private fun refreshAllData() = viewModelScope.launch {
         // Log.d("HomeViewModel", "Refreshing all data...")
-        // Refresh both hotel profile and room detail
+        // Refresh hotel profile, room detail, and promos
         onAction(HomeContract.UiAction.LoadMenuItems)
         onAction(HomeContract.UiAction.LoadRoomDetail)
+        onAction(HomeContract.UiAction.LoadPromos)
     }
 }

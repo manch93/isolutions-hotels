@@ -14,17 +14,22 @@
  * limitations under the License.
  */
 
-package com.karuhun.core.domain.repository
+package com.karuhun.core.model
 
-import com.karuhun.core.common.Resource
-import com.karuhun.core.data.Syncable
-import com.karuhun.core.datastore.HotelProfile
-import com.karuhun.core.model.Promo
-import com.karuhun.core.model.RoomDetail
-import kotlinx.coroutines.flow.Flow
-
-interface HotelRepository : Syncable {
-    suspend fun getHotelProfile(): Flow<HotelProfile>
-    suspend fun getRoomDetail(): Resource<RoomDetail>
-    suspend fun getPromos(): Resource<List<Promo>>
+data class Promo(
+    val id: Int = 0,
+    val hotelId: Int = 0,
+    val name: String = "",
+    val description: String = "",
+    val image: String = ""
+) {
+    companion object {
+        val Empty = Promo(
+            id = 0,
+            hotelId = 0,
+            name = "",
+            description = "",
+            image = ""
+        )
+    }
 }

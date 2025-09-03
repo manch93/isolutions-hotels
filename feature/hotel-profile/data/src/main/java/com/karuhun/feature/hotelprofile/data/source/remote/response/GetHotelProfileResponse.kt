@@ -110,6 +110,12 @@ data class Profile(
 
     @field:SerializedName("welcome_text")
     val welcomeText: String? = null,
+
+    @field:SerializedName("instagram_username")
+    val instagramUsername: String? = null,
+
+    @field:SerializedName("facebook_username")
+    val facebookUsername: String? = null,
 )
 
 fun GetHotelProfileResponse?.toDomain() = Hotel(
@@ -128,4 +134,6 @@ fun GetHotelProfileResponse?.toDomain() = Hotel(
     introVideo = this?.profile?.introVideo,
     welcomeText = this?.profile?.welcomeText,
     runningText = this?.profile?.runningText,
+    instagramUsername = this?.profile?.instagramUsername,
+    facebookUsername = this?.profile?.facebookUsername,
 )

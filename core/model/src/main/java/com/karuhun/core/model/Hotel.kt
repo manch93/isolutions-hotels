@@ -32,6 +32,8 @@ data class Hotel(
     val introVideo: String?,
     val welcomeText: String?,
     val runningText: String?,
+    val instagramUsername: String?,
+    val facebookUsername: String?,
 ) {
     companion object {
         val Empty = Hotel(
@@ -49,7 +51,9 @@ data class Hotel(
             backgroundPhoto = null,
             introVideo = null,
             welcomeText = null,
-            runningText = null
+            runningText = null,
+            instagramUsername = null,
+            facebookUsername = null
         )
     }
 }
